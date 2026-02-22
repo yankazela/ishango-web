@@ -96,7 +96,7 @@ export default function GetStartedPage() {
 	const { session } = useSession();
 	const t = useTranslations("GetStarted");
 	const [paymentFrequency, setPaymentFrequency] = useState<"MONTHLY" | "YEARLY">("YEARLY");
-	const [currencyRegionCode, setCurrencyRegionCode] = useState("zar");
+	const [currencyRegionCode, setCurrencyRegionCode] = useState("usd");
 	const [password, setPassword] = useState("");
 	const [verifySent, setVerifySent] = useState(false);
 	const [verificationCode, setVerificationCode] = useState("");

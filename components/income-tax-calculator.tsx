@@ -92,9 +92,9 @@ export function IncomeTaxCalculator() {
             {/* Calculator Form */}
             <Card className="border-border bg-card">
                 <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-xl">
+                <CardTitle className="flex items-center gap-2">
                     <Landmark className="h-5 w-5 text-accent" />
-                    Calculate Your Income Tax
+                    {t("CALCULATOR_TITLE")}
                 </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -109,7 +109,7 @@ export function IncomeTaxCalculator() {
                         <SelectContent>
                             {form.countryCalculators.map((c) => (
                             <SelectItem key={c.code} value={c.code}>
-                                {c.name} ({c.currency})
+                                {t(c.name)} ({c.currency})
                             </SelectItem>
                             ))}
                         </SelectContent>
@@ -227,74 +227,74 @@ export function IncomeTaxCalculator() {
 
                 {/* Tax Breakdown */}
                 <Card className="border-border">
-                <CardHeader>
-                    <CardTitle className="text-lg">{t('TAX_BRACKET_BREAKDOWN')}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="space-y-3">
-                        {result.data && result.data.taxBracketBreakdown ? (
-                            result.data.taxBracketBreakdown.map((bracket, index) => (
-                                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50" key={index}>
-                                    <div>
-                                        <p className="text-sm font-medium text-foreground">
-                                           {forCountry ? forCountry.currencySymbol : ''}{bracket.from.toLocaleString()} - {forCountry ? forCountry.currencySymbol : ''}{bracket.to ? bracket.to.toLocaleString() : 'and above'}
-                                        </p>
-                                        <p className="text-xs text-muted-foreground">
-                                            {bracket.rate}% {t('TAX_RATE')}
+                    <CardHeader>
+                        <CardTitle className="text-lg">{t('TAX_BRACKET_BREAKDOWN')}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="space-y-3">
+                            {result.data && result.data.taxBracketBreakdown ? (
+                                result.data.taxBracketBreakdown.map((bracket, index) => (
+                                    <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50" key={index}>
+                                        <div>
+                                            <p className="text-sm font-medium text-foreground">
+                                            {forCountry ? forCountry.currencySymbol : ''}{bracket.from.toLocaleString()} - {forCountry ? forCountry.currencySymbol : ''}{bracket.to ? bracket.to.toLocaleString() : 'and above'}
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {bracket.rate}% {t('TAX_RATE')}
+                                            </p>
+                                        </div>
+                                        <p className="font-medium text-foreground">
+                                            {forCountry ? forCountry.currencySymbol : ''}{bracket.taxOnAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                         </p>
                                     </div>
-                                    <p className="font-medium text-foreground">
-                                        {forCountry ? forCountry.currencySymbol : ''}{bracket.taxOnAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                    </p>
-                                </div>
-                            ))
-                        ) : (
-                            <p className="text-sm text-muted-foreground text-center py-4">
-                                {t('ENTER_INCOME')}
-                            </p>
-                        )}
-                    </div>
-                </CardContent>
+                                ))
+                            ) : (
+                                <p className="text-sm text-muted-foreground text-center py-4">
+                                    {t('ENTER_INCOME')}
+                                </p>
+                            )}
+                        </div>
+                    </CardContent>
                 </Card>
 
                 {/* Visual Breakdown */}
                 <Card className="border-border">
-                <CardHeader>
-                    <CardTitle className="text-lg">{t('INCOME_DISTRIBUTION')}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="space-y-4">
-                    <div className="h-4 rounded-full bg-muted overflow-hidden flex">
-                        <div
-                        className="h-full bg-gradient-to-r from-accent to-teal-400 transition-all duration-500"
-                        style={{
-                            width: `${100 - 0}%`,
-                        }}
-                        />
-                        <div
-                        className="h-full bg-gradient-to-r from-rose-400 to-rose-500 transition-all duration-500"
-                        style={{
-                            width: `${0}%`,
-                        }}
-                        />
-                    </div>
-                    <div className="flex justify-between text-sm">
-                        <div className="flex items-center gap-2">
-                        <div className="h-3 w-3 rounded-full bg-gradient-to-r from-accent to-teal-400" />
-                        <span className="text-muted-foreground">
-                            {t('TAKE_HOME')} {(result.data ? ((result.data.grossIncome - result.data.incomeTax) / result.data.grossIncome * 100).toFixed(2) : '0')}%
+                    <CardHeader>
+                        <CardTitle className="text-lg">{t('INCOME_DISTRIBUTION')}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="space-y-4">
+                        <div className="h-4 rounded-full bg-muted overflow-hidden flex">
+                            <div
+                            className="h-full bg-gradient-to-r from-accent to-teal-400 transition-all duration-500"
+                            style={{
+                                width: `${100 - 0}%`,
+                            }}
+                            />
+                            <div
+                            className="h-full bg-gradient-to-r from-rose-400 to-rose-500 transition-all duration-500"
+                            style={{
+                                width: `${0}%`,
+                            }}
+                            />
+                        </div>
+                        <div className="flex justify-between text-sm">
+                            <div className="flex items-center gap-2">
+                            <div className="h-3 w-3 rounded-full bg-gradient-to-r from-accent to-teal-400" />
+                            <span className="text-muted-foreground">
+                                {t('TAKE_HOME')} {(result.data ? ((result.data.grossIncome - result.data.incomeTax) / result.data.grossIncome * 100).toFixed(2) : '0')}%
 
-                        </span>
+                            </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                            <div className="h-3 w-3 rounded-full bg-gradient-to-r from-rose-400 to-rose-500" />
+                            <span className="text-muted-foreground">
+                                {t('TAX')} ({result.data ? (result.data.incomeTax / result.data.grossIncome * 100).toFixed(2) : '0'}%)
+                            </span>
+                            </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                        <div className="h-3 w-3 rounded-full bg-gradient-to-r from-rose-400 to-rose-500" />
-                        <span className="text-muted-foreground">
-                            {t('TAX')} ({result.data ? (result.data.incomeTax / result.data.grossIncome * 100).toFixed(2) : '0'}%)
-                        </span>
                         </div>
-                    </div>
-                    </div>
-                </CardContent>
+                    </CardContent>
                 </Card>
             </div>
         </div>

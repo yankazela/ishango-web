@@ -7,7 +7,7 @@ const initialState: CalculatorState = {
         loading: false,
         error: null
     },
-    result: {
+    results: {
         data: null,
         loading: false,
         error: null
@@ -30,20 +30,20 @@ export const corporateTaxCalculatorSlice = createSlice({
             state.form.loading = false;
             state.form.error = action.payload;
         },
-        calculateCorporateTax(state, action: PayloadAction<{ inputs: { [key: string]: any } }>) {
-            state.result.loading = true;
-            state.result.error = null;
+        calculateCorporateTax(state, action: PayloadAction<{ [key: string]: any } >) {
+            state.results.loading = true;
+            state.results.error = null;
         },
         calculateCorporateTaxSuccess(state, action: PayloadAction<CorporateTaxResult>) {
-            state.result.loading = false;
-            state.result.data = action.payload;
+            state.results.loading = false;
+            state.results.data = action.payload;
         },
         calculateCorporateTaxFailure(state, action) {
-            state.result.loading = false;
-            state.result.error = action.payload;
+            state.results.loading = false;
+            state.results.error = action.payload;
         },
         resetResult(state) {
-            state.result = initialState.result;
+            state.results = initialState.results;
         }
     },
 });

@@ -1,9 +1,12 @@
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Globe } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export function HeroSection() {
   const t = useTranslations('Home');
+  const locale = useLocale();
+  
 
   return (
     <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden">
@@ -39,20 +42,18 @@ export function HeroSection() {
 
           {/* Subheadline */}
           <p className="mt-6 text-lg text-muted-foreground max-w-2xl mx-auto text-pretty leading-relaxed">
-            Accurate loan, mortgage, income tax, and corporate tax calculations
-            tailored to local regulations. Make informed financial decisions
-            with our industry-leading API and tools.
+            {t('MAIN_DESCRIPTION')}
           </p>
 
           {/* CTA Buttons */}
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button size="lg" className="gap-2 px-8">
-              Request Access
+              <Link href={`/${locale}/experts/join`}>{t('JOIN_EXPERTS')}</Link>
               <ArrowRight className="h-4 w-4" />
             </Button>
             <Button variant="outline" size="lg" className="gap-2 px-8 bg-transparent">
               <Globe className="h-4 w-4" />
-              Explore Countries
+              {t('EXPLORE_COUNTRIES')}
             </Button>
           </div>
         </div>
@@ -60,19 +61,19 @@ export function HeroSection() {
         {/* Feature Cards Preview */}
         <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6">
           <CalculatorPreviewCard
-            title="Loan Calculator"
+            title={t("LOAN_CALCULATOR")}
             value="$24,500"
             label="Monthly Payment"
             change="+2.3% APR"
           />
           <CalculatorPreviewCard
-            title="Income Tax"
+            title={t("INCOME_TAX_CALCULATOR")}
             value="$18,240"
             label="Annual Tax"
             change="24% bracket"
           />
           <CalculatorPreviewCard
-            title="Mortgage"
+            title={t("MORTGAGE_CALCULATOR")}
             value="$1,847"
             label="Monthly Payment"
             change="30-year fixed"

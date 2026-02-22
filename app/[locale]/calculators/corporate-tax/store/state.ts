@@ -6,7 +6,7 @@ export interface CalculatorState {
         loading: boolean;
         error: string | null;
     },
-    result: {
+    results: {
         data: CorporateTaxResult | null;
         loading: boolean;
         error: string | null;
@@ -20,10 +20,15 @@ export interface Breakdown {
     amount: number;
 }
 
-export interface CorporateTaxResult {
+export interface ResultItem {
 	corporateTax: number;
 	effectiveTaxRate: number;
 	breakdowns: Breakdown[];
+}
+
+export interface CorporateTaxResult {
+    federalTax: ResultItem;
+    provincialTax: ResultItem;
 }
 
 

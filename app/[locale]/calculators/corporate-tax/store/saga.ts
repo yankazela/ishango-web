@@ -59,17 +59,16 @@ function* handleFetchCalculators(action: PayloadAction<{ year: string }>) {
     try {
         const { year } = action.payload;
 
-        const response: GetCalCountriesResponse[] = yield call(getCalculators, "income_tax", year);
+        const response: GetCalCountriesResponse[] = yield call(getCalculators, "corporate_tax", year);
         yield put(fetchCalculatorsSuccess(response));
     } catch (error: any) {
         yield put(fetchCalculatorsFailure(error.message));
     }
 }
 
-function* handleCalcuateCorporateTax(action: PayloadAction<{ inputs: { [key: string]: any } }>) {
+function* handleCalcuateCorporateTax(action: PayloadAction<{ [key: string]: any } >) {
     try {
-        const { inputs } = action.payload;
-        const response: CorporateTaxResult = yield call(postCorporateTaxCalculation, inputs);
+        const response: CorporateTaxResult = yield call(postCorporateTaxCalculation, action.payload);
         yield put(calculateCorporateTaxSuccess(response));
     } catch (error: any) {
         yield put(calculateCorporateTaxFailure(error.message));

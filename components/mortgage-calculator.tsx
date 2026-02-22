@@ -131,7 +131,7 @@ export function MortgageCalculator() {
                         <SelectContent>
                             {form.countryCalculators.map((c) => (
                             <SelectItem key={c.code} value={c.code}>
-                                {c.name} ({c.currency})
+                                {t(c.name)} ({c.currency})
                             </SelectItem>
                             ))}
                         </SelectContent>

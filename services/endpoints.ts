@@ -1,5 +1,7 @@
+import { CalculatorType } from "@/app/[locale]/calculators/types";
 import { ca } from "date-fns/locale";
 import { create } from "domain";
+import { get } from "http";
 
 export interface EndpointProps {
     endpoint: string;
@@ -48,6 +50,23 @@ export const endpoints = {
     }),
     createSubscription: (): EndpointProps => ({
         endpoint: `/subscriptions`,
+        auth: false,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }),
+    getExperts: (countryCode: string): EndpointProps => ({
+        endpoint: `/experts/${countryCode}`,
+        auth: false,
+        headers: {}
+    }),
+    getCountriesWithCalculators: (): EndpointProps => ({
+        endpoint: `/countries/calculators`,
+        auth: false,
+        headers: {}
+    }),
+    createExpert: (): EndpointProps => ({
+        endpoint: `/experts`,
         auth: false,
         headers: {
             'Content-Type': 'application/json'

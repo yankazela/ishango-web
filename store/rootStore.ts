@@ -5,6 +5,7 @@ import incomeTaxCalculatorReducer from '../app/[locale]/calculators/income-tax/s
 import mortgageCalculatorReducer from '../app/[locale]/calculators/mortgage/store/slice';
 import getStartedReducer from '../app/[locale]/get-started/store/slice';
 import corporateTaxCalculatorReducer from '../app/[locale]/calculators/corporate-tax/store/slice';
+import expertsReducer from '../app/[locale]/experts/store/slice';
 
 
 const sagaMiddleware = createSagaMiddleware();
@@ -14,7 +15,8 @@ const store = configureStore({
         incomeTaxCalculator: incomeTaxCalculatorReducer,
         mortgageCalculator: mortgageCalculatorReducer,
         getStarted: getStartedReducer,
-        corporateTaxCalculator: corporateTaxCalculatorReducer
+        corporateTaxCalculator: corporateTaxCalculatorReducer,
+        experts: expertsReducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),

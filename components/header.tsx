@@ -61,10 +61,10 @@ export function Header() {
             </DropdownMenu>
 
             <Link
-              href="#features"
+              href={`/${locale}/docs`}
               className="text-sm font-medium text-foreground hover:text-accent transition-colors"
             >
-              {t("FEATURES")}
+              {t("API_DOCS")}
             </Link>
 
             <Link
@@ -79,6 +79,12 @@ export function Header() {
               className="text-sm font-medium text-foreground hover:text-accent transition-colors"
             >
               {t("COUNTRIES")}
+            </Link>
+            <Link
+              href={`/${locale}/experts`}
+              className="text-sm font-medium text-foreground hover:text-accent transition-colors"
+            >
+              {t("EXPERTS")}
             </Link>
           </nav>
 

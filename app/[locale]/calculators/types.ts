@@ -6,7 +6,7 @@ export interface Slider {
 
 export interface InputField {
     name: string;
-    type: 'number' | 'select' | 'text';
+    type: 'number' | 'select' | 'text' | 'boolean';
     required: boolean;
     label: string;
     options?: SelectOptions[];
@@ -43,4 +43,11 @@ export interface TaxBracket {
 	from: number;
 	to: number | null;
 	rate: number;
+}
+
+export enum CalculatorType {
+    INCOME_TAX = 'INCOME_TAX',
+    MORTGAGE = 'MORTGAGE',
+    LOAN = 'LOAN',
+    CORPORATE_TAX = 'CORPORATE_TAX',
 }

@@ -4,9 +4,10 @@ import { Globe2, Shield, TrendingUp, Building2, Calculator } from "lucide-react"
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { CorporateTaxCalculator } from "@/components/corporate-tax-calculator";
+import { useTranslations } from "next-intl";
 
 export default function CorporateTaxPage() {
-  const t = (key: string) => key; // replace with i18n later
+  const t = useTranslations("CorporateTaxCalculator");
 
   return (
     <div className="min-h-screen bg-background">
@@ -35,9 +36,7 @@ export default function CorporateTaxPage() {
               </h1>
 
               <p className="text-lg text-muted-foreground text-balance">
-                {t(
-                  "Estimate corporate income tax using country and region-specific rules for SMEs and large enterprises."
-                )}
+                {t("ESTIMATE_CORPORATE_TAX_LIABILITY")}
               </p>
             </div>
 
@@ -76,7 +75,7 @@ export default function CorporateTaxPage() {
                 </h3>
                 <p className="text-sm text-muted-foreground">
                   {t(
-                    "Corporate tax is computed based on taxable income after deductions, allowances, and applicable credits."
+                    "HOW_CORPORATE_TAX_IS_CALCULATED_DESC"
                   )}
                 </p>
               </div>
@@ -86,9 +85,7 @@ export default function CorporateTaxPage() {
                   {t("SME_VS_LARGE_ENTERPRISE")}
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  {t(
-                    "Different tax rates and incentives apply depending on whether your business qualifies as an SME or a large enterprise."
-                  )}
+                  {t("SME_VS_LARGE_ENTERPRISE_DESC")}
                 </p>
               </div>
 
@@ -97,9 +94,7 @@ export default function CorporateTaxPage() {
                   {t("COUNTRY_SPECIFIC_RULES")}
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  {t(
-                    "Each country and region applies unique corporate tax rates, thresholds, and credits."
-                  )}
+                  {t("COUNTRY_SPECIFIC_RULES_DESC")}
                 </p>
               </div>
             </div>
