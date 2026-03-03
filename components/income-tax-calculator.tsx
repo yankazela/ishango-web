@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Landmark, ArrowRight, Calendar, TrendingDown } from "lucide-react";
+import { Landmark, ArrowRight, Calendar, TrendingDown, Check } from "lucide-react";
 import { RootState } from "@/store/rootStore";
 import { calculateIncomeTax, fetchCalculatorsStart } from "@/app/[locale]/calculators/income-tax/store/slice";
 
@@ -160,13 +160,55 @@ export function IncomeTaxCalculator() {
                                     {forCountry.currencySymbol}
                                 </span>
                             )}
-                            <Input
-                                id={field.name}
-                                type={field.type}
-                                value={formInputs[field.name] || ''}
-                                onChange={(e) => handleInputChange(field.name, e.target.value)}
-                                className={field.isCurrency ? "pl-7" : "pl-3"}
-                            />
+                            {(field.type === "number" || field.type === "text") && (
+                                <Input
+                                    id={field.name}
+                                    type={field.type}
+                                    value={formInputs[field.name] || ''}
+                                    onChange={(e) => handleInputChange(field.name, e.target.value)}
+                                    className={field.isCurrency ? "pl-7" : "pl-3"}
+                                />
+                            )}
+                            {field.type === "boolean" && (
+                                <div className="flex items-center gap-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => handleInputChange(field.name, true)}
+                                        className="flex items-center gap-2"
+                                    >
+                                        <div
+                                            className={`h-5 w-5 rounded-full border-2 flex items-center justify-center ${
+                                                formInputs[field.name] === true
+                                                ? "border-accent bg-accent"
+                                                : "border-border"
+                                            }`}
+                                        >
+                                            {formInputs[field.name] === true && (
+                                                <Check className="h-3 w-3 text-accent-foreground" />
+                                            )}
+                                        </div>
+                                        <span className="text-sm font-medium text-foreground">Yes</span>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleInputChange(field.name, false)}
+                                        className="flex items-center gap-2"
+                                    >
+                                        <div
+                                            className={`h-5 w-5 rounded-full border-2 flex items-center justify-center ${
+                                                formInputs[field.name] === false
+                                                ? "border-accent bg-accent"
+                                                : "border-border"
+                                            }`}
+                                        >
+                                            {formInputs[field.name] === false && (
+                                                <Check className="h-3 w-3 text-accent-foreground" />
+                                            )}
+                                        </div>
+                                        <span className="text-sm font-medium text-foreground">No</span>
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 ))}
