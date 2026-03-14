@@ -18,7 +18,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Landmark, ArrowRight, Calendar, TrendingDown, Check } from "lucide-react";
 import { RootState } from "@/store/rootStore";
-import { calculateIncomeTax, fetchCalculatorsStart } from "@/app/[locale]/calculators/income-tax/store/slice";
+import { calculateIncomeTax, fetchCalculatorsStart, resetResult } from "@/app/[locale]/calculators/income-tax/store/slice";
 
 export function IncomeTaxCalculator() {
 
@@ -60,6 +60,7 @@ export function IncomeTaxCalculator() {
             countryCode: countryCode.toLocaleLowerCase(),
             year: taxYear
         });
+        dispatch(resetResult());
     }
 
     const handleInputChange = (name: string, value: any) => {
@@ -229,7 +230,7 @@ export function IncomeTaxCalculator() {
                 )} */}
 
                 <Button className="w-full" size="lg" disabled={!canSubmit} onClick={handleSubmit}>
-                    Calculate Tax
+                    {t('CALCULATE')}
                     <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
                 </CardContent>
@@ -246,7 +247,7 @@ export function IncomeTaxCalculator() {
                         {forCountry ? forCountry.currencySymbol : ''}{result.data ? result.data.incomeTax.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0'}
                     </p>
                     <Badge variant="secondary" className="mt-2">
-                        {(result.data ? (result.data.incomeTax / result.data.grossIncome * 100).toFixed(2) : '0')}% effective rate
+                        {(result.data ? (result.data.incomeTax / result.data.grossIncome * 100).toFixed(2) : '0')}% {t('EFFECTIVE_TAX_RATE')}
                     </Badge>
                     </CardContent>
                 </Card>
@@ -322,19 +323,18 @@ export function IncomeTaxCalculator() {
                         </div>
                         <div className="flex justify-between text-sm">
                             <div className="flex items-center gap-2">
-                            <div className="h-3 w-3 rounded-full bg-gradient-to-r from-accent to-teal-400" />
-                            <span className="text-muted-foreground">
-                                {t('TAKE_HOME')} {(result.data ? ((result.data.grossIncome - result.data.incomeTax) / result.data.grossIncome * 100).toFixed(2) : '0')}%
-
-                            </span>
+                                <div className="h-3 w-3 rounded-full bg-gradient-to-r from-accent to-teal-400" />
+                                    <span className="text-muted-foreground">
+                                        {t('TAKE_HOME')} {(result.data ? ((result.data.grossIncome - result.data.incomeTax) / result.data.grossIncome * 100).toFixed(2) : '0')}%
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="h-3 w-3 rounded-full bg-gradient-to-r from-rose-400 to-rose-500" />
+                                    <span className="text-muted-foreground">
+                                        {t('TAX')} ({result.data ? (result.data.incomeTax / result.data.grossIncome * 100).toFixed(2) : '0'}%)
+                                    </span>
+                                </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                            <div className="h-3 w-3 rounded-full bg-gradient-to-r from-rose-400 to-rose-500" />
-                            <span className="text-muted-foreground">
-                                {t('TAX')} ({result.data ? (result.data.incomeTax / result.data.grossIncome * 100).toFixed(2) : '0'}%)
-                            </span>
-                            </div>
-                        </div>
                         </div>
                     </CardContent>
                 </Card>

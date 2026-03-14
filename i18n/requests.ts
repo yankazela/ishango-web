@@ -1,7 +1,7 @@
 import {getRequestConfig} from 'next-intl/server';
 import {headers} from 'next/headers';
 
-const SUPPORTED_LOCALES = ['en', 'fr', 'es'] as const;
+const SUPPORTED_LOCALES = ['en', 'fr', 'es', 'de', 'pt', 'ja'] as const;
 type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
  
 export default getRequestConfig(async ({requestLocale}) => {

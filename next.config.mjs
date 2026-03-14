@@ -2,6 +2,7 @@
 import createNextIntlPlugin from 'next-intl/plugin';
 const nextIntlPlugin = createNextIntlPlugin('./i18n/requests.ts');
 const nextConfig = {
+  output: 'standalone',
   typescript: {
     ignoreBuildErrors: true,
   },

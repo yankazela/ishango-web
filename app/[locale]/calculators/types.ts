@@ -17,7 +17,7 @@ export interface InputField {
 
 export interface SelectOptions {
     label: string;
-    value: string | number;
+    value: string;
 }
 
 export interface GetCalCountriesResponse {

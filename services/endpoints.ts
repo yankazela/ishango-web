@@ -38,6 +38,20 @@ export const endpoints = {
             'Content-Type': 'application/json'
         }
     }),
+    calculateCapitalGainsTax: (): EndpointProps => ({
+        endpoint: `/calculators/process-capital-gains-tax`,
+        auth: false,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }),
+    calculateInheritanceTax: (): EndpointProps => ({
+        endpoint: `/calculators/process-inheritance-tax`,
+        auth: false,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }),
     listPlans: (currencyCode: string): EndpointProps => ({
         endpoint: `/plans/${currencyCode}`,
         auth: false,

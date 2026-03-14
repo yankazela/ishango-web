@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "id": "germanyCorporateTaxCalculator",
+    "country": "GE",
+    "region": "NATIONAL",
+    "calculator": "CORPORATE_TAX",
+    "version": "2025.1",
+    "effectiveFrom": "2025-04-06",
+    "effectiveTo": null,
+    "currency": "EUR",
+    "currencySymbol": "€",
+    "source": [
+      {
+        "name": "Germany revenue",
+        "url": "https://www.germany-tax.ge"
+      }
+    ]
+  },
+  "inputs": [],
+  "outputs": [ ],
+  "rules": {}
+}

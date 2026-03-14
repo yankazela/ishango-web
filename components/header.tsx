@@ -45,7 +45,9 @@ export function Header() {
                 <ChevronDown className="h-4 w-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start">
-                <DropdownMenuItem>{t("LOAN_CALCULATOR")}</DropdownMenuItem>
+                <DropdownMenuItem>
+                   <Link href={`/${locale}/calculators/inheritance-tax`}>{t("INHERITANCE_CALCULATOR")}</Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link href={`/${locale}/calculators/mortgage`}>{t("MORTGAGE_CALCULATOR")}</Link>
                 </DropdownMenuItem>
@@ -56,7 +58,10 @@ export function Header() {
                   <Link href={`/${locale}/calculators/corporate-tax`}>
                   {t("CORPORATE_TAX_CALCULATOR")}</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>{t("IMPORT_TAX_DUTIES_CALCULATOR")}</DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href={`/${locale}/calculators/capital-gains-tax`}>
+                  {t("CAPITAL_GAINS_TAX_CALCULATOR")}</Link>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 

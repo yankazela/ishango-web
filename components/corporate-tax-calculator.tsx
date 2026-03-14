@@ -19,7 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { RootState } from "@/store/rootStore";
-import { calculateCorporateTax, fetchCalculatorsStart } from "../app/[locale]/calculators/corporate-tax/store/slice";
+import { calculateCorporateTax, fetchCalculatorsStart, resetResult } from "../app/[locale]/calculators/corporate-tax/store/slice";
 
 
 const formatCurrency = (value: number, symbol?: string) =>
@@ -77,6 +77,7 @@ export function CorporateTaxCalculator() {
             year: taxYear,
             isSmallBusiness: null
         });
+        dispatch(resetResult());
     }
 
     const handleInputChange = (name: string, value: any) => {
