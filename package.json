@@ -6,7 +6,8 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint .",
-    "start": "next start"
+    "start": "next start",
+    "deploy": "pnpm build && aws s3 sync out/ s3://ishango-web --profile yannick-admin --delete"
   },
   "dependencies": {
     "@clerk/react": "^6.1.0",
