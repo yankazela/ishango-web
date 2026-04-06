@@ -6,7 +6,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -32,7 +31,7 @@ import {
   BadgeCheck,
   Mail,
 } from "lucide-react";
-import { useLocale, useTranslations } from "use-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootStore";
 import { createExpertStart, fetchCountriesStart } from "../store/slice";
@@ -62,11 +61,11 @@ const dialCodes = [
 ];
 
 const icons: { [key: string]: React.ComponentType } = {
-    'LOAN': Calculator,
+    'INHERITANCE_TAX': Calculator,
     'INCOME_TAX': Landmark,
     'CORPORATE_TAX': Building2,
     'MORTGAGE': Home,
-    'IMPORT_TAX': PackageSearch,
+    'CAPITAL_GAINS': PackageSearch,
 };
 
 const steps = [
@@ -84,6 +83,7 @@ export default function JoinAsExpertPage() {
 
     const [step, setStep] = useState(1);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [profilePictureFile, setProfilePictureFile] = useState<File | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
@@ -107,8 +107,24 @@ export default function JoinAsExpertPage() {
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-        const url = URL.createObjectURL(file);
+            if (file.size > 5 * 1024 * 1024) {
+                alert('File size must be less than 5MB.');
+                return;
+            }
+            const url = URL.createObjectURL(file);
             setPreviewUrl(url);
+            setProfilePictureFile(file);
+        }
+    };
+
+    const removeProfilePicture = () => {
+        if (previewUrl) {
+            URL.revokeObjectURL(previewUrl);
+        }
+        setPreviewUrl(null);
+        setProfilePictureFile(null);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
         }
     };
 
@@ -156,7 +172,8 @@ export default function JoinAsExpertPage() {
             formData.fullName &&
             formData.email &&
             formData.expertType &&
-            formData.role
+            formData.role &&
+            profilePictureFile
         );
         }
         if (step === 2) {
@@ -178,7 +195,7 @@ export default function JoinAsExpertPage() {
                 email: formData.email,
                 phone: formData.dialCode + formData.phone,
                 bio: "",
-                profilePictureUrl: previewUrl || "",
+                profilePicture: profilePictureFile!,
                 role: formData.role,
                 rating: 0,
                 expertType: formData.expertType === "individual" ? "INDIVIDUAL" : "COMPANY",
@@ -214,14 +231,14 @@ export default function JoinAsExpertPage() {
                     <Calculator className="h-5 w-5 text-background" />
                     </div>
                     <span className="text-xl font-semibold text-foreground">
-                    CalcGlobal
+                        Ishango Engine
                     </span>
                 </Link>
                 <Link
                     href="/experts"
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
-                    Back to experts
+                    {t('BACK_TO_EXPERTS')}
                 </Link>
                 </div>
             </header>
@@ -281,41 +298,39 @@ export default function JoinAsExpertPage() {
                             </div>
                         </div>
                         <h2 className="text-2xl font-semibold text-foreground mb-3">
-                            Application Received
+                            {t('APPLICATION_RECEIVED')}
                         </h2>
                         <p className="text-muted-foreground max-w-md mx-auto leading-relaxed mb-2">
-                            Thank you for your interest in joining CalcGlobal as an
-                            expert. We have received your application and our team will
-                            review it carefully.
+                            {t('APPLICATION_RECEIVED_DESC')}
                         </p>
                         <p className="text-muted-foreground max-w-md mx-auto leading-relaxed mb-8">
-                            We will contact you at{" "}
+                            {t('CONTACT_AT')}{" "}
                             <span className="font-medium text-foreground">
                             {formData.email}
                             </span>{" "}
-                            shortly to discuss the next steps.
+                            {t('SHORTLY')}
                         </p>
 
                         <div className="bg-muted/50 rounded-xl p-6 max-w-sm mx-auto mb-8">
                             <h3 className="text-sm font-semibold text-foreground mb-4">
-                            What happens next?
+                                {t('WHAT_HAAPENS_NEXT')}
                             </h3>
                             <div className="space-y-4 text-left">
                             {[
                                 {
-                                icon: Mail,
-                                title: "Email confirmation",
-                                desc: "Check your inbox for a confirmation email",
+                                    icon: Mail,
+                                    title: t('NEXT_STEP1'),
+                                    desc: t('NEXT_STEP1_DESC'),
                                 },
                                 {
-                                icon: ShieldCheck,
-                                title: "Profile review",
-                                desc: "Our team reviews your application within 48 hours",
+                                    icon: ShieldCheck,
+                                    title: t('NEXT_STEP2'),
+                                    desc: t('NEXT_STEP2_DESC'),
                                 },
                                 {
-                                icon: BadgeCheck,
-                                title: "Get verified",
-                                desc: "Once approved, your profile goes live on CalcGlobal",
+                                    icon: BadgeCheck,
+                                    title: t('NEXT_STEP3'),
+                                    desc: t('NEXT_STEP3_DESC'),
                                 },
                             ].map((item) => (
                                 <div key={item.title} className="flex items-start gap-3">
@@ -324,10 +339,10 @@ export default function JoinAsExpertPage() {
                                 </div>
                                 <div>
                                     <p className="text-sm font-medium text-foreground">
-                                    {item.title}
+                                        {item.title}
                                     </p>
                                     <p className="text-xs text-muted-foreground">
-                                    {item.desc}
+                                        {item.desc}
                                     </p>
                                 </div>
                                 </div>
@@ -337,10 +352,10 @@ export default function JoinAsExpertPage() {
 
                         <div className="flex flex-col sm:flex-row gap-3 justify-center">
                             <Button asChild>
-                            <Link href="/experts">Browse Experts</Link>
+                                <Link href={`/${locale}/experts`}>{t('BROWSE_EXPERTS')}</Link>
                             </Button>
                             <Button variant="outline" asChild className="bg-transparent">
-                            <Link href="/">Back to Home</Link>
+                                <Link href={`/${locale}`}>{t('BACK_TO_HOME')}</Link>
                             </Button>
                         </div>
                         </div>
@@ -351,38 +366,56 @@ export default function JoinAsExpertPage() {
                             <div className="space-y-6">
                             <div>
                                 <h2 className="text-xl font-semibold text-foreground">
-                                Tell us about yourself
+                                    {t('TELL_US_ABOUT_YOURSELF')}
                                 </h2>
                                 <p className="text-sm text-muted-foreground mt-1">
-                                Provide your details so we can create your expert
-                                profile.
+                                    {t('PROVIDE_YOUR_DETAILS')}
                                 </p>
                             </div>
 
                             {/* Profile Picture */}
                             <div className="space-y-2">
-                                <Label>Profile picture</Label>
+                                <Label>{t('PROFILE_PICTURE')} <span className="text-destructive">*</span></Label>
                                 <div className="flex items-center gap-4">
-                                <div
-                                    className="relative h-20 w-20 rounded-full border-2 border-dashed border-border bg-muted flex items-center justify-center cursor-pointer overflow-hidden hover:border-accent/50 transition-colors"
-                                    onClick={() => fileInputRef.current?.click()}
-                                    onKeyDown={(e) => {
-                                    if (e.key === "Enter" || e.key === " ")
-                                        fileInputRef.current?.click();
-                                    }}
-                                    role="button"
-                                    tabIndex={0}
-                                    aria-label="Upload profile picture"
-                                >
-                                    {previewUrl ? (
-                                    <Image
-                                        src={previewUrl}
-                                        alt="Profile preview"
-                                        fill
-                                        className="object-cover"
-                                    />
-                                    ) : (
-                                    <Upload className="h-6 w-6 text-muted-foreground" />
+                                <div className="relative">
+                                    <div
+                                        className={`relative h-20 w-20 rounded-full border-2 border-dashed bg-muted flex items-center justify-center cursor-pointer overflow-hidden transition-colors ${
+                                            !profilePictureFile
+                                                ? "border-destructive/50 hover:border-destructive"
+                                                : "border-accent hover:border-accent/80"
+                                        }`}
+                                        onClick={() => fileInputRef.current?.click()}
+                                        onKeyDown={(e) => {
+                                        if (e.key === "Enter" || e.key === " ")
+                                            fileInputRef.current?.click();
+                                        }}
+                                        role="button"
+                                        tabIndex={0}
+                                        aria-label="Upload profile picture"
+                                    >
+                                        {previewUrl ? (
+                                        <Image
+                                            src={previewUrl}
+                                            alt={t('PROFILE_PREVIEW')}
+                                            fill
+                                            className="object-cover"
+                                        />
+                                        ) : (
+                                        <Upload className="h-6 w-6 text-muted-foreground" />
+                                        )}
+                                    </div>
+                                    {previewUrl && (
+                                        <button
+                                            type="button"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                removeProfilePicture();
+                                            }}
+                                            className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center hover:bg-destructive/90 transition-colors"
+                                            aria-label="Remove profile picture"
+                                        >
+                                            <X className="h-3 w-3" />
+                                        </button>
                                     )}
                                 </div>
                                 <div>
@@ -393,11 +426,16 @@ export default function JoinAsExpertPage() {
                                     className="bg-transparent"
                                     onClick={() => fileInputRef.current?.click()}
                                     >
-                                    Upload Photo
+                                    {previewUrl ? t('CHANGE_PHOTO') : t('UPLOAD_PHOTO')}
                                     </Button>
                                     <p className="text-xs text-muted-foreground mt-1">
                                     JPG, PNG. Max 5MB.
                                     </p>
+                                    {!profilePictureFile && (
+                                        <p className="text-xs text-destructive mt-1">
+                                        {t('PROFILE_PICTURE_REQUIRED')}
+                                        </p>
+                                    )}
                                 </div>
                                 <input
                                     ref={fileInputRef}
@@ -412,16 +450,16 @@ export default function JoinAsExpertPage() {
                             {/* Full Name */}
                             <div className="space-y-2">
                                 <Label htmlFor="fullName">
-                                Full name / Company name
+                                {t('FULL_NAME_COMPANY_NAME')}
                                 </Label>
                                 <Input
                                 id="fullName"
                                 placeholder="e.g. James Mitchell or Apex Financial Group"
                                 value={formData.fullName}
                                 onChange={(e) =>
-                                    setFormData({
-                                    ...formData,
-                                    fullName: e.target.value,
+                                        setFormData({
+                                        ...formData,
+                                        fullName: e.target.value,
                                     })
                                 }
                                 />
@@ -429,7 +467,7 @@ export default function JoinAsExpertPage() {
 
                             {/* Email */}
                             <div className="space-y-2">
-                                <Label htmlFor="email">Email address</Label>
+                                <Label htmlFor="email">{t('EMAIL_ADDRESS')}</Label>
                                 <Input
                                 id="email"
                                 type="email"
@@ -443,7 +481,7 @@ export default function JoinAsExpertPage() {
 
                             {/* Phone */}
                             <div className="space-y-2">
-                                <Label htmlFor="phone">Phone number</Label>
+                                <Label htmlFor="phone">{t('PHONE_NUMBER')}</Label>
                                 <div className="flex gap-2">
                                 <Select
                                     value={formData.dialCode}
@@ -480,20 +518,20 @@ export default function JoinAsExpertPage() {
 
                             {/* Expert Type */}
                             <div className="space-y-2">
-                                <Label>Expert type</Label>
+                                <Label>{t('EXPERT_TYPE')}</Label>
                                 <div className="grid grid-cols-2 gap-3">
                                 {[
                                     {
-                                    id: "individual" as const,
-                                    label: "Individual",
-                                    icon: User,
-                                    desc: "Freelance or independent expert",
+                                        id: "individual" as const,
+                                        label: t('INDIVIDUAL'),
+                                        icon: User,
+                                        desc: t('FREELANCE_OR_INDEPENDENT_EXPERT'),
                                     },
                                     {
-                                    id: "company" as const,
-                                    label: "Company",
-                                    icon: Building,
-                                    desc: "Firm or advisory company",
+                                        id: "company" as const,
+                                        label: t('COMPANY'),
+                                        icon: Building,
+                                        desc: t('COMPANY'),
                                     },
                                 ].map((type) => (
                                     <button
@@ -533,10 +571,10 @@ export default function JoinAsExpertPage() {
 
                             {/* Role */}
                             <div className="space-y-2">
-                                <Label htmlFor="role">Role / Title</Label>
+                                <Label htmlFor="role">{t('ROLE')}</Label>
                                 <Input
                                 id="role"
-                                placeholder="e.g. Senior Tax Advisor"
+                                placeholder={t('ROLE_PLACEHOLDER')}
                                 value={formData.role}
                                 onChange={(e) =>
                                     setFormData({ ...formData, role: e.target.value })
@@ -551,24 +589,23 @@ export default function JoinAsExpertPage() {
                             <div className="space-y-6">
                             <div>
                                 <h2 className="text-xl font-semibold text-foreground">
-                                Your expertise
+                                    {t('YOUR_EXPERTISE')}
                                 </h2>
                                 <p className="text-sm text-muted-foreground mt-1">
-                                Select the countries you operate in and the calculators
-                                you specialize in for each country.
+                                    {t('SELECT_YOUR_EXPERTISE')}
                                 </p>
                             </div>
 
                             {/* Add Country */}
                             <div className="space-y-2">
-                                <Label>Add a country</Label>
+                                <Label>{t('ADD_COUNTRY')}</Label>
                                 <div className="flex gap-2">
                                 <Select
                                     value={selectedAddCountry}
                                     onValueChange={setSelectedAddCountry}
                                 >
                                     <SelectTrigger className="flex-1">
-                                    <SelectValue placeholder="Select a country to add" />
+                                    <SelectValue placeholder={t('SELECT_COUNTRY_TOADD')} />
                                     </SelectTrigger>
                                     <SelectContent>
                                     {availableCountries.map((country) => (
@@ -583,7 +620,7 @@ export default function JoinAsExpertPage() {
                                     onClick={() => addCountry(selectedAddCountry)}
                                     disabled={!selectedAddCountry}
                                 >
-                                    Add
+                                    {t('ADD')}
                                 </Button>
                                 </div>
                             </div>
@@ -593,11 +630,10 @@ export default function JoinAsExpertPage() {
                                 <div className="flex flex-col items-center justify-center py-12 text-center rounded-xl border border-dashed border-border">
                                 <Globe className="h-10 w-10 text-muted-foreground mb-3" />
                                 <p className="text-sm font-medium text-foreground">
-                                    No countries added yet
+                                    {t('NO_COUNTRY_SELECTED')}
                                 </p>
                                 <p className="text-xs text-muted-foreground mt-1 max-w-xs">
-                                    Select a country from the dropdown above and choose
-                                    the calculators you specialize in.
+                                    {t('SELECT_COUNTRY_FROM_DROPDOWN')}
                                 </p>
                                 </div>
                             ) : (
@@ -621,7 +657,7 @@ export default function JoinAsExpertPage() {
                                         </button>
                                     </div>
                                     <p className="text-xs text-muted-foreground mb-3">
-                                        Select calculators you specialize in for{" "}
+                                        {t('SELECT_CALCULATORS')}
                                         {t(ce.name)}:
                                     </p>
                                     <div className="flex flex-wrap gap-2">
@@ -654,7 +690,7 @@ export default function JoinAsExpertPage() {
                                     </div>
                                     {ce.calculators.length === 0 && (
                                         <p className="text-xs text-destructive mt-2">
-                                        Please select at least one calculator.
+                                            {t('SELECT_AT_LEAST_ONE_CALCULATOR')}
                                         </p>
                                     )}
                                     </div>
@@ -674,7 +710,7 @@ export default function JoinAsExpertPage() {
                                     className="gap-2"
                                 >
                                     <ArrowLeft className="h-4 w-4" />
-                                    Back
+                                    {t('BACK')}
                                 </Button>
                             ) : (
                             <div />
@@ -684,7 +720,7 @@ export default function JoinAsExpertPage() {
                                 disabled={!canProceed()}
                                 className="gap-2"
                             >
-                                {step === 2 ? "Submit Application" : "Continue"}
+                                {step === 2 ? t('SUBMIT_APPLICATION') : t('CONTINUE')}
                                 <ArrowRight className="h-4 w-4" />
                             </Button>
                         </div>
@@ -698,15 +734,13 @@ export default function JoinAsExpertPage() {
                     <div className="sticky top-8 space-y-8">
                     <div>
                         <h1 className="text-3xl font-semibold text-foreground text-balance leading-tight">
-                        Join CalcGlobal as a{" "}
+                            {t('JOIN_AS_EXPERT')}
                         <span className="bg-gradient-to-r from-teal-600 via-emerald-500 to-teal-600 bg-clip-text text-transparent">
-                            Verified Expert
+                            {t('VERIFIED_EXPERT')}
                         </span>
                         </h1>
                         <p className="mt-3 text-muted-foreground leading-relaxed">
-                        Share your financial expertise with users worldwide. Get
-                        featured on our platform and connect with clients who need your
-                        specialized knowledge.
+                            {t('DESCRIPTION_RIGHT')}
                         </p>
                     </div>
 
@@ -714,18 +748,18 @@ export default function JoinAsExpertPage() {
                         {[
                         {
                             icon: Globe,
-                            title: "Global Reach",
-                            desc: "Get discovered by businesses and individuals searching for financial experts in your markets.",
+                            title: t('BENEFIT1_TITLE'),
+                            desc: t('BENEFIT1_DESC'),
                         },
                         {
                             icon: BadgeCheck,
-                            title: "Verified Badge",
-                            desc: "Stand out with a verified expert badge that builds trust and credibility with potential clients.",
+                            title: t('BENEFIT2_TITLE'),
+                            desc: t('BENEFIT2_DESC'),
                         },
                         {
                             icon: ShieldCheck,
-                            title: "Quality Network",
-                            desc: "Join a curated community of top financial professionals across 50+ countries.",
+                            title: t('BENEFIT3_TITLE'),
+                            desc: t('BENEFIT3_DESC'),
                         },
                         ].map((benefit) => (
                         <div
@@ -749,9 +783,7 @@ export default function JoinAsExpertPage() {
 
                     <div className="p-5 rounded-xl bg-gradient-to-br from-foreground to-foreground/90 text-background">
                         <p className="text-sm font-medium leading-relaxed">
-                        "Joining CalcGlobal has connected me with over 200 new clients
-                        in the first 6 months. It's the best platform for financial
-                        experts."
+                            "{t('TESTIMONIAL_QUOTE')}"
                         </p>
                         <div className="flex items-center gap-3 mt-4 pt-4 border-t border-background/20">
                         <div className="h-9 w-9 rounded-full bg-background/20 flex items-center justify-center">
@@ -760,7 +792,7 @@ export default function JoinAsExpertPage() {
                         <div>
                             <p className="text-sm font-medium">Edward Pemberton</p>
                             <p className="text-xs text-background/70">
-                            UK Tax Authority
+                                {t('TESTIMONIAL_ROLE')}
                             </p>
                         </div>
                         </div>

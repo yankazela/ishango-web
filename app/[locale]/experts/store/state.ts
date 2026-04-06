@@ -47,9 +47,9 @@ export interface CreateExpertRequest {
 	email: string;
 	phone: string;
 	bio: string;
-	profilePictureUrl: string;
 	role: string;
 	rating: number;
 	expertType: ExpertTypes;
 	calculatorCountryIds: string[];
+	profilePicture: globalThis.File;
 }

@@ -1,5 +1,5 @@
 "use client";
-import { useClerk } from '@clerk/nextjs'
+import { useClerk } from '@clerk/react'
 import { useTranslations, useLocale } from 'next-intl';
 import Link from "next/link";
 import { usePathname } from "next/navigation";

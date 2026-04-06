@@ -1,8 +1,8 @@
 "use client";
+import { useSearchParams } from "next/navigation";
+import React, { Suspense, useEffect, useMemo, useState } from "react"
 
-import React, { useEffect, useMemo, useState } from "react"
-
-import { useSignUp, useUser, useClerk, useSession } from "@clerk/nextjs"
+import { useSignUp, useUser, useClerk, useSession } from "@clerk/react"
 import {
 	ArrowRight,
 	Check,
@@ -37,33 +37,18 @@ import {
 	submitSubscriptionStart
 } from "@/app/[locale]/get-started/store/slice";
 import router from "next/router";
+import { SiteLogo } from "@/components/ui/site-logo";
 
 
 const calculatorIcons: Record<string, React.ComponentType<any>> = {
-	LOAN_CALCULATOR: Calculator,
+	INHERITANCE_TAX: Calculator,
 	INCOME_TAX: Landmark,
 	CORPORATE_TAX: Building2,
 	MORTGAGE: Home,
-	IMPORT_TAX_DUTIES: PackageSearch,
+	CAPITAL_GAINS: PackageSearch,
 };
 
-	const benefits = [
-	{
-		icon: Globe,
-		title: "50+ Countries",
-		description: "Access localized calculations for countries worldwide",
-	},
-	{
-		icon: Zap,
-		title: "Instant Results",
-		description: "Get accurate calculations in milliseconds",
-	},
-	{
-		icon: Shield,
-		title: "Always Up-to-Date",
-		description: "Tax rates and regulations updated automatically",
-	},
-];
+	
 
 const dialCodes = [
     { code: "+1", country: "US/CA" },
@@ -89,6 +74,14 @@ const dialCodes = [
 ];
 
 export default function GetStartedPage() {
+	return (
+		<Suspense fallback={null}>
+			<GetStartedContent />
+		</Suspense>
+	);
+}
+
+function GetStartedContent() {
 	const locale = useLocale();
 	const dispatch = useDispatch();
 	const { user, isLoaded } = useUser();
@@ -102,6 +95,8 @@ export default function GetStartedPage() {
 	const [verificationCode, setVerificationCode] = useState("");
 	const [step, setStep] = useState(1);
 	const { signUp } = useSignUp();
+	const searchParams = useSearchParams();
+  	const planId = searchParams.get("name");
 	const [formData, setFormData] = useState({
 		firstName: "",
 		lastName: "",
@@ -128,17 +123,40 @@ export default function GetStartedPage() {
 		}
 	}, [session, router, locale]);
 
+	const benefits = [
+		{
+			icon: Globe,
+			title: t('BENEFIT1_TITLE'),
+			description: t('BENEFIT1_DESC'),
+		},
+		{
+			icon: Zap,
+			title: t('BENEFIT2_TITLE'),
+			description: t('BENEFIT2_DESC'),
+		},
+		{
+			icon: Shield,
+			title: t('BENEFIT3_TITLE'),
+			description: t('BENEFIT3_DESC'),
+		},
+	];
+
 	useEffect(() => {
 		dispatch(fetchCalculatorTypesStart());
 		dispatch(fetchPlansStart(currencyRegionCode));
 		if (plans.items.length > 0 && !formData.selectedPlan) {
+			const matchedPlan = planId
+				? plans.items.find(item => item.id === planId || item.code === planId)
+				: null;
+			const fallbackPlan = plans.items.find(item => item.isMostPopular) || plans.items[0];
+			const selected = matchedPlan || fallbackPlan;
 			setFormData((prev) => ({
 				...prev,
-				selectedPlan: plans.items.find(item => item.isMostPopular)?.id || plans.items[0].id,
-				selectedPlanCode: plans.items.find(item => item.isMostPopular)?.code || plans.items[0].code,
+				selectedPlan: selected.id,
+				selectedPlanCode: selected.code,
 			}))
 		}
-	}, [dispatch, plans.items.length, currencyRegionCode]);
+	}, [dispatch, plans.items.length, currencyRegionCode, planId]);
 
 	useEffect(() => {
 		if (!isLoaded || !user) return
@@ -150,10 +168,6 @@ export default function GetStartedPage() {
 			email: user.primaryEmailAddress?.emailAddress || "",
 		}))
 	}, [isLoaded, user])
-
-	// useEffect(() => {
-	// 	signOut();
-	// })
 
 	const handleCalculatorToggle = (calculatorId: string) => {
 		setFormData((prev) => {
@@ -201,12 +215,14 @@ export default function GetStartedPage() {
 						firstName: formData.firstName,
 						lastName: formData.lastName,
 						emailAddress: formData.email,
+					});
+
+					await signUp?.password({
 						password: generatedPassword,
+						emailAddress: formData.email,
 					});
-	
-					await signUp?.prepareEmailAddressVerification({
-						strategy: "email_code",
-					});
+
+					await signUp?.verifications.sendEmailCode();
 
 					setStep(4);
 
@@ -226,11 +242,12 @@ export default function GetStartedPage() {
 
 	const verifyEmail = async (code: string) => {
 		try {
-			const result = await signUp?.attemptEmailAddressVerification({
+			const result = await signUp?.verifications.verifyEmailCode({
 				code,
 			})
 	
-			if (result?.status === "complete") {
+			if (!result?.error) {
+				await signUp?.finalize();
 				setVerifySent(true);
 				await submitData();
 			}
@@ -297,25 +314,16 @@ export default function GetStartedPage() {
 		{/* Header */}
 		<header className="py-6 px-4 sm:px-6 lg:px-8">
 			<div className="max-w-7xl mx-auto flex items-center justify-between">
-				<Link href="/" className="flex items-center gap-2">
-					{/* <div className="h-8 w-8 rounded-lg bg-foreground flex items-center justify-center"> */}
-						{/* <Calculator className="h-5 w-5 text-background" /> */}
-						<span className="text-xl font-semibold text-foreground">
-							{/* <Image
-								src="/logo.svg"
-								alt="Ishango Logo"
-								width={100}
-								height={100}
-								className="rounded"
-							/> */}
-						</span>
-					{/* </div> */}
-				</Link>
+				<div className="pl-6">
+                    <Link href="/" className="flex items-center gap-2">
+                        <SiteLogo width={120} height={120} />
+                    </Link>
+                </div>
 				<Link
 					href={`/${locale}`}
 					className="text-sm text-muted-foreground hover:text-foreground transition-colors"
 				>
-					Back to home
+					{t('BACK_HOME')}
 				</Link>
 			</div>
 		</header>
@@ -360,21 +368,20 @@ export default function GetStartedPage() {
 											<Check className="h-8 w-8 text-accent" />
 										</div>
 										<h2 className="text-2xl font-semibold text-foreground mb-2">
-											You're all set!
+											{t('ACCOUNT_CREATED')}
 										</h2>
 										<p className="text-muted-foreground mb-6">
-											Check your email for confirmation and next steps to get
-											started with CalcGlobal.
+											{t('CHECK_YOUR_EMAIL_FOR_CONFIRMATION')}
 										</p>
 										<div className="flex flex-col sm:flex-row gap-4 justify-center">
 											<Button asChild>
 												<Link href={`/${locale}/calculators/income-tax`}>
-													Try Income Tax Calculator
+													{t('TRY_INCOME_TAX_CALCULATOR')}
 												</Link>
 											</Button>
 											<Button variant="outline" asChild className="bg-transparent">
 												<Link href={`/${locale}/calculators/mortgage`}>
-													Try Mortgage Calculator
+													{t('TRY_MORTGAGE_CALCULATOR')}
 												</Link>
 											</Button>
 										</div>
@@ -384,17 +391,17 @@ export default function GetStartedPage() {
 									<div className="space-y-6">
 										<div>
 											<h2 className="text-xl font-semibold text-foreground">
-												Verify your email address
+												{t('VERIFY_YOUR_EMAIL')}
 											</h2>
 											<p className="text-sm text-muted-foreground mt-1">
-											    A confirmation code has been sent to your address.
+											    {t('A_CONFIRMATION_CODE_HAS_BEEN_SENT')}
 											</p>
 										</div>
 										<div className="space-y-2">
-											<Label htmlFor="verificationCode">Verification Code</Label>
+											<Label htmlFor="verificationCode">{t('VERIFICATION_CODE')}</Label>
 											<Input
 												id="verificationCode"
-												placeholder="Enter your verification code"
+												placeholder={t('ENTER_YOUR_VERIFICATION_CODE')}
 												value={verificationCode}
 												onChange={(e) => setVerificationCode(e.target.value)}
 											/>
@@ -405,7 +412,7 @@ export default function GetStartedPage() {
 												className="flex-1 gap-2"
 												onClick={() => verifyEmail(verificationCode)}
 											>
-												Verify Email
+												{t('VERIFY_EMAIL')}
 											<ArrowRight className="h-4 w-4" />
 										</Button>
 
@@ -421,10 +428,10 @@ export default function GetStartedPage() {
 									<div className="space-y-6">
 										<div>
 											<h2 className="text-xl font-semibold text-foreground">
-											Create your account
+												{t('STEP1_TITLE')}
 											</h2>
 											<p className="text-sm text-muted-foreground mt-1">
-											Start your 14-day free trial. No credit card required.
+												{t('STEP1_DESC')}
 											</p>
 										</div>
 
@@ -435,10 +442,10 @@ export default function GetStartedPage() {
 												variant="outline"
 												className="gap-2 bg-transparent"
 												onClick={() =>
-													signUp?.authenticateWithRedirect({
+													signUp?.sso({
 														strategy: "oauth_google",
 														redirectUrl: `/${locale}/get-started`,
-														redirectUrlComplete: `/${locale}/get-started`,
+														redirectCallbackUrl: `/${locale}/get-started`,
 												})}
 											>
 												<svg className="h-4 w-4" viewBox="0 0 24 24">
@@ -466,10 +473,10 @@ export default function GetStartedPage() {
 												variant="outline"
 												className="gap-2 bg-transparent"
 												onClick={() =>
-													signUp?.authenticateWithRedirect({
+													signUp?.sso({
 													strategy: "oauth_github",
 													redirectUrl: `/${locale}/get-started`,
-													redirectUrlComplete: `/${locale}/get-started`,
+													redirectCallbackUrl: `/${locale}/get-started`,
 												})}
 											>
 												<svg
@@ -488,14 +495,14 @@ export default function GetStartedPage() {
 												</div>
 												<div className="relative flex justify-center text-xs uppercase">
 												<span className="bg-card px-2 text-muted-foreground">
-													Or continue with email
+													{t('OR_EMAIL')}
 												</span>
 											</div>
 										</div>
 
 										<div className="grid grid-cols-2 gap-4">
 											<div className="space-y-2">
-											<Label htmlFor="firstName">First name</Label>
+											<Label htmlFor="firstName">{t('FIRST_NAME')}</Label>
 											<Input
 												id="firstName"
 												placeholder="John"
@@ -509,7 +516,7 @@ export default function GetStartedPage() {
 											/>
 											</div>
 											<div className="space-y-2">
-											<Label htmlFor="lastName">Last name</Label>
+											<Label htmlFor="lastName">{t('LAST_NAME')}</Label>
 											<Input
 												id="lastName"
 												placeholder="Doe"
@@ -525,7 +532,7 @@ export default function GetStartedPage() {
 										</div>
 
 										<div className="space-y-2">
-											<Label htmlFor="email">Work email</Label>
+											<Label htmlFor="email">{t('WORK_EMAIL')}</Label>
 											<Input
 											id="email"
 											type="email"
@@ -538,7 +545,7 @@ export default function GetStartedPage() {
 										</div>
 
 										<div className="space-y-2">
-											<Label htmlFor="phone">Phone number</Label>
+											<Label htmlFor="phone">{t('PHONE_NUMBER')}</Label>
 											<div className="flex gap-2">
 											<Select
 												value={formData.dialCode}
@@ -570,7 +577,7 @@ export default function GetStartedPage() {
 											</div>
 										</div>
 										<div className="space-y-2">
-											<Label htmlFor="company">Company name</Label>
+											<Label htmlFor="company">{t('COMPANY_NAME')}</Label>
 											<Input
 											id="company"
 											placeholder="Acme Inc."
@@ -582,7 +589,7 @@ export default function GetStartedPage() {
 										</div>
 
 										<div className="space-y-2">
-											<Label htmlFor="companySize">Company size</Label>
+											<Label htmlFor="companySize">{t('COMPANY_SIZE')}</Label>
 											<Select
 											value={formData.companySize}
 											onValueChange={(value) =>
@@ -590,18 +597,18 @@ export default function GetStartedPage() {
 											}
 											>
 											<SelectTrigger id="companySize">
-												<SelectValue placeholder="Select company size" />
+												<SelectValue placeholder={t('SELECT_COMPANY_SIZE')} />
 											</SelectTrigger>
 											<SelectContent>
-												<SelectItem value="1-10">1-10 employees</SelectItem>
-												<SelectItem value="11-50">11-50 employees</SelectItem>
+												<SelectItem value="1-10">1-10 {t('EMPLOYEES')}</SelectItem>
+												<SelectItem value="11-50">11-50 {t('EMPLOYEES')}</SelectItem>
 												<SelectItem value="51-200">
-												51-200 employees
+												51-200 {t('EMPLOYEES')}
 												</SelectItem>
 												<SelectItem value="201-1000">
-												201-1000 employees
+												201-1000 {t('EMPLOYEES')}
 												</SelectItem>
-												<SelectItem value="1000+">1000+ employees</SelectItem>
+												<SelectItem value="1000+">1000+ {t('EMPLOYEES')}</SelectItem>
 											</SelectContent>
 											</Select>
 										</div>
@@ -612,10 +619,10 @@ export default function GetStartedPage() {
 									<div className="space-y-6">
 										<div>
 											<h2 className="text-xl font-semibold text-foreground">
-											Select your plan
+												{t('SELECT_YOUR_PLAN')}
 											</h2>
 											<p className="text-sm text-muted-foreground mt-1">
-											All plans include a 14-day free trial.
+												{t('ALL_PLANS_INCLUDE_FREE_TRIAL')}
 											</p>
 										</div>
 
@@ -636,7 +643,7 @@ export default function GetStartedPage() {
 														<Check className="h-3 w-3 text-accent-foreground" />
 													)}
 												</div>
-												<span className="text-sm font-medium text-foreground">Yearly</span>
+												<span className="text-sm font-medium text-foreground">{t("YEARLY")}</span>
 											</button>
 											<button
 												type="button"
@@ -654,7 +661,7 @@ export default function GetStartedPage() {
 														<Check className="h-3 w-3 text-accent-foreground" />
 													)}
 												</div>
-												<span className="text-sm font-medium text-foreground">Monthly</span>
+												<span className="text-sm font-medium text-foreground">{t("MONTHLY")}</span>
 											</button>
 										</div>
 
@@ -681,7 +688,7 @@ export default function GetStartedPage() {
 												>
 													{plan.isMostPopular && (
 														<span className="absolute -top-2.5 right-4 inline-flex items-center rounded-full bg-accent px-2.5 py-0.5 text-xs font-medium text-accent-foreground">
-														Most Popular
+														{t("MOST_POPULAR")}
 														</span>
 													)}
 													<div className="flex items-start justify-between mb-3">
@@ -744,11 +751,10 @@ export default function GetStartedPage() {
 									<div className="space-y-6">
 										<div>
 											<h2 className="text-xl font-semibold text-foreground">
-												Choose your calculators
+												{t('SELECT_YOUR_CALCULATORS')}
 											</h2>
 											<p className="text-sm text-muted-foreground mt-1">
-												Select the calculators you'll need. You can change this
-												later.
+												{t('SELECT_CALCULATORS_DESC')}
 											</p>
 										</div>
 
@@ -812,19 +818,19 @@ export default function GetStartedPage() {
 											htmlFor="terms"
 											className="text-sm text-muted-foreground leading-relaxed cursor-pointer"
 											>
-											I agree to the{" "}
+											{t('I_AGREE_TO_THE')}{" "}
 											<Link
 												href="/terms"
 												className="text-accent hover:underline"
 											>
-												Terms of Service
+												{t('TERMS_OF_SERVICE')}
 											</Link>{" "}
-											and{" "}
+											{t('AND')}{" "}
 											<Link
 												href="/privacy"
 												className="text-accent hover:underline"
 											>
-												Privacy Policy
+												{t('PRIVACY_POLICY')}
 											</Link>
 											</Label>
 										</div>
@@ -839,7 +845,7 @@ export default function GetStartedPage() {
 											onClick={() => setStep(step - 1)}
 											className="bg-transparent"
 										>
-											Back
+											{t("BACK")}
 										</Button>
 									)}
 									<Button
@@ -847,7 +853,7 @@ export default function GetStartedPage() {
 										className="flex-1 gap-2"
 										disabled={!canProceed()}
 									>
-										{step === 3 && user ? "Start Free Trial" : "Continue"}
+										{step === 3 && user ? t("START_FREE_TRIAL") : t("CONTINUE")}
 										<ArrowRight className="h-4 w-4" />
 									</Button>
 								</div>
@@ -860,14 +866,13 @@ export default function GetStartedPage() {
 			<div className="order-1 lg:order-2 lg:sticky lg:top-8">
 				<div className="mb-8">
 				<h1 className="text-3xl sm:text-4xl font-semibold text-foreground text-balance leading-tight">
-					Get started with{" "}
+					{t('TITLE_RIGHT')}{" "}
 					<span className="bg-gradient-to-r from-teal-600 via-emerald-500 to-teal-600 bg-clip-text text-transparent">
 						IShango
 					</span>
 				</h1>
 				<p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-					Join thousands of businesses using our financial calculators to
-					make smarter decisions across 50+ countries.
+					{t('TITLE_RIGHT_DESC')}
 				</p>
 				</div>
 
@@ -893,8 +898,7 @@ export default function GetStartedPage() {
 				{/* Testimonial */}
 				<div className="bg-card rounded-xl border border-border p-6">
 				<p className="text-foreground leading-relaxed">
-					"CalcGlobal has transformed how we handle international tax
-					calculations. What used to take hours now takes seconds."
+					"{t('TESTIMONIALS')}"
 				</p>
 				<div className="flex items-center gap-3 mt-4">
 					<div className="h-10 w-10 rounded-full bg-gradient-to-br from-accent/40 to-teal-300/40 flex items-center justify-center text-sm font-medium text-foreground">
@@ -905,21 +909,9 @@ export default function GetStartedPage() {
 						Sarah Kim
 					</p>
 					<p className="text-xs text-muted-foreground">
-						CFO at TechCorp Global
+						CFO TechCorp Global
 					</p>
 					</div>
-				</div>
-				</div>
-
-				{/* Trust indicators */}
-				<div className="flex items-center gap-6 mt-8 text-sm text-muted-foreground">
-				<div className="flex items-center gap-1.5">
-					<Check className="h-4 w-4 text-accent" />
-					<span>No credit card required</span>
-				</div>
-				<div className="flex items-center gap-1.5">
-					<Check className="h-4 w-4 text-accent" />
-					<span>14-day free trial</span>
 				</div>
 				</div>
 			</div>

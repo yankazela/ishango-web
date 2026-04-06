@@ -1,0 +1,52 @@
+Elevator Pitch (30 seconds)
+"CalcGlobal is a global marketplace connecting verified financial experts — tax advisors, mortgage specialists, corporate finance professionals — with individuals and businesses navigating complex cross-border financial calculations. Think Upwork meets TurboTax, but for 50+ countries."
+
+Pitch Deck Structure
+1. Problem
+Financial regulations differ drastically across countries
+Individuals and businesses struggle to find trusted, country-specific financial expertise
+No single platform aggregates verified financial professionals by jurisdiction and specialty
+2. Solution
+A two-sided marketplace: users get matched with verified experts based on country, calculator type (income tax, corporate tax, mortgage, capital gains, inheritance tax, import duties)
+Built-in calculators give users instant estimates, then seamlessly connect them with a human expert for nuanced advice
+Expert verification process ensures quality and trust
+3. Market Size
+Global tax services market: ~$250B+ annually
+Cross-border advisory: fastest growing segment due to remote work and international business expansion
+TAM → SAM → SOM: Start with English-speaking markets (US, UK, AU, CA), expand to EU, Asia, LATAM — your app already supports EN, DE, FR, ES, PT, JA
+4. Business Model
+Commission per lead/consultation sent to experts (15-25%)
+Premium expert listings (verified badge, priority placement)
+Subscription tiers for experts (monthly fee for enhanced profiles)
+API licensing of calculator engines to fintech partners (you already have API endpoints built)
+5. Traction / Proof Points
+Platform built and functional (calculators for 5+ tax types across multiple countries)
+Expert onboarding pipeline live (the join flow you just built)
+Multi-language support (6 languages) — shows global intent from day one
+6. Competitive Advantage
+Network effect: more experts → better coverage → more users → attracts more experts
+Multi-country, multi-calculator taxonomy is hard to replicate
+Verification layer builds trust competitors lack
+Localization-first architecture (next-intl, country-specific calculator logic)
+7. Go-to-Market
+Phase 1: Seed expert supply — recruit 50-100 experts in 5 key markets via LinkedIn outreach, tax professional associations
+Phase 2: Drive demand — SEO on "income tax calculator [country]" queries (high intent, free traffic)
+Phase 3: Paid acquisition + partnerships with accounting firms and fintech platforms
+8. The Ask
+Specify the amount (e.g., $500K–$1.5M seed)
+Use of funds: engineering (scale platform), marketing (expert acquisition + user growth), compliance/legal (multi-jurisdiction)
+Key Tips for the Pitch
+Do	Don't
+Lead with the problem — show a real person's pain	Don't start with the tech stack
+Demo the calculator → expert handoff flow live	Don't just show slides
+Show your 6-language support as proof of global ambition	Don't claim "no competition" — name competitors and explain your edge
+Highlight the two-sided marketplace dynamics	Don't ignore unit economics — know your CAC and projected LTV
+Have a clear revenue model with numbers	Don't ask for money without explaining exactly how you'll use it
+Investors to Target
+Fintech-focused VCs: Ribbit Capital, QED Investors, Nyca Partners
+Marketplace-focused VCs: a16z (marketplace thesis), Bessemer
+Angel networks: AngelList, fintech-specific angels (ex-Intuit, ex-Wise executives)
+Accelerators: Y Combinator, Techstars Fintech, Seedcamp (EU)
+Want me to help you build any of this into the actual product — like an investor-facing landing page or a demo mode?
+
+Claude Opus 4.6 • 3x

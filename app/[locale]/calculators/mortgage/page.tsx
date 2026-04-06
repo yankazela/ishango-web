@@ -1,17 +1,12 @@
+"use client";
+
 import { Globe2, Shield, TrendingUp, Home } from "lucide-react";
-import type { Metadata } from "next";
 import { useTranslations } from 'next-intl';
   
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { MortgageCalculator } from "@/components/mortgage-calculator";
 import { Badge } from "@/components/ui/badge";
-
-export const metadata: Metadata = {
-  title: "Mortgage Calculator - CalcGlobal",
-  description:
-    "Calculate your mortgage payments across multiple countries. See monthly payments, total interest, amortization schedules, and more.",
-};
 
 export default function MortgagePage() {
   const t = useTranslations('MortgageCalculator');

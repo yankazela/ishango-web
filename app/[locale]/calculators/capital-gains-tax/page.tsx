@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslations } from "next-intl";
 
 import { Header } from "@/components/header";
@@ -5,13 +7,6 @@ import { Footer } from "@/components/footer";
 import { CapitalGainsCalculator } from "@/components/capital-gains-tax";
 import { Badge } from "@/components/ui/badge";
 import { Globe2, Shield, RefreshCw, TrendingUp } from "lucide-react";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Capital Gains Tax Calculator - CalcGlobal",
-  description:
-    "Calculate your capital gains tax on stocks, crypto, real estate, and other investments across 50+ countries. Understand short-term vs long-term rates instantly.",
-};
 
 export default function CapitalGainsPage() {
 	const t = useTranslations("CapitalGainsTaxCalculator");

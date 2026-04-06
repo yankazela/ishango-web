@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations, useLocale } from 'next-intl';
-import { useSession } from "@clerk/nextjs"
+import { useSession } from "@clerk/react"
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

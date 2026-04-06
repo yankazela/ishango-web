@@ -37,7 +37,7 @@ export function HeroSection() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-foreground max-w-4xl mx-auto text-balance leading-tight">
             {t('FINANCIAL_CALCULATORS')}
             <br />
-            <span className="bg-gradient-to-r from-teal-600 via-emerald-500 to-teal-600 bg-clip-text text-transparent">for Every Country</span>
+            <span className="bg-gradient-to-r from-teal-600 via-emerald-500 to-teal-600 bg-clip-text text-transparent">{t('FOR_EVERY_COUNTRY')}</span>
           </h1>
 
           {/* Subheadline */}
@@ -61,22 +61,19 @@ export function HeroSection() {
         {/* Feature Cards Preview */}
         <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6">
           <CalculatorPreviewCard
-            title={t("LOAN_CALCULATOR")}
-            value="$24,500"
-            label="Monthly Payment"
-            change="+2.3% APR"
+            title={t("CALCULATORS")}
+            value="+5000"
+            label={t("AVAILABLE_CALCULATORS")}
           />
           <CalculatorPreviewCard
-            title={t("INCOME_TAX_CALCULATOR")}
-            value="$18,240"
-            label="Annual Tax"
-            change="24% bracket"
+            title={t("CALCULATIONS_REQUESTS")}
+            value="+100K"
+            label={t("DAILY_CALCULATIONS")}
           />
           <CalculatorPreviewCard
-            title={t("MORTGAGE_CALCULATOR")}
-            value="$1,847"
-            label="Monthly Payment"
-            change="30-year fixed"
+            title={t("EXPERT_CONTRIBUTORS")}
+            value="+500"
+            label={t("ACTIVE_EXPERTS")}
           />
         </div>
       </div>
@@ -88,12 +85,10 @@ function CalculatorPreviewCard({
   title,
   value,
   label,
-  change,
 }: {
   title: string;
   value: string;
   label: string;
-  change: string;
 }) {
   return (
     <div className="relative bg-gradient-to-br from-card via-card to-accent/5 rounded-2xl border border-border p-6 hover:border-accent/50 transition-all group hover:shadow-lg hover:shadow-accent/10">
@@ -103,9 +98,6 @@ function CalculatorPreviewCard({
           <p className="mt-2 text-3xl font-semibold text-foreground">{value}</p>
           <p className="mt-1 text-sm text-muted-foreground">{label}</p>
         </div>
-        <span className="inline-flex items-center rounded-full bg-accent/10 px-2.5 py-1 text-xs font-medium text-accent">
-          {change}
-        </span>
       </div>
       <div className="mt-4 h-16 flex items-end gap-1">
         {[40, 60, 35, 80, 55, 70, 45, 90, 65, 75, 50, 85].map((height, i) => (

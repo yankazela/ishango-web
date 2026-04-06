@@ -1,4 +1,5 @@
-import { Metadata } from "next";
+"use client";
+
 import Link from "next/link";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -6,12 +7,6 @@ import { InheritanceTaxCalculator } from "@/components/inheritance-tax-calculato
 import { Card, CardContent } from "@/components/ui/card";
 import { Scale, ArrowLeft, Users, Home, FileText, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-export const metadata: Metadata = {
-  title: "Inheritance Tax Calculator - CalcGlobal",
-  description:
-    "Calculate inheritance and estate taxes across multiple countries. Understand tax-free allowances, relationship-based exemptions, and residence relief.",
-};
 
 export default function InheritanceTaxPage() {
   return (

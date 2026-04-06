@@ -2,13 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 
-import { useSession, useSignIn } from '@clerk/nextjs';
+import { useSession, useSignIn } from '@clerk/react';
 import { useRouter } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { SiteLogo } from "@/components/ui/site-logo";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
     Calculator,
@@ -20,24 +21,6 @@ import {
     Shield,
 } from "lucide-react";
 
-const features = [
-    {
-        icon: Globe,
-        title: "50+ Countries Supported",
-        description: "Access accurate tax and financial calculations worldwide",
-    },
-    {
-        icon: Zap,
-        title: "Real-Time Updates",
-        description: "Tax rates and regulations updated automatically",
-    },
-    {
-        icon: Shield,
-        title: "Enterprise Security",
-        description: "SOC 2 compliant with bank-level encryption",
-    },
-];
-
 export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -48,7 +31,7 @@ export default function LoginPage() {
     const locale = useLocale();
 
     const router = useRouter();
-    const { signIn, isLoaded } = useSignIn();
+    const { signIn } = useSignIn();
     const { session } = useSession();
 
     useEffect(() => {
@@ -59,15 +42,18 @@ export default function LoginPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        if (!isLoaded) return
+        if (!signIn) return
 
         try {
-            const result = await signIn.create({
+            await signIn.create({
                 identifier: email,
+            })
+
+            const result = await signIn.password({
                 password,
             })
 
-            if (result.status === 'complete') {
+            if (!result.error) {
                 router.push(`/${locale}/dashboard`)
             }
         } catch (err: any) {
@@ -76,12 +62,30 @@ export default function LoginPage() {
     };
 
     const oauthSignIn = async (provider: 'oauth_google' | 'oauth_github') => {
-        await signIn?.authenticateWithRedirect({
+        await signIn?.sso({
             strategy: provider,
             redirectUrl: `/${locale}/dashboard`,
-            redirectUrlComplete: `/${locale}/dashboard`,
+            redirectCallbackUrl: `/${locale}/dashboard`,
         })
     }
+
+    const features = [
+        {
+            icon: Globe,
+            title: t('FEATURE1_TITLE'),
+            description: t('FEATURE1_DESC'),
+        },
+        {
+            icon: Zap,
+            title: t('FEATURE2_TITLE'),
+            description: t('FEATURE2_DESC'),
+        },
+        {
+            icon: Shield,
+            title: t('FEATURE3_TITLE'),
+            description: t('FEATURE3_DESC'),
+        },
+    ];
 
     return (
         <main className="min-h-screen relative overflow-hidden flex">
@@ -96,27 +100,21 @@ export default function LoginPage() {
             <div className="hidden lg:flex flex-col justify-between w-1/2 p-12 xl:p-16">
                 <div>
                     <Link href="/" className="flex items-center gap-2">
-                        <div className="h-10 w-10 rounded-lg bg-foreground flex items-center justify-center">
-                            <Calculator className="h-6 w-6 text-background" />
-                        </div>
-                        <span className="text-2xl font-semibold text-foreground">
-                            CalcGlobal
-                        </span>
+                        <SiteLogo width={120} height={120} />
                     </Link>
                 </div>
 
                 <div className="space-y-8">
                     <div>
                         <h1 className="text-4xl xl:text-5xl font-semibold text-foreground leading-tight text-balance">
-                            Financial calculations
+                            {t('FINANCIAL_CALCULATIONS')}
                         <br />
                         <span className="bg-gradient-to-r from-teal-600 via-emerald-500 to-teal-600 bg-clip-text text-transparent">
-                            made simple
+                            {t('MADE_SIMPLE')}
                         </span>
                         </h1>
                         <p className="text-lg text-muted-foreground mt-4 max-w-md">
-                            Access professional-grade calculators for taxes, loans, and
-                            mortgages across 50+ countries.
+                            {t('ACCESS_PROFESSIONAL_GRADE_CALCULATORS')}
                         </p>
                     </div>
 
@@ -141,13 +139,13 @@ export default function LoginPage() {
 
                 <div className="flex items-center gap-6 text-sm text-muted-foreground">
                     <Link href="/privacy" className="hover:text-foreground transition-colors">
-                        Privacy
+                        {t('PRIVACY')}
                     </Link>
                     <Link href="/terms" className="hover:text-foreground transition-colors">
-                        Terms
+                        {t('TERMS')}
                     </Link>
                     <Link href="/contact" className="hover:text-foreground transition-colors">
-                        Contact
+                        {t('CONTACT')}
                     </Link>
                 </div>
             </div>
@@ -171,16 +169,16 @@ export default function LoginPage() {
                     <div className="bg-card rounded-2xl border border-border p-8 shadow-sm">
                         <div className="mb-8">
                             <h2 className="text-2xl font-semibold text-foreground">
-                                Welcome back
+                                {t('WELCOME_BACK')}
                             </h2>
                             <p className="text-muted-foreground mt-1">
-                                Sign in to access your calculators and saved data
+                                {t('PLEASE_SIGN_IN_TO_YOUR_ACCOUNT')}
                             </p>
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-5">
                             <div className="space-y-2">
-                                <Label htmlFor="email">Email address</Label>
+                                <Label htmlFor="email">{t('EMAIL_ADDRESS')}</Label>
                                 <Input
                                 id="email"
                                 type="email"
@@ -194,19 +192,19 @@ export default function LoginPage() {
 
                             <div className="space-y-2">
                                 <div className="flex items-center justify-between">
-                                <Label htmlFor="password">Password</Label>
+                                <Label htmlFor="password">{t('PASSWORD')}</Label>
                                 <Link
                                     href="/forgot-password"
                                     className="text-sm text-accent hover:underline"
                                 >
-                                    Forgot password?
+                                    {t('FORGOT_PASSWORD')}
                                 </Link>
                                 </div>
                                 <div className="relative">
                                 <Input
                                     id="password"
                                     type={showPassword ? "text" : "password"}
-                                    placeholder="Enter your password"
+                                    placeholder={t('ENTER_YOUR_PASSWORD')}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
@@ -236,7 +234,7 @@ export default function LoginPage() {
                                 htmlFor="remember"
                                 className="text-sm text-muted-foreground cursor-pointer"
                                 >
-                                Remember me for 30 days
+                                {t('REMEMBER_ME_FOR_30_DAYS')}
                                 </Label>
                             </div>
 
@@ -249,7 +247,7 @@ export default function LoginPage() {
                                 <div className="h-4 w-4 border-2 border-background border-t-transparent rounded-full animate-spin" />
                                 ) : (
                                 <>
-                                    Sign in
+                                    {t('SIGN_IN')}
                                     <ArrowRight className="h-4 w-4" />
                                 </>
                                 )}
@@ -262,7 +260,7 @@ export default function LoginPage() {
                             </div>
                             <div className="relative flex justify-center text-xs uppercase">
                                 <span className="bg-card px-3 text-muted-foreground">
-                                    Or continue with
+                                    {t('OR_CONTINUE_WITH')}
                                 </span>
                             </div>
                         </div>
@@ -307,12 +305,12 @@ export default function LoginPage() {
                         </div>
 
                         <p className="text-center text-sm text-muted-foreground mt-8">
-                            Don't have an account?{" "}
+                            {t('DONT_HAVE_AN_ACCOUNT')}{" "}
                             <Link
-                                href="/get-started"
+                                href={`/${locale}/get-started`}
                                 className="text-accent font-medium hover:underline"
                             >
-                                Get started for free
+                                {t('GET_STARTED_FOR_FREE')}
                             </Link>
                         </p>
                     </div>
@@ -320,13 +318,13 @@ export default function LoginPage() {
                     {/* Mobile Footer Links */}
                     <div className="lg:hidden flex items-center justify-center gap-6 mt-8 text-sm text-muted-foreground">
                         <Link href="/privacy" className="hover:text-foreground transition-colors">
-                            Privacy
+                            {t('PRIVACY')}
                         </Link>
                         <Link href="/terms" className="hover:text-foreground transition-colors">
-                            Terms
+                            {t('TERMS')}
                         </Link>
                         <Link href="/contact" className="hover:text-foreground transition-colors">
-                            Contact
+                            {t('CONTACT')}
                         </Link>
                     </div>
                 </div>

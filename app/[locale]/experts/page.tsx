@@ -49,12 +49,12 @@ export default function ExpertsPage() {
     }, [selectedCountry]);
 
     const calculatorTypes = [
-        { id: "all", name: "All Calculators", icon: Calculator },
-        { id: "loan", name: `${t('LOAN')}`, icon: Calculator },
+        { id: "all", name: `${t('ALL_CALCULATORS')}`, icon: Calculator },
+        { id: "inheritance-tax", name: `${t('INHERITANCE_TAX')}`, icon: Calculator },
         { id: "income-tax", name: `${t('INCOME_TAX')}`, icon: Landmark },
         { id: "corporate-tax", name: `${t('CORPORATE_TAX')}`, icon: Building2 },
         { id: "mortgage", name: `${t('MORTGAGE')}`, icon: Home },
-        { id: "import-tax", name: `${t('IMPORT_TAX_DUTIES')}`, icon: PackageSearch },
+        { id: "capital-gains", name: `${t('CAPITAL_GAINS')}`, icon: PackageSearch },
     ];
 
     const countries = [
@@ -134,7 +134,7 @@ export default function ExpertsPage() {
                         onValueChange={setSelectedCountry}
                     >
                         <SelectTrigger className="w-full sm:w-64">
-                            <SelectValue placeholder="Filter by country" />
+                            <SelectValue placeholder={t('FILTER_BY_COUNTRY')} />
                         </SelectTrigger>
                         <SelectContent>
                             {countries.map((country) => (
@@ -152,7 +152,7 @@ export default function ExpertsPage() {
                         onValueChange={setSelectedCalculator}
                     >
                         <SelectTrigger className="w-full sm:w-64">
-                            <SelectValue placeholder="Filter by calculator" />
+                            <SelectValue placeholder={t('FILTER_BY_CALCULATOR')} />
                         </SelectTrigger>
                         <SelectContent>
                             {calculatorTypes.map((calc) => (

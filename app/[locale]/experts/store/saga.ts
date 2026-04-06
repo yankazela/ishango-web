@@ -59,11 +59,24 @@ const createExpertApi = async (payload: CreateExpertRequest): Promise<void> => {
     try {
         const path = endpoints.createExpert();
 
+        const formData = new FormData();
+        formData.append('name', payload.name);
+        formData.append('email', payload.email);
+        formData.append('phone', payload.phone);
+        formData.append('bio', payload.bio);
+        formData.append('role', payload.role);
+        formData.append('rating', String(payload.rating));
+        formData.append('expertType', payload.expertType);
+        payload.calculatorCountryIds.forEach((id) => {
+            formData.append('calculatorCountryIds', id);
+        });
+        formData.append('profilePicture', payload.profilePicture);
+
         await postRequest({
                 path: path.endpoint,
                 auth: path.auth,
-                headers: path.headers,
-                data: payload,
+                headers: {},
+                data: formData,
             },
             EbaseUrls.ISHANGO_BE
         );

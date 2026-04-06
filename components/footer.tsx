@@ -1,37 +1,44 @@
+"use client";
+
 import Link from "next/link";
 import { Calculator } from "lucide-react";
-
-const footerLinks = {
-  Product: [
-    { name: "Loan Calculator", href: "#" },
-    { name: "Mortgage Calculator", href: "#" },
-    { name: "Income Tax Calculator", href: "#" },
-    { name: "Corporate Tax Calculator", href: "#" },
-    { name: "API Documentation", href: "#" },
-  ],
-  Company: [
-    { name: "About", href: "#" },
-    { name: "Blog", href: "#" },
-    { name: "Careers", href: "#" },
-    { name: "Press", href: "#" },
-    { name: "Contact", href: "#" },
-  ],
-  Resources: [
-    { name: "Documentation", href: "#" },
-    { name: "API Reference", href: "#" },
-    { name: "Status", href: "#" },
-    { name: "Changelog", href: "#" },
-    { name: "Support", href: "#" },
-  ],
-  Legal: [
-    { name: "Privacy Policy", href: "#" },
-    { name: "Terms of Service", href: "#" },
-    { name: "Cookie Policy", href: "#" },
-    { name: "GDPR", href: "#" },
-  ],
-};
+import { useTranslations, useLocale } from "next-intl";
 
 export function Footer() {
+  const t = useTranslations("Footer");
+  const locale = useLocale();
+
+  const footerLinks = {
+    [t("PRODUCT")]: [
+      { name: t("LOAN_CALCULATOR"), href: "#" },
+      { name: t("MORTGAGE_CALCULATOR"), href: "#" },
+      { name: t("INCOME_TAX_CALCULATOR"), href: "#" },
+      { name: t("CORPORATE_TAX_CALCULATOR"), href: "#" },
+      { name: t("API_DOCUMENTATION"), href: "#" },
+    ],
+    [t("COMPANY")]: [
+      { name: t("ABOUT"), href: "#" },
+      { name: t("BLOG"), href: "#" },
+      { name: t("CAREERS"), href: "#" },
+      { name: t("PRESS"), href: "#" },
+      { name: t("CONTACT"), href: "#" },
+      { name: "Investors", href: `/${locale}/investors` },
+    ],
+    [t("RESOURCES")]: [
+      { name: t("DOCUMENTATION"), href: "#" },
+      { name: t("API_REFERENCE"), href: "#" },
+      { name: t("STATUS"), href: "#" },
+      { name: t("CHANGELOG"), href: "#" },
+      { name: t("SUPPORT"), href: "#" },
+    ],
+    [t("LEGAL")]: [
+      { name: t("PRIVACY_POLICY"), href: "#" },
+      { name: t("TERMS_OF_SERVICE"), href: "#" },
+      { name: t("COOKIE_POLICY"), href: "#" },
+      { name: t("GDPR"), href: "#" },
+    ],
+  };
+
   return (
     <footer className="bg-card border-t border-border">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
@@ -43,12 +50,11 @@ export function Footer() {
                 <Calculator className="h-5 w-5 text-primary-foreground" />
               </div>
               <span className="text-xl font-semibold text-foreground">
-                CalcGlobal
+                Ishango Engine
               </span>
             </Link>
             <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-              The leading platform for multi-country financial calculations.
-              Trusted by thousands of businesses worldwide.
+              {t("BRAND_DESCRIPTION")}
             </p>
           </div>
 
@@ -76,7 +82,7 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} CalcGlobal. All rights reserved.
+            © {new Date().getFullYear()} Ishango Engine. {t("ALL_RIGHTS_RESERVED")}
           </p>
           <div className="flex items-center gap-6">
             <Link
