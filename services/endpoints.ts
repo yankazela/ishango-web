@@ -1,3 +1,6 @@
+import { get } from "http";
+import { features } from "process";
+
 export interface EndpointProps {
     endpoint: string;
     auth: boolean;
@@ -76,6 +79,21 @@ export const endpoints = {
     }),
     createExpert: (): EndpointProps => ({
         endpoint: `/experts`,
+        auth: false,
+        headers: {}
+    }),
+    featureFlags: (): EndpointProps => ({
+        endpoint: `/feature-flags`,
+        auth: false,
+        headers: {}
+    }),
+    getArticleCards: (language: string): EndpointProps => ({
+        endpoint: `/blog/index/${language}`,
+        auth: false,
+        headers: {}
+    }),
+    getArticleContent: (slug: string): EndpointProps => ({
+        endpoint: `/blog/article/${slug}`,
         auth: false,
         headers: {}
     }),

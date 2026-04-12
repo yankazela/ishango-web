@@ -8,6 +8,8 @@ import corporateTaxCalculatorReducer from '../app/[locale]/calculators/corporate
 import expertsReducer from '../app/[locale]/experts/store/slice';
 import capitalGainReducer from '../app/[locale]/calculators/capital-gains-tax/store/slice';
 import inheritanceTaxReducer from '../app/[locale]/calculators/inheritance-tax/store/slice';
+import featureFlagsReducer from '../app/[locale]/store/slice';
+import blogReducer from '@/app/[locale]/blog/store/slice';
 
 
 const sagaMiddleware = createSagaMiddleware();
@@ -20,7 +22,9 @@ const store = configureStore({
         corporateTaxCalculator: corporateTaxCalculatorReducer,
         experts: expertsReducer,
         capitalGainsTaxCalculator: capitalGainReducer,
-        inheritanceTaxCalculator: inheritanceTaxReducer
+        inheritanceTaxCalculator: inheritanceTaxReducer,
+        featureFlags: featureFlagsReducer,
+        blog: blogReducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),

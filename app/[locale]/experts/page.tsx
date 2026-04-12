@@ -36,8 +36,6 @@ export default function ExpertsPage() {
     const locale = useLocale();
     const dispatch = useDispatch();
     const { experts } = useSelector((state: RootState) => state.experts);
-
-    
     const [selectedCalculator, setSelectedCalculator] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCountry, setSelectedCountry] = useState("");

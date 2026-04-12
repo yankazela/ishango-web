@@ -1,0 +1,18 @@
+{
+  "articles": [
+    {
+      "title": "How to Calculate Income Tax in Germany (2026)",
+      "slug": "income-tax-germany-2026",
+      "description": "Step-by-step guide to calculating income tax in Germany...",
+      "country": "Germany",
+      "countryCode": "DE",
+      "calculator": "INCOME_TAX_CALCULATOR",
+      "date": "2026-04-01",
+      "author": "Ishango Engine Team",
+      "tags": ["income-tax", "Germany", "Europe"],
+      "locale": "en",
+      "readingTime": 8
+    }
+  ],
+  "updatedAt": "2026-04-11"
+}

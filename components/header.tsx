@@ -1,8 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations, useLocale } from 'next-intl';
+import { useDispatch, useSelector } from "react-redux";
 import { useSession } from "@clerk/react"
 import { Button } from "@/components/ui/button";
 import {
@@ -11,14 +13,24 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, Menu, X, Calculator } from "lucide-react";
-import { useState } from "react";
+import { RootState } from "@/store/rootStore";
+import { ChevronDown, Menu, X } from "lucide-react";
+import { fetchFeatureFlagsStart } from "@/app/[locale]/store/slice";
 
 export function Header() {
   const t = useTranslations("Header");
   const { session } = useSession()
   const locale = useLocale();
+  const dispatch = useDispatch();
+  const featureFlags = useSelector((state: RootState) => state.featureFlags);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const pricingEnabled = featureFlags.featureFlags.data?.find(flag => flag.name === "DISPLAY_PRICING")?.isEnabled;
+  const expertsEnabled = featureFlags.featureFlags.data?.find(flag => flag.name === "DISPLAY_EXPERT")?.isEnabled;
+
+  useEffect(() => {
+      dispatch(fetchFeatureFlagsStart());
+  },[]);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -71,26 +83,34 @@ export function Header() {
             >
               {t("API_DOCS")}
             </Link>
-
-            <Link
-              href="#pricing"
-              className="text-sm font-medium text-foreground hover:text-accent transition-colors"
-            >
-              {t("PRICING")}
-            </Link>
-
+            {pricingEnabled && (
+              <Link
+                href="#pricing"
+                className="text-sm font-medium text-foreground hover:text-accent transition-colors"
+              >
+                {t("PRICING")}
+              </Link>
+            )}
             <Link
               href="#countries"
               className="text-sm font-medium text-foreground hover:text-accent transition-colors"
             >
               {t("COUNTRIES")}
             </Link>
+            {expertsEnabled && (
+              <Link
+                href={`/${locale}/experts`}
+                className="text-sm font-medium text-foreground hover:text-accent transition-colors"
+              >
+                {t("EXPERTS")}
+              </Link>
+            )}
             <Link
-              href={`/${locale}/experts`}
-              className="text-sm font-medium text-foreground hover:text-accent transition-colors"
-            >
-              {t("EXPERTS")}
-            </Link>
+                href={`/${locale}/blog`}
+                className="text-sm font-medium text-foreground hover:text-accent transition-colors"
+              >
+                {t("BLOG")}
+              </Link>
           </nav>
 
           {/* CTA Buttons */}

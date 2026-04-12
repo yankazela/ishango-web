@@ -191,8 +191,9 @@ export default function InvestorsPage() {
             <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-2xl">
               Ishango Engine connects verified financial experts with individuals
               and businesses navigating complex cross-border tax, mortgage, and
-              financial calculations across 50+ countries. We&apos;re building the
-              infrastructure layer for global financial advisory.
+              financial calculations across 50+ countries. Our API-first calculator
+              engine lets any fintech, bank, or platform embed our tools — while
+              we&apos;re building the infrastructure layer for global financial advisory.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <Button size="lg" className="gap-2" asChild>

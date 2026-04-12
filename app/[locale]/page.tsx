@@ -7,6 +7,8 @@ import { CTASection } from "@/components/cta-section";
 import { Footer } from "@/components/footer";
 import { DemoModeBanner } from "@/components/demo-mode-banner";
 import { setRequestLocale } from "next-intl/server";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/rootStore";
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;

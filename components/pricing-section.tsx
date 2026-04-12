@@ -16,6 +16,8 @@ export function PricingSection() {
 	const t = useTranslations("Home");
 	const locale = useLocale();
 	const { plans } = useSelector((state: RootState) => state.getStarted);
+	const featureFlags = useSelector((state: RootState) => state.featureFlags);
+	const pricingEnabled = featureFlags.featureFlags.data?.find(flag => flag.name === "DISPLAY_PRICING")?.isEnabled;
     
     useEffect(() => {
       	dispatch(fetchPlansStart(currencyRegionCode));
@@ -24,6 +26,10 @@ export function PricingSection() {
 	const handlePlanSelect = (planId: string) => {
 		// Navigate to the sign-up page with the selected plan ID as a query parameter
 		router.push(`/${locale}/get-started?plan=${planId}`);
+	}
+
+	if (!pricingEnabled) {
+		return null; // Don't render the section if pricing is not enabled
 	}
 
 	return (

@@ -6,6 +6,8 @@ import corporateTaxSaga from '../app/[locale]/calculators/corporate-tax/store/sa
 import expertsSaga from '../app/[locale]/experts/store/saga';
 import capitalGainsSaga from '../app/[locale]/calculators/capital-gains-tax/store/saga';
 import inheritanceTaxSaga from '../app/[locale]/calculators/inheritance-tax/store/saga';
+import featureFlagsSaga from '../app/[locale]/store/saga';
+import blogSaga from '@/app/[locale]/blog/store/saga';
 
 // Root saga
 function* rootSaga() {
@@ -16,7 +18,9 @@ function* rootSaga() {
 		corporateTaxSaga(),
 		expertsSaga(),
 		capitalGainsSaga(),
-		inheritanceTaxSaga()
+		inheritanceTaxSaga(),
+		featureFlagsSaga(),
+		blogSaga()
 		// add other sagas here
     ]);
 }
