@@ -1,22 +1,41 @@
 {
-  "meta": {
-    "id": "germanyCorporateTaxCalculator",
-    "country": "GE",
-    "region": "NATIONAL",
-    "calculator": "CORPORATE_TAX",
-    "version": "2025.1",
-    "effectiveFrom": "2025-04-06",
-    "effectiveTo": null,
-    "currency": "EUR",
-    "currencySymbol": "€",
-    "source": [
-      {
-        "name": "Germany revenue",
-        "url": "https://www.germany-tax.ge"
-      }
-    ]
-  },
-  "inputs": [],
-  "outputs": [ ],
-  "rules": {}
+    "meta": {
+        "id": "spain-income-tax-2024",
+        "country": "Spain",
+        "region": "ES",
+        "calculator": "INCOME_TAX",
+        "version": "1.0.0",
+        "effectivefrom": "2024-01-01",
+        "effectiveto": null,
+        "source": [
+            {
+                "name": "Agencia Tributaria - IRPF Tarifa General 2024",
+                "url": "https://www.agenciatributaria.es/AEAT.internet/Inicio/Ayuda/Manuales__Folletos_y_Videos/Folletos_informativos/IRPF/_Folleto_IRPF_2024/Escala_general_del_IRPF_2024.shtml"
+            }
+        ]
+    },
+    "inputs": [
+        {
+            "name": "grossIncome",
+            "label": "ANNUAL_GROSS_INCOME",
+            "type": "number",
+            "required": true,
+            "unit": "EUR",
+            "isCurrency": true
+        }
+    ],
+    "outputs": [],
+    "rules": {
+        "taxBrackets": [
+            { "from": 0,      "to": 12450,  "rate": 0.19 },
+            { "from": 12450,  "to": 20200,  "rate": 0.24 },
+            { "from": 20200,  "to": 35200,  "rate": 0.30 },
+            { "from": 35200,  "to": 60000,  "rate": 0.37 },
+            { "from": 60000,  "to": 300000, "rate": 0.45 },
+            { "from": 300000, "to": null,   "rate": 0.47 }
+        ],
+        "socialContributions": {
+            "rate": 0.0635
+        }
+    }
 }

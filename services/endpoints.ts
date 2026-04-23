@@ -97,4 +97,9 @@ export const endpoints = {
         auth: false,
         headers: {}
     }),
+    getUserDetails: (): EndpointProps => ({
+        endpoint: `/subscriptions/details`,
+        auth: false,
+        headers: {}
+    }),
 };

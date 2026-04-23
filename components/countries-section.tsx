@@ -1,20 +1,21 @@
 import { useTranslations } from "next-intl";
+import { getCountryFlagIconCode } from "@/lib/countries";
 
 export function CountriesSection() {
     const t = useTranslations("Home");
     const countries = [
-        { name: t("UNITED_STATES"), code: "US", flag: "🇺🇸" },
-        { name: t("UNITED_KINGDOM"), code: "UK", flag: "🇬🇧" },
-        { name: t("CANADA"), code: "CA", flag: "🇨🇦" },
-        { name: t("GERMANY"), code: "DE", flag: "🇩🇪" },
-        { name: t("FRANCE"), code: "FR", flag: "🇫🇷" },
-        { name: t("AUSTRALIA"), code: "AU", flag: "🇦🇺" },
-        { name: t("JAPAN"), code: "JP", flag: "🇯🇵" },
-        { name: t("SOUTH_AFRICA"), code: "ZA", flag: "🇿🇦" },
-        { name: t("INDIA"), code: "IN", flag: "🇮🇳" },
-        { name: t("SWITZERLAND"), code: "CH", flag: "🇨🇭" },
-        { name: t("BRAZIL"), code: "BR", flag: "🇧🇷" },
-        { name: t("SPAIN"), code: "ES", flag: "🇪🇸" },
+        { name: t("UNITED_STATES"), code: "US" },
+        { name: t("UNITED_KINGDOM"), code: "UK" },
+        { name: t("CANADA"), code: "CA" },
+        { name: t("GERMANY"), code: "DE" },
+        { name: t("FRANCE"), code: "FR" },
+        { name: t("AUSTRALIA"), code: "AU" },
+        { name: t("JAPAN"), code: "JP" },
+        { name: t("SOUTH_AFRICA"), code: "ZA" },
+        { name: t("INDIA"), code: "IN" },
+        { name: t("SWITZERLAND"), code: "CH" },
+        { name: t("BRAZIL"), code: "BR" },
+        { name: t("SPAIN"), code: "ES" },
     ];
     
     const stats = [
@@ -54,8 +55,11 @@ export function CountriesSection() {
                     key={country.code}
                     className="flex flex-col items-center gap-2 bg-card rounded-xl border border-border p-4 hover:border-accent/50 transition-colors"
                     >
-                    <span className="text-3xl" role="img" aria-label={country.name}>
-                        {country.flag}
+                    <span className="inline-flex h-12 w-12 items-center justify-center">
+                        <span
+                            className={`fi fi-${getCountryFlagIconCode(country.code)} rounded-sm text-4xl leading-none shadow-sm`}
+                            aria-label={country.name}
+                        />
                     </span>
                     <span className="text-sm font-medium text-foreground">
                         {country.name}

@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Scale, Info, Calendar, Users, Home, Briefcase, Landmark, ArrowRight } from "lucide-react";
+import { Scale, Info, Calendar, Users, Home, Briefcase, Landmark, ArrowRight, RotateCcw } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { RootState } from "@/store/rootStore";
 import { fetchCalculatorsStart, resetResult, calculateInheritanceTax } from "@/app/[locale]/calculators/inheritance-tax/store/slice";
@@ -130,6 +130,14 @@ export function InheritanceTaxCalculator() {
 			year,
 			details
 		}));
+	};
+
+	const handleResetForm = () => {
+		setFormInputs({
+			countryCode: selectedCountry.toLocaleLowerCase(),
+			year: taxYear,
+		});
+		dispatch(resetResult());
 	};
 
 
@@ -262,10 +270,20 @@ export function InheritanceTaxCalculator() {
 						</Select>
 					</div>
 
-					<Button className="w-full" size="lg" disabled={!canSubmit} onClick={handleSubmit}>
-						{t('CALCULATE')}
-						<ArrowRight className="ml-2 h-4 w-4" />
-					</Button>
+					<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+						<Button
+							variant="outline"
+							size="lg"
+							onClick={handleResetForm}
+						>
+							{t('RESET')}
+							<RotateCcw className="ml-2 h-4 w-4" />
+						</Button>
+						<Button className="w-full" size="lg" disabled={!canSubmit} onClick={handleSubmit}>
+							{t('CALCULATE')}
+							<ArrowRight className="ml-2 h-4 w-4" />
+						</Button>
+					</div>
 				</CardContent>
 			</Card>
 

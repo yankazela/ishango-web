@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslations } from "next-intl";
-import { Building2, Percent, ArrowRight, Calendar, Check } from "lucide-react";
+import { Building2, Percent, ArrowRight, Calendar, Check, RotateCcw } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -115,6 +115,15 @@ export function CorporateTaxCalculator() {
             year,
             details
         }));
+    };
+
+    const handleResetForm = () => {
+        setFormInputs({
+            countryCode: selectedCountry.toLocaleLowerCase(),
+            year: taxYear,
+            isSmallBusiness: null,
+        });
+        dispatch(resetResult());
     };
 
 
@@ -261,15 +270,25 @@ export function CorporateTaxCalculator() {
                         </div>
                     ))}
 
-                    <Button
-                        className="w-full mt-10"
-                        size="lg"
-                        disabled={!canSubmit}
-                        onClick={handleSubmit}
-                    >
-                        {t("CALCULATE_TAX")}
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
+                    <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <Button
+                            variant="outline"
+                            size="lg"
+                            onClick={handleResetForm}
+                        >
+                            {t('RESET')}
+                            <RotateCcw className="ml-2 h-4 w-4" />
+                        </Button>
+                        <Button
+                            className="w-full"
+                            size="lg"
+                            disabled={!canSubmit}
+                            onClick={handleSubmit}
+                        >
+                            {t("CALCULATE_TAX")}
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                    </div>
                 </CardContent>
             </Card>
             </div>

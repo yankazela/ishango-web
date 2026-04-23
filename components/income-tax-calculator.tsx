@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Landmark, ArrowRight, Calendar, TrendingDown, Check } from "lucide-react";
+import { Landmark, ArrowRight, Calendar, TrendingDown, Check, RotateCcw } from "lucide-react";
 import { RootState } from "@/store/rootStore";
 import { calculateIncomeTax, fetchCalculatorsStart, resetResult } from "@/app/[locale]/calculators/income-tax/store/slice";
 
@@ -85,6 +85,14 @@ export function IncomeTaxCalculator() {
         if (!canSubmit) return;
         
         dispatch(calculateIncomeTax({ inputs: formInputs }));
+    };
+
+    const handleResetForm = () => {
+        setFormInputs({
+            countryCode: selectedCountry.toLocaleLowerCase(),
+            year: taxYear,
+        });
+        dispatch(resetResult());
     };
 
 
@@ -228,11 +236,20 @@ export function IncomeTaxCalculator() {
                     </p>
                     </div>
                 )} */}
-
-                <Button className="w-full" size="lg" disabled={!canSubmit} onClick={handleSubmit}>
-                    {t('CALCULATE')}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <Button
+                        variant="outline"
+                        size="lg"
+                        onClick={handleResetForm}
+                    >
+                        {t('RESET')}
+                        <RotateCcw className="ml-2 h-4 w-4" />
+                    </Button>
+                    <Button className="w-full" size="lg" disabled={!canSubmit} onClick={handleSubmit}>
+                        {t('CALCULATE')}
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                </div>
                 </CardContent>
             </Card>
 

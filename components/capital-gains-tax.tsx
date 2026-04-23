@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, Info, Calendar, DollarSign, ArrowRight } from "lucide-react";
+import { TrendingUp, Info, Calendar, DollarSign, ArrowRight, RotateCcw } from "lucide-react";
 import { RootState } from "@/store/rootStore";
 import { calculateCapitalGainsTax, fetchCalculatorsStart, resetResult } from "../app/[locale]/calculators/capital-gains-tax/store/slice";
 import { formatCurrency } from "@/lib/utils";
@@ -109,6 +109,15 @@ export function CapitalGainsCalculator() {
         }));
     };
 
+    const handleResetForm = () => {
+        setFormInputs({
+            countryCode: selectedCountry.toLocaleLowerCase(),
+            year: taxYear,
+            isSmallBusiness: null,
+        });
+        dispatch(resetResult());
+    };
+
   return (
     <div className="grid lg:grid-cols-2 gap-8">
       {/* Calculator Form */}
@@ -193,15 +202,25 @@ export function CapitalGainsCalculator() {
                     </div>
                 </div>
             ))}
-            <Button
-                className="w-full mt-10"
-                size="lg"
-                disabled={!canSubmit}
-                onClick={handleSubmit}
-            >
-                {t("CALCULATE_TAX")}
-                <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={handleResetForm}
+                >
+                    {t('RESET')}
+                    <RotateCcw className="ml-2 h-4 w-4" />
+                </Button>
+                <Button
+                    className="w-full"
+                    size="lg"
+                    disabled={!canSubmit}
+                    onClick={handleSubmit}
+                >
+                    {t("CALCULATE_TAX")}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+            </div>
         </CardContent>
       </Card>
 

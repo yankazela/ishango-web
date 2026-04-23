@@ -92,7 +92,7 @@ export function Header() {
               </Link>
             )}
             <Link
-              href="#countries"
+              href={`/${locale}/countries`}
               className="text-sm font-medium text-foreground hover:text-accent transition-colors"
             >
               {t("COUNTRIES")}
@@ -170,7 +170,7 @@ export function Header() {
                 {t("PRICING")}
               </Link>
               <Link
-                href="#countries"
+                href={`/${locale}/countries`}
                 className="text-sm font-medium text-foreground"
               >
                 {t("COUNTRIES")}

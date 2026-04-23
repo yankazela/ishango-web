@@ -1,6 +1,15 @@
 import axios, { AxiosResponse } from "axios";
 import { EbaseUrls, RequestParams } from "./types";
 
+const getErrorMessage = (error: any): string => {
+    return (
+        error?.response?.data?.errorMessage ||
+        error?.response?.data?.message ||
+        error?.message ||
+        "An error occurred"
+    );
+};
+
 const getTokens = () => {
     return {
         access: sessionStorage.getItem('access_token') || null,
@@ -37,7 +46,7 @@ export const getRequest = async <T>(
     }).catch((error) => {
         console.log("error", params.path, error.response);
 
-        throw new Error(error.response.data.errorMessage || "An error occurred");
+        throw new Error(getErrorMessage(error));
     });
 };
 
@@ -70,7 +79,7 @@ export const postRequest = async <T>(
     }).catch((error) => {
         console.log("error", params.path, error.response);
 
-        throw new Error(error.response.data.errorMessage || "An error occurred");
+        throw new Error(getErrorMessage(error));
     });
 };
 
@@ -103,6 +112,6 @@ export const putRequest = async <T>(
     }).catch((error) => {
         console.log("error", params.path, error);
 
-        throw new Error(error.response.data.errorMessage || "An error occurred");
+        throw new Error(getErrorMessage(error));
     });
 };

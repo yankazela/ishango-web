@@ -8,6 +8,7 @@ import capitalGainsSaga from '../app/[locale]/calculators/capital-gains-tax/stor
 import inheritanceTaxSaga from '../app/[locale]/calculators/inheritance-tax/store/saga';
 import featureFlagsSaga from '../app/[locale]/store/saga';
 import blogSaga from '@/app/[locale]/blog/store/saga';
+import dashboardSaga from '@/app/[locale]/dashboard/store/saga';
 
 // Root saga
 function* rootSaga() {
@@ -20,7 +21,8 @@ function* rootSaga() {
 		capitalGainsSaga(),
 		inheritanceTaxSaga(),
 		featureFlagsSaga(),
-		blogSaga()
+		blogSaga(),
+		dashboardSaga(),
 		// add other sagas here
     ]);
 }

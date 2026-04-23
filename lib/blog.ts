@@ -1,15 +1,4 @@
-// ─── Blog Types & S3 Fetch Utilities ───────────────────────────────
-
-/**
- * Configuration:
- *   Set NEXT_PUBLIC_BLOG_BUCKET_URL in your .env.local to the public URL
- *   of the S3 bucket (or CloudFront distribution) that hosts MDX files.
- *
- *   Expected S3 structure:
- *     {bucket}/articles/index.json          ← manifest of all articles
- *     {bucket}/articles/{slug}.mdx          ← individual article content
- *     {bucket}/articles/images/…            ← images referenced in articles
- */
+import { EbaseUrls } from "@/services/requests/types";
 
 const BLOG_BUCKET_URL =
   process.env.NEXT_PUBLIC_BLOG_BUCKET_URL ??
@@ -52,32 +41,32 @@ export interface ArticleData {
 // ─── Fetch Helpers ─────────────────────────────────────────────────
 
 /** Fetch the article index manifest from S3. */
-export async function fetchArticleIndex(): Promise<ArticleIndex> {
-//   const res = await fetch(`${BLOG_BUCKET_URL}/articles/index.json`, {
-//     cache: "no-store",
-//   });
-//   if (!res.ok) throw new Error(`Failed to fetch article index: ${res.status}`);
-//   return res.json();
-    return (
-        {
-            "articles": [
-                {
-                "title": "How to Calculate Income Tax in Germany (2026)",
-                "slug": "income-tax-germany-2026",
-                "description": "Step-by-step guide to calculating income tax in Germany...",
-                "country": "GERMANY",
-                "countryCode": "DE",
-                "calculator": "INCOME_TAX_CALCULATOR",
-                "date": "2026-04-01",
-                "author": "Ishango Engine Team",
-                "tags": ["income-tax", "germany", "europe"],
-                "locale": "en",
-                "readingTime": 8
-                }
-            ],
-            "updatedAt": "2026-04-11"
-        }
-    );
+export async function fetchArticleIndex(language: string): Promise<ArticleIndex> {
+  const res = await fetch(`${EbaseUrls.ISHANGO_BE}/blog/index/${language}`, {
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error(`Failed to fetch article index: ${res.status}`);
+  return res.json();
+    // return (
+    //     {
+    //         "articles": [
+    //             {
+    //   "title": "Cross-Country Income Tax Comparison (2026)",
+    //   "slug": "income-tax-fr-ca-ge-za",
+    //   "description": "A comprehensive comparison of income tax systems across multiple countries, highlighting differences in tax brackets, deductions, and rates.",
+    //   "country": "Multiple",
+    //   "countryCode": "MULTI",
+    //   "calculator": "INCOME_TAX_CALCULATOR",
+    //   "date": "2026-04-01",
+    //   "author": "Ishango Engine Team",
+    //   "tags": ["income-tax", "Multiple", "Global"],
+    //   "locale": "en",
+    //   "readingTime": 7
+    // }
+    //         ],
+    //         "updatedAt": "2026-04-11"
+    //     }
+    // );
 }
 
 

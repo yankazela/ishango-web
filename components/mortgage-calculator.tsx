@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslations } from 'next-intl';
-import { Home, TrendingUp, Calendar, Percent, ArrowRight, Check } from "lucide-react";
+import { Home, TrendingUp, Calendar, Percent, ArrowRight, Check, RotateCcw } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -108,6 +108,14 @@ export function MortgageCalculator() {
                 loanDurationYears
             }
         }));
+    };
+
+    const handleResetForm = () => {
+        setFormInputs({
+            countryCode: selectedCountry.toLocaleLowerCase(),
+            year: taxYear,
+        });
+        dispatch(resetResult());
     };
 
     return (
@@ -251,10 +259,20 @@ export function MortgageCalculator() {
                     )
                     ))}
 
-                    <Button className="w-full" size="lg" disabled={!canSubmit} onClick={handleSubmit}>
-                        {t('CALCULATE_MORTGAGE')}
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <Button
+                            variant="outline"
+                            size="lg"
+                            onClick={handleResetForm}
+                        >
+                            {t('RESET')}
+                            <RotateCcw className="ml-2 h-4 w-4" />
+                        </Button>
+                        <Button className="w-full" size="lg" disabled={!canSubmit} onClick={handleSubmit}>
+                            {t('CALCULATE_MORTGAGE')}
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                    </div>
                 </CardContent>
             </Card>
 
