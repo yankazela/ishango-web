@@ -1,0 +1,70 @@
+{
+  "articles": [
+    {
+      "title": "How to Calculate Income Tax in Germany (2026)",
+      "slug": "income-tax-germany-2026",
+      "description": "A complete guide to German income tax brackets, progressive rates, deductions, and how to calculate your final tax step by step.",
+      "country": "Germany",
+      "countryCode": "DE",
+      "calculator": "INCOME_TAX_CALCULATOR",
+      "date": "2026-04-01",
+      "author": "Ishango Engine Team",
+      "tags": ["income-tax", "Germany", "Europe"],
+      "locale": "en",
+      "readingTime": 8
+    },
+    {
+      "title": "How to Calculate Income Tax in South Africa (2026)",
+      "slug": "income-tax-south-africa-2026",
+      "description": "Learn how South African income tax works with brackets, rebates, and step-by-step calculations to estimate your tax liability.",
+      "country": "South Africa",
+      "countryCode": "ZA",
+      "calculator": "INCOME_TAX_CALCULATOR",
+      "date": "2026-04-01",
+      "author": "Ishango Engine Team",
+      "tags": ["income-tax", "South Africa", "Africa"],
+      "locale": "en",
+      "readingTime": 7
+    },
+    {
+      "title": "How to Calculate Income Tax in Canada (2026)",
+      "slug": "income-tax-canada-2026",
+      "description": "A practical guide to calculating income tax in Canada, including federal and provincial brackets, credits, and deductions.",
+      "country": "Canada",
+      "countryCode": "CA",
+      "calculator": "INCOME_TAX_CALCULATOR",
+      "date": "2026-04-01",
+      "author": "Ishango Engine Team",
+      "tags": ["income-tax", "Canada", "North America"],
+      "locale": "en",
+      "readingTime": 8
+    },
+    {
+      "title": "How to Calculate Income Tax in France (2026)",
+      "slug": "income-tax-france-2026",
+      "description": "Understand how to calculate income tax in France using the quotient familial, tax brackets, and household-based taxation rules.",
+      "country": "France",
+      "countryCode": "FR",
+      "calculator": "INCOME_TAX_CALCULATOR",
+      "date": "2026-04-01",
+      "author": "Ishango Engine Team",
+      "tags": ["income-tax", "France", "Europe"],
+      "locale": "en",
+      "readingTime": 8
+    },
+    {
+      "title": "Cross-Country Income Tax Comparison (2026)",
+      "slug": "income-tax-fr-ca-ge-za",
+      "description": "A comprehensive comparison of income tax systems across multiple countries, highlighting differences in tax brackets, deductions, and rates.",
+      "country": "Multiple",
+      "countryCode": "MULTI",
+      "calculator": "INCOME_TAX_CALCULATOR",
+      "date": "2026-04-01",
+      "author": "Ishango Engine Team",
+      "tags": ["income-tax", "Multiple", "Global"],
+      "locale": "en",
+      "readingTime": 7
+    }
+  ],
+  "updatedAt": "2026-04-11"
+}
