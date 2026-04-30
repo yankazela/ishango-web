@@ -4,14 +4,14 @@ import { getCountryFlagIconCode } from "@/lib/countries";
 export function CountriesSection() {
     const t = useTranslations("Home");
     const countries = [
-        { name: t("UNITED_STATES"), code: "US" },
-        { name: t("UNITED_KINGDOM"), code: "UK" },
+        { name: t("UNITED-STATES"), code: "US" },
+        { name: t("UNITED-KINGDOM"), code: "UK" },
         { name: t("CANADA"), code: "CA" },
         { name: t("GERMANY"), code: "DE" },
         { name: t("FRANCE"), code: "FR" },
         { name: t("AUSTRALIA"), code: "AU" },
         { name: t("JAPAN"), code: "JP" },
-        { name: t("SOUTH_AFRICA"), code: "ZA" },
+        { name: t("SOUTH-AFRICA"), code: "ZA" },
         { name: t("INDIA"), code: "IN" },
         { name: t("SWITZERLAND"), code: "CH" },
         { name: t("BRAZIL"), code: "BR" },

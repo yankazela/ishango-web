@@ -9,6 +9,7 @@ import inheritanceTaxSaga from '../app/[locale]/calculators/inheritance-tax/stor
 import featureFlagsSaga from '../app/[locale]/store/saga';
 import blogSaga from '@/app/[locale]/blog/store/saga';
 import dashboardSaga from '@/app/[locale]/dashboard/store/saga';
+import countriesSaga from '@/app/[locale]/countries/store/saga';
 
 // Root saga
 function* rootSaga() {
@@ -23,6 +24,7 @@ function* rootSaga() {
 		featureFlagsSaga(),
 		blogSaga(),
 		dashboardSaga(),
+		countriesSaga(),
 		// add other sagas here
     ]);
 }

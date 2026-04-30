@@ -93,6 +93,7 @@ function GetStartedContent() {
 	const [password, setPassword] = useState("");
 	const [verifySent, setVerifySent] = useState(false);
 	const [verificationCode, setVerificationCode] = useState("");
+	const [submissionError, setSubmissionError] = useState("");
 	const [step, setStep] = useState(1);
 	const { signUp } = useSignUp();
 	const searchParams = useSearchParams();
@@ -111,11 +112,14 @@ function GetStartedContent() {
 		agreedToTerms: false,
 	});
 	const { calculatorTypes, plans } = useSelector((state: RootState) => state.getStarted);
+	const { featureFlags } = useSelector((state: RootState) => state.featureFlags);
 
 	const selectedPlanMaxCalculators = useMemo(() => {
 		const selectedPlan = plans.items.find(plan => plan.id === formData.selectedPlan);
 		return selectedPlan?.maxCalculators || 0;
 	}, [plans.items, formData.selectedPlan]);
+	
+	const pricingEnabled = featureFlags.data?.find(flag => flag.name === "DISPLAY_PRICING")?.isEnabled;
 
 	useEffect(() => {
 		if (session && session.status === "active") {
@@ -181,8 +185,8 @@ function GetStartedContent() {
 				};
 			}
 			
-			// If checking, only allow if under the limit
-			if (prev.selectedCalculators.length < selectedPlanMaxCalculators || formData.selectedPlanCode === 'ENTERPRISE') {
+			// If checking, only allow if under the limit (0 means unlimited)
+			if (!selectedPlanMaxCalculators || prev.selectedCalculators.length < selectedPlanMaxCalculators || formData.selectedPlanCode === 'ENTERPRISE') {
 				return {
 					...prev,
 					selectedCalculators: [...prev.selectedCalculators, calculatorId],
@@ -201,35 +205,72 @@ function GetStartedContent() {
 		return Array.from(values, (v) => charset[v % charset.length]).join("")
 	}
 
+	const getErrorMessage = (error: unknown) => {
+		if (error && typeof error === "object" && "message" in error) {
+			return String((error as { message: unknown }).message);
+		}
+
+		return "Something went wrong. Please try again.";
+	};
+
 	const handleSubmit = async(e: React.FormEvent) => {
 		e.preventDefault();
+		setSubmissionError("");
 		if (step < 3) {
 			setStep(step + 1);
 		} else {
 			// Handle form submission
 			if (!user && !verifySent) {
+				if (!signUp) {
+					const message = "Sign-up is still loading. Please wait a moment and try again.";
+					console.error(message);
+					setSubmissionError(message);
+					return;
+				}
+
 				const generatedPassword = generatePass(12);
 				setPassword(generatedPassword);
 				try {
-					await signUp?.create({
+					const createResult = await signUp.create({
 						firstName: formData.firstName,
 						lastName: formData.lastName,
 						emailAddress: formData.email,
 					});
 
-					await signUp?.password({
+					if (createResult.error) {
+						const message = getErrorMessage(createResult.error);
+						console.error("Error creating sign up:", createResult.error);
+						setSubmissionError(message);
+						return;
+					}
+
+					const passwordResult = await signUp.password({
 						password: generatedPassword,
 						emailAddress: formData.email,
 					});
 
-					await signUp?.verifications.sendEmailCode();
+					if (passwordResult.error) {
+						const message = getErrorMessage(passwordResult.error);
+						console.error("Error setting sign up password:", passwordResult.error);
+						setSubmissionError(message);
+						return;
+					}
+
+					const verificationResult = await signUp.verifications.sendEmailCode();
+
+					if (verificationResult.error) {
+						const message = getErrorMessage(verificationResult.error);
+						console.error("Error sending verification email:", verificationResult.error);
+						setSubmissionError(message);
+						return;
+					}
 
 					setStep(4);
 
 					return;
 				} catch (error) {
 					console.error("Error during sign up:", error);
-					// log error on screen
+					setSubmissionError(getErrorMessage(error));
 					return;
 				}
 
@@ -241,19 +282,39 @@ function GetStartedContent() {
 	};
 
 	const verifyEmail = async (code: string) => {
+		setSubmissionError("");
+
+		if (!signUp) {
+			const message = "Sign-up is still loading. Please wait a moment and try again.";
+			console.error(message);
+			setSubmissionError(message);
+			return;
+		}
+
 		try {
-			const result = await signUp?.verifications.verifyEmailCode({
-				code,
-			})
+			const result = await signUp.verifications.verifyEmailCode({ code });
 	
-			if (!result?.error) {
-				await signUp?.finalize();
+			if (result.error) {
+				const message = getErrorMessage(result.error);
+				console.error("Error verifying email code:", result.error);
+				setSubmissionError(message);
+				return;
+			}
+
+			const finalizeResult = await signUp.finalize();
+
+			if (finalizeResult.error) {
+				const message = getErrorMessage(finalizeResult.error);
+				console.error("Error finalizing sign up:", finalizeResult.error);
+				setSubmissionError(message);
+				return;
+			}
+
 				setVerifySent(true);
 				await submitData();
-			}
 		} catch (error) {
 			console.error("Error during email verification:", error);
-			// log error on screen
+			setSubmissionError(getErrorMessage(error));
 			return;
 		}
 	}
@@ -423,6 +484,11 @@ function GetStartedContent() {
 						) : (
 							<form onSubmit={handleSubmit}>
 								<div id="clerk-captcha" />
+								{submissionError && (
+									<div className="mb-4 rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+										{submissionError}
+									</div>
+								)}
 								{step === 1 && (
 									/* Step 1: Account Details */
 									<div className="space-y-6">
@@ -666,7 +732,13 @@ function GetStartedContent() {
 										</div>
 
 										<div className="space-y-3">
-											{plans.items.map((plan) => {
+											{plans.items.filter((plan) => {
+												if (pricingEnabled) {
+													if (plan.code !== "FREE")
+														return true;
+												}
+												return plan.code === "FREE";
+											}).map((plan) => {
 											const isSelected = formData.selectedPlanCode === plan.code;
 											return (
 												<button

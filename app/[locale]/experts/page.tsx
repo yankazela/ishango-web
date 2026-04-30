@@ -56,14 +56,14 @@ export default function ExpertsPage() {
     ];
 
     const countries = [
-        { code: "us", name: `${t('UNITED_STATES')}` },
-        { code: "gb", name: `${t('UNITED_KINGDOM')}` },
+        { code: "us", name: `${t('UNITED-STATES')}` },
+        { code: "gb", name: `${t('UNITED-KINGDOM')}` },
         { code: "ca", name: `${t('CANADA')}` },
         { code: "au", name: `${t('AUSTRALIA')}` },
         { code: "de", name: `${t('GERMANY')}` },
         { code: "fr", name: `${t('FRANCE')}` },
         { code: "jp", name: `${t('JAPAN')}` },
-        { code: "za", name: `${t('SOUTH_AFRICA')}` },
+        { code: "za", name: `${t('SOUTH-AFRICA')}` },
     ];
 
     // const filteredExperts = useMemo(() => {

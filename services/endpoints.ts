@@ -77,6 +77,11 @@ export const endpoints = {
         auth: false,
         headers: {}
     }),
+    getCountriesArticles: (language: string): EndpointProps => ({
+        endpoint: `/countries/articles/${language}`,
+        auth: false,
+        headers: {}
+    }),
     createExpert: (): EndpointProps => ({
         endpoint: `/experts`,
         auth: false,

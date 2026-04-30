@@ -11,6 +11,7 @@ import inheritanceTaxReducer from '../app/[locale]/calculators/inheritance-tax/s
 import featureFlagsReducer from '../app/[locale]/store/slice';
 import blogReducer from '@/app/[locale]/blog/store/slice';
 import dashboardReducer from '@/app/[locale]/dashboard/store/slice';
+import countriesReducer from '@/app/[locale]/countries/store/slice';
 
 
 const sagaMiddleware = createSagaMiddleware();
@@ -27,6 +28,7 @@ const store = configureStore({
         featureFlags: featureFlagsReducer,
         blog: blogReducer,
         dashboard: dashboardReducer,
+        countries: countriesReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),

@@ -2,8 +2,11 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useTranslations } from "next-intl";
-import { Building2, Percent, ArrowRight, Calendar, Check, RotateCcw } from "lucide-react";
+import { useTranslations, useLocale } from "next-intl";
+import { useSearchParams } from "next/navigation";
+import NextLink from "next/link";
+import Image from "next/image";
+import { Building2, Percent, ArrowRight, Calendar, Check, RotateCcw, Users, BookOpen, Star } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -31,6 +34,8 @@ const formatCurrency = (value: number, symbol?: string) =>
 export function CorporateTaxCalculator() {
     const t = useTranslations("CorporateTaxCalculator");
     const dispatch = useDispatch();
+    const locale = useLocale();
+    const searchParams = useSearchParams();
 
     const [taxYear, setTaxYear] = useState("2025");
     const [selectedCountry, setSelectedCountry] = useState("");
@@ -45,9 +50,14 @@ export function CorporateTaxCalculator() {
   
     useEffect(() => {
         if (form.countryCalculators.length > 0) {
-            setSelectedCountry(form.countryCalculators[0].code);
+            const queryCountry = searchParams.get("country")?.toUpperCase();
+            const match = queryCountry
+                ? form.countryCalculators.find((c) => c.code.toUpperCase() === queryCountry)
+                : null;
+            const initial = match ?? form.countryCalculators[0];
+            setSelectedCountry(initial.code);
             setFormInputs({
-                countryCode: form.countryCalculators[0].code.toLocaleLowerCase(),
+                countryCode: initial.code.toLocaleLowerCase(),
                 year: taxYear,
             });
         }
@@ -126,6 +136,12 @@ export function CorporateTaxCalculator() {
         dispatch(resetResult());
     };
 
+
+    const featuredExperts = [
+        { id: "1", name: "Alice Martin", role: "Tax Advisor", rating: 4.9, image: "/images/experts/placeholder-1.jpg", type: "person" },
+        { id: "2", name: "James Wong", role: "Chartered Accountant", rating: 4.7, image: "/images/experts/placeholder-2.jpg", type: "person" },
+        { id: "3", name: "Sofia Reyes", role: "Financial Consultant", rating: 4.8, image: "/images/experts/placeholder-3.jpg", type: "person" },
+    ];
 
     return (
         <div className="grid lg:grid-cols-2 gap-8">
@@ -289,6 +305,46 @@ export function CorporateTaxCalculator() {
                             <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
                     </div>
+
+                {/* Learn More */}
+                {results.data && <div className="pt-4 border-t border-border space-y-3">
+                    <p className="text-sm font-medium text-muted-foreground">Learn More</p>
+                    <div className="flex flex-col gap-2 sm:flex-row">
+                        <NextLink href={`/${locale}/blog?country=${selectedCountry.toLowerCase()}&calculator=corporate-tax`} className="flex-1">
+                            <Button variant="outline" size="sm" className="w-full">
+                                <BookOpen className="mr-2 h-4 w-4" />
+                                Read Articles
+                            </Button>
+                        </NextLink>
+                    </div>
+                    {featuredExperts.length > 0 && (
+                        <div className="space-y-2">
+                            <p className="text-sm font-medium text-muted-foreground">Ask an Expert</p>
+                            {featuredExperts.map((expert) => (
+                                <div key={expert.id} className="flex items-center gap-3">
+                                    <div className="relative h-9 w-9 rounded-full overflow-hidden shrink-0 bg-muted">
+                                        <Image src={expert.image} alt={expert.name} fill className={`object-cover ${expert.type === "company" ? "object-contain p-1" : ""}`} sizes="36px" />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-medium text-foreground truncate">{expert.name}</p>
+                                        <p className="text-xs text-muted-foreground truncate">{expert.role}</p>
+                                    </div>
+                                    <div className="flex items-center gap-1 text-xs text-muted-foreground shrink-0">
+                                        <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                                        {expert.rating.toFixed(1)}
+                                    </div>
+                                </div>
+                            ))}
+                            <NextLink href={`/${locale}/experts?country=${selectedCountry.toLowerCase()}&calculator=corporate-tax`}>
+                                <Button variant="outline" size="sm" className="w-full">
+                                    <Users className="mr-2 h-4 w-4" />
+                                    View All Experts
+                                    <ArrowRight className="ml-2 h-3 w-3" />
+                                </Button>
+                            </NextLink>
+                        </div>
+                    )}
+                </div>}
                 </CardContent>
             </Card>
             </div>

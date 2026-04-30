@@ -48,6 +48,7 @@ export interface TaxBracket {
 export enum CalculatorType {
     INCOME_TAX = 'INCOME_TAX',
     MORTGAGE = 'MORTGAGE',
-    LOAN = 'LOAN',
+    INHERITANCE_TAX = 'INHERITANCE_TAX',
     CORPORATE_TAX = 'CORPORATE_TAX',
+    CAPITAL_GAINS = 'CAPITAL_GAINS'
 }

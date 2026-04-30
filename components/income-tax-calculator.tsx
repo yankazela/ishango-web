@@ -2,7 +2,10 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import { useSearchParams } from "next/navigation";
+import NextLink from "next/link";
+import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,7 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Landmark, ArrowRight, Calendar, TrendingDown, Check, RotateCcw } from "lucide-react";
+import { Landmark, ArrowRight, Calendar, TrendingDown, Check, RotateCcw, Link, Users, BookOpen, Star } from "lucide-react";
 import { RootState } from "@/store/rootStore";
 import { calculateIncomeTax, fetchCalculatorsStart, resetResult } from "@/app/[locale]/calculators/income-tax/store/slice";
 
@@ -24,9 +27,13 @@ export function IncomeTaxCalculator() {
 
     const dispatch = useDispatch();
     const t = useTranslations('IncomeTaxCalculator');
+    const locale = useLocale();
+    const searchParams = useSearchParams();
 	const { form, result  } = useSelector((state: RootState) => state.incomeTaxCalculator);
     const taxYears = ["2026", "2025", "2024", "2023", "2022"];
     const [taxYear, setTaxYear] = useState("2025");
+    const [selectedCountry, setSelectedCountry] = useState("US");
+    const [formInputs, setFormInputs] = useState<{ [key: string]: any }>({});
 
 	useEffect(() => {
 		dispatch(fetchCalculatorsStart({ year: taxYear }));
@@ -34,20 +41,28 @@ export function IncomeTaxCalculator() {
 
     useEffect(() => {
         if (form.countryCalculators.length > 0) {
-            setSelectedCountry(form.countryCalculators[0].code);
+            const queryCountry = searchParams.get("country")?.toUpperCase();
+            const match = queryCountry
+                ? form.countryCalculators.find((c) => c.code.toUpperCase() === queryCountry)
+                : null;
+            const initial = match ?? form.countryCalculators[0];
+            setSelectedCountry(initial.code);
             setFormInputs({
-                countryCode: form.countryCalculators[0].code.toLocaleLowerCase(),
+                countryCode: initial.code.toLocaleLowerCase(),
                 year: taxYear,
             });
         }
     }, [form.countryCalculators, taxYear]);
 
-    const [selectedCountry, setSelectedCountry] = useState("US");
-    const [formInputs, setFormInputs] = useState<{ [key: string]: any }>({});
-
     const forCountry = useMemo(() => {
         return form.countryCalculators.find((c) => c.code === selectedCountry);
     }, [form.countryCalculators, selectedCountry]);
+
+    const featuredExperts = [
+        { id: "1", name: "Alice Martin", role: "Tax Advisor", rating: 4.9, image: "/images/experts/placeholder-1.jpg", type: "person" },
+        { id: "2", name: "James Wong", role: "Chartered Accountant", rating: 4.7, image: "/images/experts/placeholder-2.jpg", type: "person" },
+        { id: "3", name: "Sofia Reyes", role: "Financial Consultant", rating: 4.8, image: "/images/experts/placeholder-3.jpg", type: "person" },
+    ];
 
     const handleSetTaxYear = (year: string) => {
         setTaxYear(year);
@@ -60,6 +75,15 @@ export function IncomeTaxCalculator() {
             countryCode: countryCode.toLocaleLowerCase(),
             year: taxYear
         });
+        dispatch(resetResult());
+    }
+
+    const handleChangeProvince = (provinceCode: string) => {
+        setFormInputs((prev) => ({
+            countryCode: prev.countryCode,
+            year: taxYear,
+            provinceCode,
+        }));
         dispatch(resetResult());
     }
 
@@ -144,7 +168,7 @@ export function IncomeTaxCalculator() {
                 {forCountry?.withProvincial && (
                     <div className="space-y-2">
                         <Label htmlFor="province">{t('PROVINCE')}</Label>
-                        <Select value={formInputs.provinceCode || ''} onValueChange={(value) => handleInputChange('provinceCode', value)} name="provinceCode">
+                        <Select value={formInputs.provinceCode || ''} onValueChange={(value) => handleChangeProvince(value)} name="provinceCode">
                         <SelectTrigger id="province" className="w-full">
                             <SelectValue placeholder={t('SELECT_PROVINCE')} />
                         </SelectTrigger>
@@ -250,6 +274,52 @@ export function IncomeTaxCalculator() {
                         <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                 </div>
+
+                {/* Learn More */}
+                {result.data && <div className="pt-4 border-t border-border space-y-3">
+                    <p className="text-sm font-medium text-muted-foreground">{t('LEARN_MORE')}</p>
+                    <div className="flex flex-col gap-2 sm:flex-row">
+                        <NextLink href={`/${locale}/blog?country=${selectedCountry.toLowerCase()}&calculator=income-tax`} className="flex-1">
+                            <Button variant="outline" size="sm" className="w-full">
+                                <BookOpen className="mr-2 h-4 w-4" />
+                                {t('READ_ARTICLES')}
+                            </Button>
+                        </NextLink>
+                    </div>
+                    {featuredExperts.length > 0 && (
+                        <div className="space-y-2">
+                            <p className="text-sm font-medium text-muted-foreground">{t('ASK_EXPERTS')}</p>
+                            {featuredExperts.map((expert) => (
+                                <div key={expert.id} className="flex items-center gap-3">
+                                    <div className="relative h-9 w-9 rounded-full overflow-hidden shrink-0 bg-muted">
+                                        <Image
+                                            src={expert.image}
+                                            alt={expert.name}
+                                            fill
+                                            className={`object-cover ${expert.type === "company" ? "object-contain p-1" : ""}`}
+                                            sizes="36px"
+                                        />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-medium text-foreground truncate">{expert.name}</p>
+                                        <p className="text-xs text-muted-foreground truncate">{expert.role}</p>
+                                    </div>
+                                    <div className="flex items-center gap-1 text-xs text-muted-foreground shrink-0">
+                                        <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                                        {expert.rating.toFixed(1)}
+                                    </div>
+                                </div>
+                            ))}
+                            <NextLink href={`/${locale}/experts?country=${selectedCountry.toLowerCase()}&calculator=income-tax`}>
+                                <Button variant="outline" size="sm" className="w-full">
+                                    <Users className="mr-2 h-4 w-4" />
+                                    {t('VIEW_ALL_EXPERTS')}
+                                    <ArrowRight className="ml-2 h-3 w-3" />
+                                </Button>
+                            </NextLink>
+                        </div>
+                    )}
+                </div>}
                 </CardContent>
             </Card>
 
