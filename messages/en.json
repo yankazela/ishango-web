@@ -102,9 +102,9 @@
         "API_DOCS": "API Docs",
         "INHERITANCE_CALCULATOR": "Inheritance Tax Calculator",
         "FOR_EVERY_COUNTRY": "For every country",
-        "BLOG": "Blog"
+        "BLOG": "Resources"
     },
-    "Blog": {
+    "Resources": {
         "AUSTRALIA": "Australia",
         "CANADA": "Canada",
         "SOUTH-AFRICA": "South Africa",
@@ -131,7 +131,7 @@
         "UPDATED": "Updated",
         "TAGS": "Tags",
         "SHARE_ARTICLE": "Share article",
-        "BLOG": "Blog",
+        "BLOG": "Resources",
         "TAX_FINANCE": "Tax & Finance",
         "MAIN_DESCRIPTION": "Country-specific guides on income tax, corporate tax, capital gains, mortgages, and more — written by experts, backed by our calculators.",
         "ALL_COUNTRIES": "All Countries",
@@ -696,7 +696,7 @@
         "API_DOCUMENTATION": "API Documentation",
         "COMPANY": "Company",
         "ABOUT": "About",
-        "BLOG": "Blog",
+        "BLOG": "Resources",
         "CAREERS": "Careers",
         "PRESS": "Press",
         "CONTACT": "Contact",

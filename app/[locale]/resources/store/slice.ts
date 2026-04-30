@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { BlogState } from "./state";
+import { ResourcesState } from "./state";
 
-const initialState: BlogState = {
+const initialState: ResourcesState = {
     articleCards: {
         data: null,
         loading: false,

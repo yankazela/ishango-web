@@ -102,9 +102,9 @@
         "API_DOCS": "Documentation API",
         "INHERITANCE_CALCULATOR": "Calculateur de droits de succession",
         "FOR_EVERY_COUNTRY": "Pour chaque pays",
-        "BLOG": "Blog"
+        "BLOG": "Resources"
     },
-    "Blog": {
+    "Resources": {
         "AUSTRALIA": "Australie",
         "CANADA": "Canada",
         "SOUTH-AFRICA": "Afrique du Sud",
@@ -131,7 +131,7 @@
         "UPDATED": "Mis à jour",
         "TAGS": "Étiquettes",
         "SHARE_ARTICLE": "Partager l'article",
-        "BLOG": "Blog",
+        "BLOG": "Resources",
         "TAX_FINANCE": "Impôts & Finance",
         "MAIN_DESCRIPTION": "Guides spécifiques à chaque pays sur l'impôt sur le revenu, l'impôt sur les sociétés, les plus-values, les hypothèques, et plus encore — rédigés par des experts, soutenus par nos calculateurs.",
         "ALL_COUNTRIES": "Tous les pays",
@@ -694,7 +694,7 @@
         "API_DOCUMENTATION": "Documentation API",
         "COMPANY": "Entreprise",
         "ABOUT": "À propos",
-        "BLOG": "Blog",
+        "BLOG": "Resources",
         "CAREERS": "Carrières",
         "PRESS": "Presse",
         "CONTACT": "Contact",

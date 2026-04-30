@@ -1,5 +1,5 @@
 import localArticleIndex from "@/ishango-blog/indexes/index_en.json";
-import BlogArticlePageClient from "./article-page";
+import ResourcesArticlePageClient from "./article-page";
 
 const SUPPORTED_LOCALES = ["en", "fr", "es", "de", "pt", "ja"] as const;
 
@@ -19,6 +19,6 @@ export async function generateStaticParams({
   }));
 }
 
-export default function BlogArticlePage() {
-  return <BlogArticlePageClient />;
+export default function ResourcesArticlePage() {
+  return <ResourcesArticlePageClient />;
 }

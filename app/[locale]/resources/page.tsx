@@ -26,11 +26,11 @@ import {
 } from "lucide-react";
 import { fetchArticleCardsStart } from "./store/slice";
 
-// ─── Blog Listing Page ────────────────────────────────────────────
+// ─── Resources Listing Page ────────────────────────────────────────────
 
-export default function BlogPage() {
+export default function ResourcesPage() {
   const locale = useLocale();
-  const t = useTranslations('Blog');
+  const t = useTranslations('Resources');
   const dispatch = useDispatch();
   const  { loading, error, data: indexes } = useSelector((state: RootState) => state.blog.articleCards);
   const articles = indexes?.articles || [];
@@ -219,7 +219,7 @@ export default function BlogPage() {
 
 function ArticleCard({ article }: { article: ArticleFrontmatter }) {
   const locale = useLocale();
-  const t = useTranslations('Blog');
+  const t = useTranslations('Resources');
 
   return (
     <Link

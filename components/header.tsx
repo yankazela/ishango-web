@@ -106,7 +106,7 @@ export function Header() {
               </Link>
             )}
             <Link
-                href={`/${locale}/blog`}
+                href={`/${locale}/resources`}
                 className="text-sm font-medium text-foreground hover:text-accent transition-colors"
               >
                 {t("BLOG")}

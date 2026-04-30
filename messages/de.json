@@ -102,9 +102,9 @@
         "API_DOCS": "API-Dokumentation",
         "INHERITANCE_CALCULATOR": "Erbschaftsteuerrechner",
         "FOR_EVERY_COUNTRY": "Für jedes Land",
-        "BLOG": "Blog"
+        "BLOG": "Ressourcen"
     },
-    "Blog": {
+    "Resources": {
         "AUSTRALIA": "Australien",
         "CANADA": "Kanada",
         "SOUTH-AFRICA": "Südafrika",
@@ -131,7 +131,7 @@
         "UPDATED": "Aktualisiert",
         "TAGS": "Stichworte",
         "SHARE_ARTICLE": "Artikel teilen",
-        "BLOG": "Blog",
+        "BLOG": "Ressourcen",
         "TAX_FINANCE": "Steuern & Finanzen",
         "MAIN_DESCRIPTION": "Länderspezifische Leitfäden zu Einkommensteuer, Körperschaftsteuer, Kapitalgewinnen, Hypotheken und mehr — geschrieben von Experten, unterstützt durch unsere Rechner.",
         "ALL_COUNTRIES": "Alle Länder",
@@ -694,7 +694,7 @@
         "API_DOCUMENTATION": "API-Dokumentation",
         "COMPANY": "Unternehmen",
         "ABOUT": "Über uns",
-        "BLOG": "Blog",
+        "BLOG": "Ressourcen",
         "CAREERS": "Karriere",
         "PRESS": "Presse",
         "CONTACT": "Kontakt",

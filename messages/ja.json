@@ -102,9 +102,9 @@
         "API_DOCS": "APIドキュメント",
         "INHERITANCE_CALCULATOR": "相続税計算機",
         "FOR_EVERY_COUNTRY": "すべての国のための",
-        "BLOG": "ブログ"
+        "BLOG": "リソース"
     },
-    "Blog": {
+    "Resources": {
         "AUSTRALIA": "オーストラリア",
         "CANADA": "カナダ",
         "SOUTH-AFRICA": "南アフリカ",
@@ -131,7 +131,7 @@
         "UPDATED": "更新日",
         "TAGS": "タグ",
         "SHARE_ARTICLE": "記事を共有",
-        "BLOG": "ブログ",
+        "BLOG": "リソース",
         "TAX_FINANCE": "税金と金融",
         "MAIN_DESCRIPTION": "国別の所得税、法人税、キャピタルゲイン、住宅ローンなどに関するガイド — 専門家によって執筆され、当社の計算機によって裏付けられています。",
         "ALL_COUNTRIES": "すべての国",
@@ -694,7 +694,7 @@
         "API_DOCUMENTATION": "APIドキュメント",
         "COMPANY": "会社概要",
         "ABOUT": "会社情報",
-        "BLOG": "ブログ",
+        "BLOG": "リソース",
         "CAREERS": "採用情報",
         "PRESS": "プレス",
         "CONTACT": "お問い合わせ",

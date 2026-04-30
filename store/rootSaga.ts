@@ -7,7 +7,7 @@ import expertsSaga from '../app/[locale]/experts/store/saga';
 import capitalGainsSaga from '../app/[locale]/calculators/capital-gains-tax/store/saga';
 import inheritanceTaxSaga from '../app/[locale]/calculators/inheritance-tax/store/saga';
 import featureFlagsSaga from '../app/[locale]/store/saga';
-import blogSaga from '@/app/[locale]/blog/store/saga';
+import blogSaga from '@/app/[locale]/resources/store/saga';
 import dashboardSaga from '@/app/[locale]/dashboard/store/saga';
 import countriesSaga from '@/app/[locale]/countries/store/saga';
 

@@ -85,7 +85,7 @@ export function estimateReadingTime(content: string): number {
   return Math.max(1, Math.ceil(words / 200));
 }
 
-export function getBlogImageUrl(path: string): string {
+export function getResourcesImageUrl(path: string): string {
   if (path.startsWith("http")) return path;
   return `${BLOG_BUCKET_URL}/articles/images/${path}`;
 }

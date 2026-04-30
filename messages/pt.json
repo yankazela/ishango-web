@@ -102,9 +102,9 @@
         "API_DOCS": "Documentação da API",
         "INHERITANCE_CALCULATOR": "Calculadora de Imposto sobre Herança",
         "FOR_EVERY_COUNTRY": "Para cada país",
-        "BLOG": "Blog"
+        "BLOG": "Recursos"
     },
-    "Blog": {
+    "Resources": {
         "AUSTRALIA": "Austrália",
         "CANADA": "Canadá",
         "SOUTH-AFRICA": "África do Sul",
@@ -131,7 +131,7 @@
         "UPDATED": "Atualizado",
         "TAGS": "Tags",
         "SHARE_ARTICLE": "Compartilhar artigo",
-        "BLOG": "Blog",
+        "BLOG": "Recursos",
         "TAX_FINANCE": "Impostos e Finanças",
         "MAIN_DESCRIPTION": "Guias específicos por país sobre imposto de renda, imposto corporativo, ganhos de capital, hipotecas e mais — escritos por especialistas, respaldados por nossas calculadoras.",
         "ALL_COUNTRIES": "Todos os países",
@@ -694,7 +694,7 @@
         "API_DOCUMENTATION": "Documentação da API",
         "COMPANY": "Empresa",
         "ABOUT": "Sobre",
-        "BLOG": "Blog",
+        "BLOG": "Recursos",
         "CAREERS": "Carreiras",
         "PRESS": "Imprensa",
         "CONTACT": "Contato",

@@ -9,7 +9,7 @@ import expertsReducer from '../app/[locale]/experts/store/slice';
 import capitalGainReducer from '../app/[locale]/calculators/capital-gains-tax/store/slice';
 import inheritanceTaxReducer from '../app/[locale]/calculators/inheritance-tax/store/slice';
 import featureFlagsReducer from '../app/[locale]/store/slice';
-import blogReducer from '@/app/[locale]/blog/store/slice';
+import blogReducer from '@/app/[locale]/resources/store/slice';
 import dashboardReducer from '@/app/[locale]/dashboard/store/slice';
 import countriesReducer from '@/app/[locale]/countries/store/slice';
 

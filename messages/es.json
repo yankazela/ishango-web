@@ -102,9 +102,9 @@
         "API_DOCS": "Documentación API",
         "INHERITANCE_CALCULATOR": "Calculadora de Impuesto de Sucesiones",
         "FOR_EVERY_COUNTRY": "Para cada país",
-        "BLOG": "Blog"
+        "BLOG": "Resursos"
     },
-    "Blog": {
+    "Resources": {
         "AUSTRALIA": "Australia",
         "CANADA": "Canadá",
         "SOUTH-AFRICA": "Sudáfrica",
@@ -131,7 +131,7 @@
         "UPDATED": "Actualizado",
         "TAGS": "Etiquetas",
         "SHARE_ARTICLE": "Compartir artículo",
-        "BLOG": "Blog",
+        "BLOG": "Resursos",
         "TAX_FINANCE": "Impuestos y Finanzas",
         "MAIN_DESCRIPTION": "Guías específicas por país sobre impuestos sobre la renta, impuestos corporativos, ganancias de capital, hipotecas y más, escritas por expertos y respaldadas por nuestras calculadoras.",
         "ALL_COUNTRIES": "Todos los Países",
@@ -690,7 +690,7 @@
         "API_DOCUMENTATION": "Documentación API",
         "COMPANY": "Empresa",
         "ABOUT": "Acerca de",
-        "BLOG": "Blog",
+        "BLOG": "Resursos",
         "CAREERS": "Carreras",
         "PRESS": "Prensa",
         "CONTACT": "Contacto",

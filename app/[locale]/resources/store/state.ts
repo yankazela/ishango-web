@@ -24,7 +24,7 @@ export interface ArticleData {
   content: string;           // raw markdown body (frontmatter stripped)
 }
 
-export interface BlogState {
+export interface ResourcesState {
     articleCards: {
         data: {
             articles: ArticleCardDetails[];

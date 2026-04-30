@@ -9,7 +9,7 @@ import { RootState } from "@/store/rootStore";
 import {
   fetchCurrentArticleStart,
   fetchArticleCardsStart,
-} from "@/app/[locale]/blog/store/slice";
+} from "@/app/[locale]/resources/store/slice";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { ArticleRenderer, stripExpertSections } from "@/components/blog/article-renderer";
@@ -19,7 +19,7 @@ import {
   estimateReadingTime,
   CALCULATOR_LABELS,
 } from "@/lib/blog";
-import type { ArticleCardDetails } from "@/app/[locale]/blog/store/state";
+import type { ArticleCardDetails } from "@/app/[locale]/resources/store/state";
 import {
   ArrowLeft,
   Calendar,
@@ -33,10 +33,10 @@ import {
 
 // ─── Article Page (Client) ────────────────────────────────────────
 
-export default function BlogArticlePageClient() {
+export default function ResourcesArticlePageClient() {
   const params = useParams<{ slug: string; locale: string }>();
   const locale = useLocale();
-  const t = useTranslations("Blog");
+  const t = useTranslations("Resources");
   const dispatch = useDispatch();
 
   const featureFlags = useSelector((state: RootState) => state.featureFlags);
