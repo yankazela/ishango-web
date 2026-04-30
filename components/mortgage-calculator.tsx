@@ -34,6 +34,8 @@ export function MortgageCalculator() {
     const locale = useLocale();
     const searchParams = useSearchParams();
     const { form, result  } = useSelector((state: RootState) => state.mortgageCalculator);
+    const featureFlags = useSelector((state: RootState) => state.featureFlags);
+    const pricingEnabled = featureFlags.featureFlags.data?.find(flag => flag.name === "DISPLAY_PRICING")?.isEnabled;
     const [taxYear, setTaxYear] = useState("2025");
     const [loanTerm, setLoanTerm] = useState("20");
     const loanTerms = [10, 15, 20, 25, 30];
@@ -301,7 +303,7 @@ export function MortgageCalculator() {
                             </Button>
                         </NextLink>
                     </div>
-                    {featuredExperts.length > 0 && (
+                    {featuredExperts.length > 0 && pricingEnabled && (
                         <div className="space-y-2">
                             <p className="text-sm font-medium text-muted-foreground">Ask an Expert</p>
                             {featuredExperts.map((expert) => (

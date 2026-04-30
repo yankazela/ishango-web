@@ -72,6 +72,8 @@ export function InheritanceTaxCalculator() {
   const [assetType, setAssetType] = useState("property");
 
   const { form, results  } = useSelector((state: RootState) => state.inheritanceTaxCalculator);
+  const featureFlags = useSelector((state: RootState) => state.featureFlags);
+  const pricingEnabled = featureFlags.featureFlags.data?.find(flag => flag.name === "DISPLAY_PRICING")?.isEnabled;
   const [formInputs, setFormInputs] = useState<{ [key: string]: any }>({});
 
 
@@ -311,7 +313,7 @@ export function InheritanceTaxCalculator() {
 							</Button>
 						</NextLink>
 					</div>
-					{featuredExperts.length > 0 && (
+					{featuredExperts.length > 0 && pricingEnabled && (
 						<div className="space-y-2">
 							<p className="text-sm font-medium text-muted-foreground">Ask an Expert</p>
 							{featuredExperts.map((expert) => (

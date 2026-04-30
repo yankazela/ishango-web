@@ -35,6 +35,8 @@ export function CapitalGainsCalculator() {
     const [formInputs, setFormInputs] = useState<Record<string, any>>({});
     const [assetType, setAssetType] = useState("stocks");
     const { form, results  } = useSelector((state: RootState) => state.capitalGainsTaxCalculator);
+    const featureFlags = useSelector((state: RootState) => state.featureFlags);
+    const pricingEnabled = featureFlags.featureFlags.data?.find(flag => flag.name === "DISPLAY_PRICING")?.isEnabled;
     const taxYears = ["2026", "2025", "2024", "2023", "2022"];
     
     const assetTypes = [
@@ -249,7 +251,7 @@ export function CapitalGainsCalculator() {
                         </Button>
                     </NextLink>
                 </div>
-                {featuredExperts.length > 0 && (
+                {featuredExperts.length > 0 && pricingEnabled && (
                     <div className="space-y-2">
                         <p className="text-sm font-medium text-muted-foreground">Ask an Expert</p>
                         {featuredExperts.map((expert) => (

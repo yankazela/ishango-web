@@ -30,6 +30,8 @@ export function IncomeTaxCalculator() {
     const locale = useLocale();
     const searchParams = useSearchParams();
 	const { form, result  } = useSelector((state: RootState) => state.incomeTaxCalculator);
+    const featureFlags = useSelector((state: RootState) => state.featureFlags);
+    const pricingEnabled = featureFlags.featureFlags.data?.find(flag => flag.name === "DISPLAY_PRICING")?.isEnabled;
     const taxYears = ["2026", "2025", "2024", "2023", "2022"];
     const [taxYear, setTaxYear] = useState("2025");
     const [selectedCountry, setSelectedCountry] = useState("US");
@@ -286,7 +288,7 @@ export function IncomeTaxCalculator() {
                             </Button>
                         </NextLink>
                     </div>
-                    {featuredExperts.length > 0 && (
+                    {featuredExperts.length > 0 && pricingEnabled && (
                         <div className="space-y-2">
                             <p className="text-sm font-medium text-muted-foreground">{t('ASK_EXPERTS')}</p>
                             {featuredExperts.map((expert) => (
