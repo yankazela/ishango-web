@@ -18,7 +18,7 @@ export function Footer() {
     ],
     [t("COMPANY")]: [
       { name: t("ABOUT"), href: "#" },
-      { name: t("BLOG"), href: `/${locale}/blog` },
+      { name: t("BLOG"), href: `/${locale}/resources` },
       { name: t("CAREERS"), href: "#" },
       { name: t("PRESS"), href: "#" },
       { name: t("CONTACT"), href: "#" },

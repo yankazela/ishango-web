@@ -103,7 +103,7 @@ export default function ResourcesArticlePageClient() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Back link */}
           <Link
-            href={`/${locale}/blog`}
+            href={`/${locale}/resources`}
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -122,7 +122,7 @@ export default function ResourcesArticlePageClient() {
                 {t("ARTICLE_NOT_FOUND_DESCRIPTION")}
               </p>
               <Button asChild>
-                <Link href={`/${locale}/blog`}>{t("BROWSE_ALL_ARTICLES")}</Link>
+                <Link href={`/${locale}/resources`}>{t("BROWSE_ALL_ARTICLES")}</Link>
               </Button>
             </div>
           )}

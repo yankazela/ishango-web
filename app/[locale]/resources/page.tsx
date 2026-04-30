@@ -223,7 +223,7 @@ function ArticleCard({ article }: { article: ArticleFrontmatter }) {
 
   return (
     <Link
-      href={`/${locale}/blog/${article.slug}`}
+      href={`/${locale}/resources/${article.slug}`}
       className="group flex flex-col rounded-2xl border border-border bg-card hover:border-teal-300 dark:hover:border-teal-700 transition-all duration-200 hover:shadow-md overflow-hidden"
     >
       {/* Cover image */}

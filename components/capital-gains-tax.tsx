@@ -244,7 +244,7 @@ export function CapitalGainsCalculator() {
             {results.data && <div className="pt-4 border-t border-border space-y-3">
                 <p className="text-sm font-medium text-muted-foreground">Learn More</p>
                 <div className="flex flex-col gap-2 sm:flex-row">
-                    <NextLink href={`/${locale}/blog?country=${selectedCountry.toLowerCase()}&calculator=capital-gains-tax`} className="flex-1">
+                    <NextLink href={`/${locale}/resources?country=${selectedCountry.toLowerCase()}&calculator=capital-gains-tax`} className="flex-1">
                         <Button variant="outline" size="sm" className="w-full">
                             <BookOpen className="mr-2 h-4 w-4" />
                             Read Articles
