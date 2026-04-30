@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { Globe2, Shield, RefreshCw } from "lucide-react";
 import { useTranslations } from 'next-intl';
 
@@ -53,7 +54,9 @@ const IncomeTaxPage = () => {
 						</div>
 
 						{/* Calculator */}
-						<IncomeTaxCalculator />
+						<Suspense fallback={<div className="min-h-[24rem] rounded-3xl border border-border bg-card/60" />}>
+							<IncomeTaxCalculator />
+						</Suspense>
 					</div>
 				</section>
 

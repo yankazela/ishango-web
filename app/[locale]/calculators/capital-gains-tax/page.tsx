@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useTranslations } from "next-intl";
 
 import { Header } from "@/components/header";
@@ -64,7 +65,9 @@ export default function CapitalGainsPage() {
 						</div>
 
 						{/* Calculator */}
-						<CapitalGainsCalculator />
+						<Suspense fallback={<div className="min-h-[24rem] rounded-3xl border border-border bg-card/60" />}>
+							<CapitalGainsCalculator />
+						</Suspense>
 					</div>
 				</section>
 

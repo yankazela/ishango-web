@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { Globe2, Shield, TrendingUp, Building2, Calculator } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -60,7 +61,9 @@ export default function CorporateTaxPage() {
 
             {/* Calculator */}
             <div className="max-w-5xl mx-auto">
-              <CorporateTaxCalculator />
+              <Suspense fallback={<div className="min-h-[24rem] rounded-3xl border border-border bg-card/60" />}>
+                <CorporateTaxCalculator />
+              </Suspense>
             </div>
           </div>
         </section>

@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -51,7 +52,9 @@ export default function InheritanceTaxPage() {
         {/* Calculator Section */}
         <section className="py-12">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <InheritanceTaxCalculator />
+            <Suspense fallback={<div className="min-h-[24rem] rounded-3xl border border-border bg-card/60" />}>
+              <InheritanceTaxCalculator />
+            </Suspense>
           </div>
         </section>
 

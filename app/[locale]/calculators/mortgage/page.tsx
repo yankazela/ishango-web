@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { Globe2, Shield, TrendingUp, Home } from "lucide-react";
 import { useTranslations } from 'next-intl';
   
@@ -56,7 +57,9 @@ export default function MortgagePage() {
             </div>
 
             {/* Calculator */}
-            <MortgageCalculator />
+            <Suspense fallback={<div className="min-h-[24rem] rounded-3xl border border-border bg-card/60" />}>
+              <MortgageCalculator />
+            </Suspense>
           </div>
         </section>
 

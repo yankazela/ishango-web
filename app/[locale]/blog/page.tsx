@@ -34,8 +34,6 @@ export default function BlogPage() {
   const dispatch = useDispatch();
   const  { loading, error, data: indexes } = useSelector((state: RootState) => state.blog.articleCards);
   const articles = indexes?.articles || [];
-
-  console.log("Articles loaded:", articles);
   
 
   // Filters
