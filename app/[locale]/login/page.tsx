@@ -24,6 +24,7 @@ import {
 export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loginError, setLoginError] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -52,12 +53,18 @@ export default function LoginPage() {
             const result = await signIn.password({
                 password,
             })
-
+            
+            console.log("Attempting sign-in for:", result);
             if (!result.error) {
+                sessionStorage.setItem("userEmail", email);
                 router.push(`/${locale}/dashboard`)
+            } else {
+                setLoginError('Incorrect email or password');
+                console.error(result.error);
             }
         } catch (err: any) {
-            console.error(err.errors?.[0]?.message || 'Sign-in failed')
+            setLoginError(err.errors?.[0]?.message || 'Sign-in failed');
+            console.error(err.errors?.[0]?.message || 'Sign-in failed');
         }
     };
 
@@ -177,6 +184,9 @@ export default function LoginPage() {
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-5">
+                            {loginError && (
+                                <div className="text-sm text-red-500">{loginError}</div>
+                            )}
                             <div className="space-y-2">
                                 <Label htmlFor="email">{t('EMAIL_ADDRESS')}</Label>
                                 <Input

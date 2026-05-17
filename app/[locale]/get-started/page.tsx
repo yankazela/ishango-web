@@ -14,6 +14,7 @@ import {
 	Globe,
 	Zap,
 	Shield,
+	AlertCircle,
 } from "lucide-react";
 import Link from "next/link";
 import { useTranslations, useLocale } from 'next-intl';
@@ -38,6 +39,7 @@ import {
 } from "@/app/[locale]/get-started/store/slice";
 import router from "next/router";
 import { SiteLogo } from "@/components/ui/site-logo";
+import { DIAL_CODES, formatPhoneNumber, extractDigits } from "@/lib/dial-codes";
 
 
 const calculatorIcons: Record<string, React.ComponentType<any>> = {
@@ -47,31 +49,6 @@ const calculatorIcons: Record<string, React.ComponentType<any>> = {
 	MORTGAGE: Home,
 	CAPITAL_GAINS: PackageSearch,
 };
-
-	
-
-const dialCodes = [
-    { code: "+1", country: "US/CA" },
-    { code: "+44", country: "UK" },
-    { code: "+49", country: "DE" },
-    { code: "+33", country: "FR" },
-    { code: "+61", country: "AU" },
-    { code: "+81", country: "JP" },
-    { code: "+65", country: "SG" },
-    { code: "+86", country: "CN" },
-    { code: "+91", country: "IN" },
-    { code: "+55", country: "BR" },
-    { code: "+52", country: "MX" },
-    { code: "+34", country: "ES" },
-    { code: "+39", country: "IT" },
-    { code: "+31", country: "NL" },
-    { code: "+46", country: "SE" },
-    { code: "+41", country: "CH" },
-    { code: "+82", country: "KR" },
-    { code: "+971", country: "UAE" },
-    { code: "+966", country: "SA" },
-    { code: "+27", country: "ZA" },
-];
 
 export default function GetStartedPage() {
 	return (
@@ -95,9 +72,11 @@ function GetStartedContent() {
 	const [verificationCode, setVerificationCode] = useState("");
 	const [submissionError, setSubmissionError] = useState("");
 	const [step, setStep] = useState(1);
+	const [step1Errors, setStep1Errors] = useState<Record<string, string>>({});
 	const { signUp } = useSignUp();
 	const searchParams = useSearchParams();
   	const planId = searchParams.get("name");
+	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [formData, setFormData] = useState({
 		firstName: "",
 		lastName: "",
@@ -106,12 +85,13 @@ function GetStartedContent() {
 		companySize: "",
 		phone: "",
     	dialCode: "+1",
+		dialIso: "US",
 		selectedCalculators: [] as string[],
 		selectedPlan: "",
 		selectedPlanCode: "",
 		agreedToTerms: false,
 	});
-	const { calculatorTypes, plans } = useSelector((state: RootState) => state.getStarted);
+	const { calculatorTypes, plans, subscriptionCreation } = useSelector((state: RootState) => state.getStarted);
 	const { featureFlags } = useSelector((state: RootState) => state.featureFlags);
 
 	const selectedPlanMaxCalculators = useMemo(() => {
@@ -122,10 +102,10 @@ function GetStartedContent() {
 	const pricingEnabled = featureFlags.data?.find(flag => flag.name === "DISPLAY_PRICING")?.isEnabled;
 
 	useEffect(() => {
-		if (session && session.status === "active") {
+		if (session && session.status === "active" && subscriptionCreation.created) {
 			router.push(`/${locale}/dashboard`);
 		}
-	}, [session, router, locale]);
+	}, [session, router, locale, subscriptionCreation.created]);
 
 	const benefits = [
 		{
@@ -198,6 +178,27 @@ function GetStartedContent() {
 		});
 	};
 
+	const validateStep1 = (): boolean => {
+		const errors: Record<string, string> = {};
+		if (!formData.firstName.trim()) errors.firstName = "First name is required";
+		if (!formData.lastName.trim()) errors.lastName = "Last name is required";
+		if (!formData.email.trim()) {
+			errors.email = "Email is required";
+		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+			errors.email = "Please enter a valid email address";
+		}
+		const digits = extractDigits(formData.phone);
+		if (!digits) {
+			errors.phone = "Phone number is required";
+		} else if (digits.length < 7) {
+			errors.phone = "Please enter a valid phone number";
+		}
+		if (!formData.company.trim()) errors.company = "Company name is required";
+		if (!formData.companySize) errors.companySize = "Please select a company size";
+		setStep1Errors(errors);
+		return Object.keys(errors).length === 0;
+	};
+
 	const generatePass = (length = 9) => {
 		const charset = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*";
 		const values = crypto.getRandomValues(new Uint32Array(length))
@@ -217,6 +218,7 @@ function GetStartedContent() {
 		e.preventDefault();
 		setSubmissionError("");
 		if (step < 3) {
+			if (step === 1 && !validateStep1()) return;
 			setStep(step + 1);
 		} else {
 			// Handle form submission
@@ -230,6 +232,7 @@ function GetStartedContent() {
 
 				const generatedPassword = generatePass(12);
 				setPassword(generatedPassword);
+				setIsSubmitting(true);
 				try {
 					const createResult = await signUp.create({
 						firstName: formData.firstName,
@@ -265,6 +268,7 @@ function GetStartedContent() {
 						return;
 					}
 
+					setIsSubmitting(false);
 					setStep(4);
 
 					return;
@@ -332,6 +336,7 @@ function GetStartedContent() {
 			password: !verificationCode ? undefined : password,
 		};
 		const subscription = {
+			nextRenewalAt: paymentFrequency === "MONTHLY" ? new Date(Date.now() + 30*24*60*60*1000).toISOString() : new Date(Date.now() + 365*24*60*60*1000).toISOString(), // Placeholder for next renewal date
 			planId: formData.selectedPlan,
 			paymentFrequencyCode: paymentFrequency,
 			currencyRegionCode: currencyRegionCode.toUpperCase(),
@@ -402,17 +407,18 @@ function GetStartedContent() {
 								className={`h-8 w-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
 									step > s
 									? "bg-accent text-accent-foreground"
+									: step === 3 && subscriptionCreation.error ? "bg-destructive text-destructive-foreground"
 									: step === s
 										? "bg-foreground text-background"
 										: "bg-muted text-muted-foreground"
 								}`}
 								>
-								{step > s ? <Check className="h-4 w-4" /> : s}
+								{step <= s ? s : ( s === 3 && subscriptionCreation.error ? <AlertCircle className="h-4 w-4" /> : <Check className="h-4 w-4" />)}
 								</div>
 								{s < 3 && (
 								<div
 									className={`h-0.5 w-8 sm:w-12 ${
-									step > s ? "bg-accent" : "bg-border"
+									step > s ? "bg-accent" : step === 3 && subscriptionCreation.error ? "bg-destructive" : "bg-border"
 									}`}
 								/>
 								)}
@@ -425,27 +431,51 @@ function GetStartedContent() {
 							<>
 								{(user || verifySent) && (
 									<div className="text-center py-8">
-										<div className="h-16 w-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-6">
-											<Check className="h-8 w-8 text-accent" />
-										</div>
-										<h2 className="text-2xl font-semibold text-foreground mb-2">
-											{t('ACCOUNT_CREATED')}
-										</h2>
-										<p className="text-muted-foreground mb-6">
-											{t('CHECK_YOUR_EMAIL_FOR_CONFIRMATION')}
-										</p>
-										<div className="flex flex-col sm:flex-row gap-4 justify-center">
-											<Button asChild>
-												<Link href={`/${locale}/calculators/income-tax`}>
-													{t('TRY_INCOME_TAX_CALCULATOR')}
-												</Link>
-											</Button>
-											<Button variant="outline" asChild className="bg-transparent">
-												<Link href={`/${locale}/calculators/mortgage`}>
-													{t('TRY_MORTGAGE_CALCULATOR')}
-												</Link>
-											</Button>
-										</div>
+										{subscriptionCreation.error ? (
+											<>
+												<div className="h-16 w-16 rounded-full bg-destructive/10 flex items-center justify-center mx-auto mb-6">
+													<AlertCircle className="h-8 w-8 text-destructive" />
+												</div>
+												<h2 className="text-2xl font-semibold text-foreground mb-2">
+													{t('ERROR_CREATE_SUBSCRIPTION')}
+												</h2>
+												<p className="text-muted-foreground mb-6">
+													{t('PLEASE_TRY_AGAIN_LATER')}
+												</p>
+												<Button variant="outline" onClick={() => {
+													signOut({
+														redirectUrl: `/${locale}/get-started`,
+													});
+													setStep(1);
+												}}>
+													{t('TRY_AGAIN')}
+												</Button>
+											</>
+										) : (
+											<>
+												<div className="h-16 w-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-6">
+													<Check className="h-8 w-8 text-accent" />
+												</div>
+												<h2 className="text-2xl font-semibold text-foreground mb-2">
+													{t('ACCOUNT_CREATED')}
+												</h2>
+												<p className="text-muted-foreground mb-6">
+													{t('CHECK_YOUR_EMAIL_FOR_CONFIRMATION')}
+												</p>
+												<div className="flex flex-col sm:flex-row gap-4 justify-center">
+													<Button asChild>
+														<Link href={`/${locale}/calculators/income-tax`}>
+															{t('TRY_INCOME_TAX_CALCULATOR')}
+														</Link>
+													</Button>
+													<Button variant="outline" asChild className="bg-transparent">
+														<Link href={`/${locale}/calculators/mortgage`}>
+															{t('TRY_MORTGAGE_CALCULATOR')}
+														</Link>
+													</Button>
+												</div>
+											</>
+										)}
 									</div>
 								)}
 								{(!user && !verifySent) && (
@@ -483,12 +513,6 @@ function GetStartedContent() {
 							</>
 						) : (
 							<form onSubmit={handleSubmit}>
-								<div id="clerk-captcha" />
-								{submissionError && (
-									<div className="mb-4 rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
-										{submissionError}
-									</div>
-								)}
 								{step === 1 && (
 									/* Step 1: Account Details */
 									<div className="space-y-6">
@@ -573,13 +597,13 @@ function GetStartedContent() {
 												id="firstName"
 												placeholder="John"
 												value={formData.firstName}
-												onChange={(e) =>
-												setFormData({
-													...formData,
-													firstName: e.target.value,
-												})
-												}
+												aria-invalid={!!step1Errors.firstName}
+												onChange={(e) => {
+													setFormData({ ...formData, firstName: e.target.value });
+													if (step1Errors.firstName) setStep1Errors((p) => ({ ...p, firstName: "" }));
+												}}
 											/>
+											{step1Errors.firstName && <p className="text-xs text-destructive">{step1Errors.firstName}</p>}
 											</div>
 											<div className="space-y-2">
 											<Label htmlFor="lastName">{t('LAST_NAME')}</Label>
@@ -587,96 +611,108 @@ function GetStartedContent() {
 												id="lastName"
 												placeholder="Doe"
 												value={formData.lastName}
-												onChange={(e) =>
-												setFormData({
-													...formData,
-													lastName: e.target.value,
-												})
-												}
+												aria-invalid={!!step1Errors.lastName}
+												onChange={(e) => {
+													setFormData({ ...formData, lastName: e.target.value });
+													if (step1Errors.lastName) setStep1Errors((p) => ({ ...p, lastName: "" }));
+												}}
 											/>
+											{step1Errors.lastName && <p className="text-xs text-destructive">{step1Errors.lastName}</p>}
 											</div>
 										</div>
 
 										<div className="space-y-2">
 											<Label htmlFor="email">{t('WORK_EMAIL')}</Label>
 											<Input
-											id="email"
-											type="email"
-											placeholder="john@company.com"
-											value={formData.email}
-											onChange={(e) =>
-												setFormData({ ...formData, email: e.target.value })
-											}
+												id="email"
+												type="email"
+												placeholder="john@company.com"
+												value={formData.email}
+												aria-invalid={!!step1Errors.email}
+												onChange={(e) => {
+													setFormData({ ...formData, email: e.target.value });
+													if (step1Errors.email) setStep1Errors((p) => ({ ...p, email: "" }));
+												}}
 											/>
+											{step1Errors.email && <p className="text-xs text-destructive">{step1Errors.email}</p>}
 										</div>
 
 										<div className="space-y-2">
 											<Label htmlFor="phone">{t('PHONE_NUMBER')}</Label>
 											<div className="flex gap-2">
-											<Select
-												value={formData.dialCode}
-												onValueChange={(value) =>
-												setFormData({ ...formData, dialCode: value })
-												}
-											>
-												<SelectTrigger className="w-28 shrink-0">
-												<SelectValue placeholder="+1" />
-												</SelectTrigger>
-												<SelectContent>
-												{dialCodes.map((dial) => (
-													<SelectItem key={dial.code} value={dial.code}>
-													{dial.code} {dial.country}
-													</SelectItem>
-												))}
-												</SelectContent>
-											</Select>
-											<Input
-												id="phone"
-												type="tel"
-												placeholder="(555) 123-4567"
-												value={formData.phone}
-												onChange={(e) =>
-												setFormData({ ...formData, phone: e.target.value })
-												}
-												className="flex-1"
-											/>
+												<Select
+													value={formData.dialIso}
+													onValueChange={(iso) => {
+														const dial = DIAL_CODES.find(d => d.iso === iso);
+														if (!dial) return;
+														const digits = extractDigits(formData.phone);
+														setFormData({ ...formData, dialCode: dial.code, dialIso: iso, phone: formatPhoneNumber(digits, dial.code) });
+													}}
+												>
+													<SelectTrigger className="w-32 shrink-0">
+														<SelectValue placeholder="+1" />
+													</SelectTrigger>
+													<SelectContent className="max-h-64">
+														{DIAL_CODES.map((dial) => (
+															<SelectItem key={dial.iso} value={dial.iso}>
+																<span className={`fi fi-${dial.iso.toLowerCase()} mr-1`} /> {dial.code} — {dial.name}
+															</SelectItem>
+														))}
+													</SelectContent>
+												</Select>
+												<Input
+													id="phone"
+													type="tel"
+													placeholder={formData.dialCode === "+1" ? "(555) 123-4567" : "123 456 7890"}
+													value={formData.phone}
+													aria-invalid={!!step1Errors.phone}
+													onChange={(e) => {
+														const digits = extractDigits(e.target.value);
+														setFormData({ ...formData, phone: formatPhoneNumber(digits, formData.dialCode) });
+														if (step1Errors.phone) setStep1Errors((p) => ({ ...p, phone: "" }));
+													}}
+													className="flex-1"
+												/>
 											</div>
+											{step1Errors.phone && <p className="text-xs text-destructive">{step1Errors.phone}</p>}
 										</div>
+
 										<div className="space-y-2">
 											<Label htmlFor="company">{t('COMPANY_NAME')}</Label>
 											<Input
-											id="company"
-											placeholder="Acme Inc."
-											value={formData.company}
-											onChange={(e) =>
-												setFormData({ ...formData, company: e.target.value })
-											}
+												id="company"
+												placeholder="Acme Inc."
+												value={formData.company}
+												aria-invalid={!!step1Errors.company}
+												onChange={(e) => {
+													setFormData({ ...formData, company: e.target.value });
+													if (step1Errors.company) setStep1Errors((p) => ({ ...p, company: "" }));
+												}}
 											/>
+											{step1Errors.company && <p className="text-xs text-destructive">{step1Errors.company}</p>}
 										</div>
 
 										<div className="space-y-2">
 											<Label htmlFor="companySize">{t('COMPANY_SIZE')}</Label>
 											<Select
-											value={formData.companySize}
-											onValueChange={(value) =>
-												setFormData({ ...formData, companySize: value })
-											}
+												value={formData.companySize}
+												onValueChange={(value) => {
+													setFormData({ ...formData, companySize: value });
+													if (step1Errors.companySize) setStep1Errors((p) => ({ ...p, companySize: "" }));
+												}}
 											>
-											<SelectTrigger id="companySize">
-												<SelectValue placeholder={t('SELECT_COMPANY_SIZE')} />
-											</SelectTrigger>
-											<SelectContent>
-												<SelectItem value="1-10">1-10 {t('EMPLOYEES')}</SelectItem>
-												<SelectItem value="11-50">11-50 {t('EMPLOYEES')}</SelectItem>
-												<SelectItem value="51-200">
-												51-200 {t('EMPLOYEES')}
-												</SelectItem>
-												<SelectItem value="201-1000">
-												201-1000 {t('EMPLOYEES')}
-												</SelectItem>
-												<SelectItem value="1000+">1000+ {t('EMPLOYEES')}</SelectItem>
-											</SelectContent>
+												<SelectTrigger id="companySize" aria-invalid={!!step1Errors.companySize}>
+													<SelectValue placeholder={t('SELECT_COMPANY_SIZE')} />
+												</SelectTrigger>
+												<SelectContent>
+													<SelectItem value="1-10">1-10 {t('EMPLOYEES')}</SelectItem>
+													<SelectItem value="11-50">11-50 {t('EMPLOYEES')}</SelectItem>
+													<SelectItem value="51-200">51-200 {t('EMPLOYEES')}</SelectItem>
+													<SelectItem value="201-1000">201-1000 {t('EMPLOYEES')}</SelectItem>
+													<SelectItem value="1000+">1000+ {t('EMPLOYEES')}</SelectItem>
+												</SelectContent>
 											</Select>
+											{step1Errors.companySize && <p className="text-xs text-destructive">{step1Errors.companySize}</p>}
 										</div>
 									</div>
 								)}
@@ -909,6 +945,12 @@ function GetStartedContent() {
 									</div>
 								)}
 
+								{submissionError && (
+									<div className="mb-4 mt-2 rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+										{submissionError}
+									</div>
+								)}
+
 								<div className="flex items-center gap-4 mt-8">
 									{step > 1 && (
 										<Button
@@ -923,12 +965,20 @@ function GetStartedContent() {
 									<Button
 										type="submit"
 										className="flex-1 gap-2"
-										disabled={!canProceed()}
+										disabled={!canProceed() || isSubmitting}
 									>
-										{step === 3 && user ? t("START_FREE_TRIAL") : t("CONTINUE")}
-										<ArrowRight className="h-4 w-4" />
+										{isSubmitting ? (
+											<div className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+										) : (
+											<>
+												{step === 3 && user ? t("START_FREE_TRIAL") : t("CONTINUE")}
+												<ArrowRight className="h-4 w-4" />
+											</>
+										)}
 									</Button>
 								</div>
+								{/* <div id="clerk-captcha" /> */}
+								
 							</form>
 						)}
 					</div>

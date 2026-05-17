@@ -1,5 +1,6 @@
 "use client"
 import { useEffect } from "react";
+import { useTranslations, useLocale } from 'next-intl';
 import Link from "next/link";
 import {
 	KeyRound,
@@ -16,7 +17,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { RootState } from "@/store/rootStore";
-import { useSession } from '@clerk/react';
+import { useSession, useUser } from '@clerk/react';
 import {
 	Card,
 	CardContent,
@@ -25,61 +26,69 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchUserDetails } from "./store/slice";
+import { fetchCalculators, fetchUserDetails } from "./store/slice";
 
-const dashboardTiles = [
+const dashboardTiles = (local: string, t: any) => [
 	{
-		title: "API Keys",
-		description:
-			"Create, rotate, and revoke production or sandbox keys for your calculator API integrations.",
+		title: t("API_KEYS"),
+		description: t("API_KEYS_DESCRIPTION"),
 		icon: KeyRound,
-		badge: "Core",
-		action: "Manage keys",
-		href: "/dashboard/settings",
-		details: ["Live key", "Sandbox key", "Last rotated 12 days ago"],
+		badge: t("CORE"),
+		action: t("MANAGE_KEYS"),
+		href: `/${local}/dashboard/api-keys`,
+		details: [t("LIVE_KEY"), t("SANDBOX_KEY"), t("LAST_ROTATED")],
 	},
 	{
-		title: "Usage & Limits",
-		description:
-			"Track monthly API calls, error rates, and remaining request capacity across environments.",
+		title: t("USAGE_LIMITS"),
+		description: t("USAGE_LIMITS_DESCRIPTION"),
 		icon: BarChart3,
-		badge: "Recommended",
-		action: "View analytics",
-		href: "/dashboard/history",
-		details: ["18,420 requests this month", "99.94% success rate", "81,580 requests remaining"],
+		badge: t("RECOMMENDED"),
+		action: t("VIEW_ANALYTICS"),
+		href: `/${local}/dashboard/history`,
+		details: [t("REQUESTS_THIS_MONTH"), t("SUCCESS_RATE"), t("REQUESTS_REMAINING")],
 	},
 	{
-		title: "Recent Activity",
-		description:
-			"Review calculator requests, generated comparisons, and recent configuration updates from your workspace.",
+		title: t("RECENT_ACTIVITY"),
+		description: t("RECENT_ACTIVITY_DESCRIPTION"),
 		icon: History,
-		badge: "Operations",
-		action: "Open activity",
-		href: "/dashboard/history",
-		details: ["Last request 4 minutes ago", "7 saved calculations", "2 shared exports this week"],
+		badge: t("OPERATIONS"),
+		action: t("OPEN_ACTIVITY"),
+		href: `/${local}/dashboard/history`,
+		details: [t("LAST_REQUEST"), t("SAVED_CALCULATIONS"), t("SHARED_EXPORTS")],
 	},
 	{
-		title: "Support & Docs",
-		description:
-			"Quick access to integration guides, API examples, and expert help when you need implementation support.",
+		title: t("SUPPORT_DOCS"),
+		description: t("SUPPORT_DOCS_DESCRIPTION"),
 		icon: LifeBuoy,
-		badge: "Help",
-		action: "Read docs",
-		href: "/docs",
-		details: ["API reference", "Sample requests", "Priority support"],
+		badge: t("HELP"),
+		action: t("READ_DOCS"),
+		href: `/${local}/docs`,
+		details: [t("API_REFERENCE"), t("SAMPLE_REQUESTS"), t("PRIORITY_SUPPORT")],
 	},
 ];
 
 export default function DashboardPage() {
-  const dispatch = useDispatch();
+	const t = useTranslations("DashboardPage");
+ 	const dispatch = useDispatch();
 	const { userDetails } = useSelector((state: RootState) => state.dashboard);
 	const { session } = useSession();
+	const { user } = useUser();
+	const locale = useLocale();
 
 	useEffect(() => {
-		if (session?.user.emailAddresses?.[0]?.emailAddress) {
+		dispatch(fetchCalculators());
+		const storedEmail = sessionStorage.getItem("userEmail");
+		if (storedEmail) {
+			dispatch(fetchUserDetails({ email: storedEmail }));
+		} else if (session?.user.emailAddresses?.[0]?.emailAddress) {
 			dispatch(fetchUserDetails({ email: session.user.emailAddresses[0].emailAddress }));
+		} else if (user?.emailAddresses?.[0]?.emailAddress) {
+			dispatch(fetchUserDetails({ email: user.emailAddresses[0].emailAddress }));
+		} else {
+			console.warn("No email address found for the user.");
 		}
-	}, [dispatch, session?.user?.emailAddresses]);
+		
+	}, [dispatch, session?.user?.emailAddresses, user?.emailAddresses]);
 
 	return (
 		<div className="min-h-screen bg-background">
@@ -88,24 +97,22 @@ export default function DashboardPage() {
 					<div>
 						<Badge variant="secondary" className="mb-3 gap-2 px-3 py-1">
 							<ShieldCheck className="h-3.5 w-3.5" />
-							Developer dashboard
+							{t("DEVELOPER_DASHBOARD")}
 						</Badge>
 						<h1 className="text-3xl font-semibold tracking-tight text-foreground">
-							Manage your Ishango Engine workspace
+							{t("MANAGE_WORKSPACE")}
 						</h1>
 						<p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base">
-							Use the sidebar to navigate your workspace and the tiles below to
-							manage API access, monitor usage, review recent activity, and get
-							implementation support.
+							{t("WORKSPACE_DESC")}
 						</p>
 					</div>
 
 					<div className="flex flex-wrap gap-3">
 						<Button asChild variant="outline">
-							<Link href="/docs">Open documentation</Link>
+							<Link href={`/${locale}/docs`}>{t("OPEN_DOCUMENTATION")}</Link>
 						</Button>
 						<Button asChild>
-							<Link href="/dashboard/settings">Create API key</Link>
+							<Link href={`/${locale}/dashboard/api-keys`}>{t("CREATE_API_KEY")}</Link>
 						</Button>
 					</div>
 				</div>
@@ -118,9 +125,9 @@ export default function DashboardPage() {
 							</div>
 							<div>
 								<p className="text-xs uppercase tracking-wide text-muted-foreground">
-									Requests this month
+									{t("REQUESTS_THIS_MONTH")}
 								</p>
-								<p className="text-2xl font-semibold">18,420</p>
+								<p className="text-2xl font-semibold">{userDetails?.data?.apiKeys[0]?.remainingThisMonth || 0}</p>
 							</div>
 						</CardContent>
 					</Card>
@@ -131,7 +138,7 @@ export default function DashboardPage() {
 							</div>
 							<div>
 								<p className="text-xs uppercase tracking-wide text-muted-foreground">
-									Active keys
+									{t("ACTIVE_KEYS")}
 								</p>
 								<p className="text-2xl font-semibold">{userDetails?.data?.apiKeys.filter((key) => key.isActive).length || 0}</p>
 							</div>
@@ -144,7 +151,7 @@ export default function DashboardPage() {
 							</div>
 							<div>
 								<p className="text-xs uppercase tracking-wide text-muted-foreground">
-									Last sync
+									{t("LAST_SYNC")}
 								</p>
 								<p className="text-2xl font-semibold">4 min ago</p>
 							</div>
@@ -153,7 +160,7 @@ export default function DashboardPage() {
 				</div>
 
 				<div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-					{dashboardTiles.map((tile) => (
+					{dashboardTiles(locale, t).map((tile) => (
 						<Card key={tile.title} className="border-border/70 bg-card/80 backdrop-blur">
 							<CardHeader className="space-y-4">
 								<div className="flex items-start justify-between gap-3">
@@ -192,10 +199,9 @@ export default function DashboardPage() {
 
 				<Card className="mt-8 border-border/70 bg-card/80">
 					<CardHeader>
-						<CardTitle>Quick API key preview</CardTitle>
+						<CardTitle>{t("QUICK_API_PREVIEW")}</CardTitle>
 						<CardDescription>
-							Keep this value private. Rotate it immediately if it has been
-							exposed.
+							{t("KEEP_THIS_VALUE_PRIVATE")}
 						</CardDescription>
 					</CardHeader>
 					<CardContent className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -205,10 +211,10 @@ export default function DashboardPage() {
 						<div className="flex gap-3">
 							<Button variant="outline">
 								<Copy className="mr-2 h-4 w-4" />
-								Copy key
+								{t("COPY_KEY")}
 							</Button>
 							<Button asChild>
-								<Link href="/dashboard/settings">Rotate key</Link>
+								<Link href="/dashboard/settings">{t("ROTATE_KEY")}</Link>
 							</Button>
 						</div>
 					</CardContent>
@@ -217,3 +223,5 @@ export default function DashboardPage() {
 		</div>
 	);
 }
+
+

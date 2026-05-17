@@ -2,7 +2,7 @@
   "articles": [
     {
       "title": "How to Calculate Income Tax in Germany (2026)",
-      "slug": "income-tax-germany-2026",
+      "slug": "income-tax-germany-2026-en",
       "description": "A complete guide to German income tax brackets, progressive rates, deductions, and how to calculate your final tax step by step.",
       "country": "Germany",
       "countryCode": "DE",
@@ -15,7 +15,7 @@
     },
     {
       "title": "How to Calculate Income Tax in South Africa (2026)",
-      "slug": "income-tax-south-africa-2026",
+      "slug": "income-tax-south-africa-2026-en",
       "description": "Learn how South African income tax works with brackets, rebates, and step-by-step calculations to estimate your tax liability.",
       "country": "South Africa",
       "countryCode": "ZA",
@@ -28,7 +28,7 @@
     },
     {
       "title": "How to Calculate Income Tax in Canada (2026)",
-      "slug": "income-tax-canada-2026",
+      "slug": "income-tax-canada-2026-en",
       "description": "A practical guide to calculating income tax in Canada, including federal and provincial brackets, credits, and deductions.",
       "country": "Canada",
       "countryCode": "CA",
@@ -41,7 +41,7 @@
     },
     {
       "title": "How to Calculate Income Tax in France (2026)",
-      "slug": "income-tax-france-2026",
+      "slug": "income-tax-france-2026-en",
       "description": "Understand how to calculate income tax in France using the quotient familial, tax brackets, and household-based taxation rules.",
       "country": "France",
       "countryCode": "FR",
@@ -54,7 +54,7 @@
     },
     {
       "title": "Cross-Country Income Tax Comparison (2026)",
-      "slug": "income-tax-fr-ca-ge-za",
+      "slug": "income-tax-fr-ca-ge-za-en",
       "description": "A comprehensive comparison of income tax systems across multiple countries, highlighting differences in tax brackets, deductions, and rates.",
       "country": "Multiple",
       "countryCode": "MULTI",
@@ -64,7 +64,111 @@
       "tags": ["income-tax", "Multiple", "Global"],
       "locale": "en",
       "readingTime": 7
+    },
+    {
+      "title": "Countries with the Lowest Income Tax in Europe (2026)",
+      "slug": "lowest-income-tax-europe-2026-en",
+      "description": "A ranked guide to the European countries with the lowest income tax rates in 2026, including flat-tax regimes, exemptions, and what it means for residents.",
+      "country": "Europe",
+      "countryCode": "EU",
+      "calculator": "INCOME_TAX_CALCULATOR",
+      "date": "2026-05-01",
+      "author": "Ishango Engine Team",
+      "tags": ["income-tax", "Europe", "Comparison", "Low Tax"],
+      "locale": "en",
+      "readingTime": 9
+    },
+    {
+      "title": "Best Countries for Entrepreneurs: Corporate Tax Rates Ranked (2026)",
+      "slug": "corporate-tax-rates-entrepreneurs-2026-en",
+      "description": "A ranked comparison of the best countries for entrepreneurs based on corporate tax rates, ease of doing business, and tax incentives in 2026.",
+      "country": "World",
+      "countryCode": "MULTI",
+      "calculator": "CORPORATE_TAX_CALCULATOR",
+      "date": "2026-05-01",
+      "author": "Ishango Engine Team",
+      "tags": ["corporate-tax", "entrepreneurs", "Global", "Business"],
+      "locale": "en",
+      "readingTime": 10
+    },
+    {
+      "title": "Where to Retire for Tax Efficiency: Top 10 Countries Compared (2026)",
+      "slug": "retire-tax-efficiency-top-10-2026-en",
+      "description": "A guide to the top 10 most tax-efficient countries for retirement in 2026, comparing pension taxation, foreign income rules, and quality of life.",
+      "country": "World",
+      "countryCode": "MULTI",
+      "calculator": "INCOME_TAX_CALCULATOR",
+      "date": "2026-05-01",
+      "author": "Ishango Engine Team",
+      "tags": ["retirement", "income-tax", "expat", "Global"],
+      "locale": "en",
+      "readingTime": 11
+    },
+    {
+      "title": "Tax Implications of Moving from the US to Germany",
+      "slug": "tax-us-to-germany-en",
+      "description": "A practical guide to the tax implications for Americans relocating to Germany, covering US worldwide taxation, German residency rules, the US-Germany tax treaty, and FBAR/FATCA obligations.",
+      "country": "Germany",
+      "countryCode": "DE",
+      "calculator": "INCOME_TAX_CALCULATOR",
+      "date": "2026-05-01",
+      "author": "Ishango Engine Team",
+      "tags": ["expat", "US", "Germany", "income-tax", "double-taxation"],
+      "locale": "en",
+      "readingTime": 12
+    },
+    {
+      "title": "Do I Pay Tax in Two Countries? Digital Nomad Tax Guide (2026)",
+      "slug": "digital-nomad-tax-guide-2026-en",
+      "description": "A complete tax guide for digital nomads in 2026. Understand tax residency rules, the 183-day rule, where you owe taxes, and how to avoid paying twice.",
+      "country": "World",
+      "countryCode": "MULTI",
+      "calculator": "INCOME_TAX_CALCULATOR",
+      "date": "2026-05-01",
+      "author": "Ishango Engine Team",
+      "tags": ["digital-nomad", "double-taxation", "tax-residency", "Global"],
+      "locale": "en",
+      "readingTime": 10
+    },
+    {
+      "title": "How to Avoid Double Taxation as a Remote Worker Abroad",
+      "slug": "avoid-double-taxation-remote-worker-en",
+      "description": "A practical guide for remote workers abroad on how to avoid double taxation using tax treaties, foreign tax credits, income exclusions, and proper residency planning.",
+      "country": "World",
+      "countryCode": "MULTI",
+      "calculator": "INCOME_TAX_CALCULATOR",
+      "date": "2026-05-01",
+      "author": "Ishango Engine Team",
+      "tags": ["double-taxation", "remote-work", "expat", "tax-treaties"],
+      "locale": "en",
+      "readingTime": 9
+    },
+    {
+      "title": "UK vs Portugal NHR Regime: Which Is Better for Expats? (2026)",
+      "slug": "uk-vs-portugal-nhr-expats-en",
+      "description": "A detailed comparison of the UK tax system versus Portugal's IFICI/NHR regime for expats in 2026, covering income tax, pension taxation, foreign income, and cost of living.",
+      "country": "Portugal",
+      "countryCode": "PT",
+      "calculator": "INCOME_TAX_CALCULATOR",
+      "date": "2026-05-01",
+      "author": "Ishango Engine Team",
+      "tags": ["UK", "Portugal", "NHR", "IFICI", "expat"],
+      "locale": "en",
+      "readingTime": 11
+    },
+    {
+      "title": "Capital Gains Tax When Selling Property in a Foreign Country (2026)",
+      "slug": "capital-gains-tax-foreign-property-en",
+      "description": "A comprehensive guide to capital gains tax when selling property abroad. Covers which country taxes the gain, double tax treaty rules, examples, and tips for minimising your bill.",
+      "country": "World",
+      "countryCode": "MULTI",
+      "calculator": "CAPITAL_GAINS_TAX_CALCULATOR",
+      "date": "2026-05-01",
+      "author": "Ishango Engine Team",
+      "tags": ["capital-gains", "property", "expat", "double-taxation"],
+      "locale": "en",
+      "readingTime": 10
     }
   ],
-  "updatedAt": "2026-04-11"
+  "updatedAt": "2026-05-15"
 }

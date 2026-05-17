@@ -107,4 +107,23 @@ export const endpoints = {
         auth: false,
         headers: {}
     }),
+    createApiKey: (subscriptionId: string): EndpointProps => ({
+        endpoint: `/subscriptions/${subscriptionId}/api-keys`,
+        auth: false,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }),
+    revokeApiKey: (subscriptionId: string, apiKeyId: string): EndpointProps => ({
+        endpoint: `/subscriptions/${subscriptionId}/api-keys/${apiKeyId}/deactivate`,
+        auth: false,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }),
+    getCalculators: (): EndpointProps => ({
+        endpoint: `/calculators`,
+        auth: false,
+        headers: {}
+    }),
 };

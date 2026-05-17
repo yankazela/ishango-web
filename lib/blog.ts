@@ -42,10 +42,12 @@ export interface ArticleData {
 
 /** Fetch the article index manifest from S3. */
 export async function fetchArticleIndex(language: string): Promise<ArticleIndex> {
-  const res = await fetch(`${EbaseUrls.ISHANGO_BE}/resources/index/${language}`, {
+  console.debug(`Fetching article index for language ${language} from ${EbaseUrls.ISHANGO_BE}/blog/index/${language}...`);
+  const res = await fetch(`${EbaseUrls.ISHANGO_BE}/blog/index/${language}`, {
     cache: "no-store",
   });
-  if (!res.ok) throw new Error(`Failed to fetch article index: ${res.status}`);
+  console.debug(`Received response for article index: ${res.status} ${res.statusText}`);
+  if (!res.ok) throw new Error(`Failed to fetch article index ${language}: ${res.status}`);
   return res.json();
     // return (
     //     {

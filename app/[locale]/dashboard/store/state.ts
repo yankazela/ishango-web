@@ -1,3 +1,9 @@
+
+export interface Calculator {
+	id: string;
+	code: string;
+	description: string;
+}
 export interface ApiKeyItem {
 	id: string;
 	name: string;
@@ -5,6 +11,8 @@ export interface ApiKeyItem {
 	isActive: boolean;
 	createdAt: string;
 	disabledAt: string | null;
+	remainingThisMonth: number;
+	usedThisMonth: number;
 }
 export interface UserDetails {
 	client: {
@@ -58,6 +66,20 @@ export interface UserDetails {
 export interface DashboardState {
     userDetails: {
 		data: UserDetails | null;
+		loading: boolean;
+		error: string | null;
+	};
+	createApiKey: {
+		loading: boolean;
+		error: string | null;
+		newKey: string | null;
+	};
+	revokeApiKey: {
+		loading: boolean;
+		error: string | null;
+	};
+	calculators: {
+		data: Calculator[] | null;
 		loading: boolean;
 		error: string | null;
 	};

@@ -1,15 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 import { Calculator, Users, ArrowRight } from "lucide-react";
 import { CalculatorType, CALCULATOR_LABELS } from "@/lib/blog";
 import { RootState } from "@/store/rootStore";
 
-// ─── Calculator Embed Block ─────────────────────────────────────
-// Usage in MDX:  ```calculator:income-tax:DE```
+const CalloutType: Record<string, string> = {
+  "CAPITAL-GAINS": "CAPITAL_GAINS_TAX_CALCULATOR",
+  "INCOME-TAX": "INCOME_TAX_CALCULATOR",
+  "CORPORATE-TAX": "CORPORATE_TAX_CALCULATOR",
+  "MORTGAGE": "MORTGAGE_CALCULATOR",
+  "IMPORT-TAX": "IMPORT_TAX_DUTIES_CALCULATOR",
+}
 
 interface CalculatorEmbedProps {
   type: CalculatorType;
@@ -18,6 +23,7 @@ interface CalculatorEmbedProps {
 
 export function CalculatorEmbed({ type, countryCode }: CalculatorEmbedProps) {
   const locale = useLocale();
+  const t = useTranslations("Resources");
   const href = `/${locale}/calculators/${type}?country=${countryCode}`;
 
   return (
@@ -28,16 +34,16 @@ export function CalculatorEmbed({ type, countryCode }: CalculatorEmbedProps) {
         </div>
         <div>
           <p className="font-semibold text-foreground">
-            Try the {CALCULATOR_LABELS[type]} Calculator
+            {t("TRY_THE")} {t(CalloutType[type.toUpperCase()])}
           </p>
           <p className="text-sm text-muted-foreground">
-            Run your own calculation instantly
+            {t("RUN_OWN_CALCULATOR")}
           </p>
         </div>
       </div>
       <Button asChild className="gap-2">
         <Link href={href}>
-          Open Calculator <ArrowRight className="h-4 w-4" />
+          {t("OPEN_CALCULATOR")} <ArrowRight className="h-4 w-4" />
         </Link>
       </Button>
     </div>
@@ -54,6 +60,7 @@ interface ExpertCTAProps {
 
 export function ExpertCTA({ countryCode, country }: ExpertCTAProps) {
   const locale = useLocale();
+  const t = useTranslations("Resources");
   const featureFlags = useSelector((state: RootState) => state.featureFlags);
   const expertEnabled = featureFlags.featureFlags.data?.find(
     (flag) => flag.name === "DISPLAY_EXPERT"
@@ -72,17 +79,16 @@ export function ExpertCTA({ countryCode, country }: ExpertCTAProps) {
         </div>
         <div>
           <p className="font-semibold text-foreground">
-            Need expert help in {country}?
+            {t("NEED_HELP_IN")} {t(country.toUpperCase())}?
           </p>
           <p className="text-sm text-muted-foreground">
-            Connect with a verified financial expert who specialises in{" "}
-            {country}
+            {t("CONNECT_WITH_VERIFIED")}{" "} {t(country.toUpperCase())}
           </p>
         </div>
       </div>
       <Button asChild variant="outline" className="gap-2">
         <Link href={href}>
-          Browse {country} Experts <ArrowRight className="h-4 w-4" />
+          {t("BROWSE")} {t(country.toUpperCase())} {t("EXPERTS")} <ArrowRight className="h-4 w-4" />
         </Link>
       </Button>
     </div>

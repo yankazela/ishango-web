@@ -4,12 +4,17 @@ import { getRequest } from "@/services/requests";
 import { EbaseUrls } from "@/services/requests/types";
 import { ArticleCardDetails } from "./state";
 
+export interface ArticleIndex {
+  articles: ArticleCardDetails[];
+  updatedAt: string;
+}
+
 export const getArticleCards = async (
   language: string
-): Promise<ArticleCardDetails[]> => {
+): Promise<ArticleIndex> => {
   const path = endpoints.getArticleCards(language);
 
-  const response: AxiosResponse<ArticleCardDetails[]> = await getRequest(
+  const response: AxiosResponse<ArticleIndex> = await getRequest(
     {
       path: path.endpoint,
       auth: path.auth,

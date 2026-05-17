@@ -8,8 +8,11 @@ import { InheritanceTaxCalculator } from "@/components/inheritance-tax-calculato
 import { Card, CardContent } from "@/components/ui/card";
 import { Scale, ArrowLeft, Users, Home, FileText, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 export default function InheritanceTaxPage() {
+  const t = useTranslations("InheritanceTaxCalculator");
+  
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -30,7 +33,7 @@ export default function InheritanceTaxPage() {
               className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to Home
+              {t("BACK_HOME")}
             </Link>
 
             <div className="flex items-center gap-4 mb-6">
@@ -39,10 +42,10 @@ export default function InheritanceTaxPage() {
               </div>
               <div>
                 <h1 className="text-3xl sm:text-4xl font-semibold text-foreground">
-                  Inheritance Tax Calculator
+                  {t("INHERITANCE_TAX_CALCULATOR")}
                 </h1>
                 <p className="text-muted-foreground mt-1">
-                  Estimate estate and inheritance taxes with relationship-based exemptions
+                  {t("DESCRIPTION_TITLE")}
                 </p>
               </div>
             </div>
@@ -62,7 +65,7 @@ export default function InheritanceTaxPage() {
         <section className="py-12 bg-muted/30">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h2 className="text-2xl font-semibold text-foreground mb-8">
-              Understanding Inheritance Tax
+              {t("UNDERSTANDING_INHERITANCE_TAX")}
             </h2>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -72,11 +75,10 @@ export default function InheritanceTaxPage() {
                     <Users className="h-5 w-5 text-accent" />
                   </div>
                   <h3 className="font-semibold text-foreground mb-2">
-                    Relationship Matters
+                    {t("RELATIONSHIP_MATTERS")}
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Most countries offer higher tax-free allowances for close family 
-                    members like spouses and children compared to distant relatives.
+                    {t("RELATIONSHIP_MATTERS_DESC")}
                   </p>
                 </CardContent>
               </Card>
@@ -87,11 +89,10 @@ export default function InheritanceTaxPage() {
                     <Home className="h-5 w-5 text-accent" />
                   </div>
                   <h3 className="font-semibold text-foreground mb-2">
-                    Residence Relief
+                    {t("RESIDENCE_RELIEF")}
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Some countries like the UK offer additional relief when passing 
-                    your main home to direct descendants, reducing the tax burden.
+                    {t("RESIDENCE_RELIEF_DESC")}
                   </p>
                 </CardContent>
               </Card>
@@ -102,11 +103,10 @@ export default function InheritanceTaxPage() {
                     <FileText className="h-5 w-5 text-accent" />
                   </div>
                   <h3 className="font-semibold text-foreground mb-2">
-                    Estate Planning
+                    {t("ESTATE_PLANNING")}
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Proper estate planning with trusts, gifts, and legal structures 
-                    can significantly reduce inheritance tax liability.
+                    {t("ESTATE_PLANNING_DESC")}
                   </p>
                 </CardContent>
               </Card>
@@ -117,11 +117,10 @@ export default function InheritanceTaxPage() {
                     <Shield className="h-5 w-5 text-accent" />
                   </div>
                   <h3 className="font-semibold text-foreground mb-2">
-                    Spousal Exemption
+                    {t("SPOUSAL_EXEMPTION")}
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Transfers to spouses are typically fully exempt from inheritance 
-                    tax in most jurisdictions, preserving family wealth.
+                    {t("SPOUSAL_EXEMPTION_DESC")}
                   </p>
                 </CardContent>
               </Card>
@@ -131,20 +130,19 @@ export default function InheritanceTaxPage() {
             <div className="mt-12 p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/20">
               <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
                 <Shield className="h-5 w-5 text-emerald-600" />
-                Countries Without Inheritance Tax
+                {t("COUNTRIES_WITHOUT_INHERITANCE_TAX")}
               </h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Several countries have abolished inheritance and estate taxes, making them 
-                attractive for wealth preservation and succession planning:
+                {t("COUNTRIES_WITHOUT_INHERITANCE_TAX_DESC")}
               </p>
               <div className="flex flex-wrap gap-2">
-                {["Australia", "Canada", "New Zealand", "Singapore", "Hong Kong", "Sweden", "Norway", "Portugal"].map(
+                {["AUSTRALIA", "CANADA", "NEW_ZEALAND", "SINGAPORE", "HONG_KONG", "SWEDEN", "NORWAY", "PORTUGAL"].map(
                   (country) => (
                     <span
                       key={country}
                       className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-700 text-sm font-medium"
                     >
-                      {country}
+                      {t(country)}
                     </span>
                   )
                 )}
@@ -159,29 +157,6 @@ export default function InheritanceTaxPage() {
                 vary by jurisdiction. Please consult with a qualified tax professional or estate 
                 planning attorney for accurate advice specific to your situation.
               </p>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="py-12">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <h2 className="text-2xl font-semibold text-foreground mb-4">
-                Need Expert Help?
-              </h2>
-              <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                Connect with certified estate planning professionals in your country 
-                who can provide personalized guidance on inheritance tax optimization.
-              </p>
-              <div className="flex justify-center gap-4">
-                <Button asChild>
-                  <Link href="/experts?calculator=inheritance">Find an Expert</Link>
-                </Button>
-                <Button variant="outline" className="bg-transparent" asChild>
-                  <Link href="/calculators/capital-gains">Try Capital Gains Calculator</Link>
-                </Button>
-              </div>
             </div>
           </div>
         </section>

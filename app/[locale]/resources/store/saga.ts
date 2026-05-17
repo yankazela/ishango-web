@@ -1,6 +1,5 @@
 import { takeLatest, put, call } from "redux-saga/effects";
 import { PayloadAction } from '@reduxjs/toolkit';
-import { ArticleCardDetails } from "./state";
 import { getArticleCards, getCurrentArticle } from "./api";
 import {
     fetchArticleCardsFailure,
@@ -13,10 +12,10 @@ import {
 
 function* fetchArticleCards(action: PayloadAction<string>) {
     try {
-        const articleCards: ArticleCardDetails[] = yield call(getArticleCards, action.payload);
-        yield put(fetchArticleCardsSuccess(articleCards));
-    } catch (error) {
-        yield put(fetchArticleCardsFailure(error));
+        const articleIndex: Awaited<ReturnType<typeof getArticleCards>> = yield call(getArticleCards, action.payload);
+        yield put(fetchArticleCardsSuccess(articleIndex));
+    } catch (error: any) {
+        yield put(fetchArticleCardsFailure(error?.message ?? "Failed to fetch article index"));
     }
 }
 
@@ -24,11 +23,10 @@ function* fetchCurrentArticle(action: PayloadAction<string>) {
     try {
         const articleContent: string = yield call(getCurrentArticle, action.payload);
         yield put(fetchCurrentArticleSuccess(articleContent));
-    } catch (error) {
-        yield put(fetchCurrentArticleFailure(error));
+    } catch (error: any) {
+        yield put(fetchCurrentArticleFailure(error?.message ?? "Failed to fetch article"));
     }
 }
-
 
 export function* blogSaga() {
     yield takeLatest(fetchArticleCardsStart.type, fetchArticleCards);

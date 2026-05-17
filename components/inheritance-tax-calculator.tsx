@@ -165,7 +165,7 @@ export function InheritanceTaxCalculator() {
 				<CardHeader>
 					<CardTitle className="flex items-center gap-2 text-xl">
 						<Scale className="h-5 w-5 text-accent" />
-						Calculate Inheritance Tax
+						{t('CALCULATOR_TITLE')}
 					</CardTitle>
 				</CardHeader>
 				<CardContent className="space-y-6">
@@ -220,8 +220,9 @@ export function InheritanceTaxCalculator() {
 									id={field.name}
 									type={field.type}
 									value={formInputs[field.name] || ''}
-									onChange={(e) => handleInputChange(field.name, e.target.value)}
-									className={field.isCurrency ? "pl-7" : "pl-3"}
+									onChange={(e) => handleInputChange(field.name, field.type === "number" ? parseFloat(e.target.value) : e.target.value)}
+								className={field.isCurrency ? "" : "pl-3"}
+								style={field.isCurrency ? { paddingLeft: `${1.75 + (forCountry.currencySymbol.length - 1) * 0.5}rem` } : undefined}
 								/>
 							)}
 							{(field.type === "select" && field.label !== "RELATIONSHIP") &&	(
@@ -352,7 +353,7 @@ export function InheritanceTaxCalculator() {
 					<CardContent className="p-6">
 						<div className="text-center">
 						<p className="text-sm text-muted-foreground mb-1">
-							Estimated Inheritance Tax
+							{t('ESTIMATED_INHERITANCE_TAX')}
 						</p>
 						<p
 							className={`text-4xl font-bold ${!results.data || results.data?.inheritanceTax === 0 ? "text-emerald-600" : "text-amber-600"}`}
@@ -367,7 +368,8 @@ export function InheritanceTaxCalculator() {
 							variant="secondary"
 							className={`mt-2 ${!results.data || results.data?.inheritanceTax === 0 ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"}`}
 						>
-							{results.data ? results.data.effectiveRate.toFixed(1) : '0'}% Effective Rate
+							{results.data ? results.data.effectiveRate.toFixed(1) : '0'}% {t('EFFECTIVE_TAX_RATE')}
+
 						</Badge>
 						</div>
 					</CardContent>
@@ -378,7 +380,7 @@ export function InheritanceTaxCalculator() {
 					<CardContent className="p-6">
 						<div className="text-center mb-4">
 							<p className="text-sm text-muted-foreground mb-1">
-								Net Inheritance Received
+								{t('NET_INHERITANCE_RECEIVED')}
 							</p>
 							<p className="text-3xl font-bold text-foreground">
 								{forCountry ? forCountry.currencySymbol : ''}
@@ -411,7 +413,7 @@ export function InheritanceTaxCalculator() {
 
           <Card>
             <CardHeader className="pb-4">
-              <CardTitle className="text-lg">Tax by Bracket</CardTitle>
+              <CardTitle className="text-lg">{t('TAX_BY_BRACKET')}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -437,7 +439,7 @@ export function InheritanceTaxCalculator() {
                 ))
                 ) : (
                   <p className="text-sm text-muted-foreground text-center">
-                    No tax due, all brackets are tax-free.
+                    {t('NO_TAX_DUE')}
                   </p>
                 )}
               </div>
@@ -447,7 +449,7 @@ export function InheritanceTaxCalculator() {
 				{/* Visual Breakdown */}
 				<Card>
 				<CardHeader className="pb-4">
-					<CardTitle className="text-lg">Estate Distribution</CardTitle>
+					<CardTitle className="text-lg">{t('ESTATE_DISTRIBUTION')}</CardTitle>
 				</CardHeader>
 				<CardContent>
 					<div className="space-y-4">

@@ -188,8 +188,9 @@ export function MortgageCalculator() {
                                         id={field.name}
                                         type={field.type}
                                         value={formInputs[field.name] || ""}
-                                        onChange={(e) => handleInputChange(field.name, e.target.value)}
-                                        className="pl-8"
+                                        onChange={(e) => handleInputChange(field.name, field.type === "number" ? parseFloat(e.target.value) : e.target.value)}
+                                        className={field.isCurrency ? "" : "pl-8"}
+                                        style={field.isCurrency ? { paddingLeft: `${1.75 + (forCountry.currencySymbol.length - 1) * 0.5}rem` } : undefined}
                                     />
                                 )}
                                 {field.type === "boolean" && (

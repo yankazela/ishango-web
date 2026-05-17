@@ -1,22 +1,20 @@
-import localArticleIndex from "@/ishango-blog/indexes/index_en.json";
+import indexEn from "@/ishango-blog/indexes/index_en.json";
+import indexFr from "@/ishango-blog/indexes/index_fr.json";
+import indexEs from "@/ishango-blog/indexes/index_es.json";
 import ResourcesArticlePageClient from "./article-page";
 
-const SUPPORTED_LOCALES = ["en", "fr", "es", "de", "pt", "ja"] as const;
+const LOCAL_INDEXES: Record<string, { articles: { slug: string }[] }> = {
+  en: indexEn,
+  fr: indexFr,
+  es: indexEs,
+};
 
 export const dynamicParams = false;
 
-export async function generateStaticParams({
-  params,
-}: {
-  params: { locale: (typeof SUPPORTED_LOCALES)[number] };
-}) {
-  if (!SUPPORTED_LOCALES.includes(params.locale)) {
-    return [];
-  }
-
-  return localArticleIndex.articles.map((article) => ({
-    slug: article.slug,
-  }));
+export function generateStaticParams() {
+  return Object.entries(LOCAL_INDEXES).flatMap(([locale, index]) =>
+    index.articles.map((article) => ({ locale, slug: article.slug }))
+  );
 }
 
 export default function ResourcesArticlePage() {

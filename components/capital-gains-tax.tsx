@@ -213,8 +213,9 @@ export function CapitalGainsCalculator() {
                                 id={field.name}
                                 type={field.type}
                                 value={formInputs[field.name] || ''}
-                                onChange={(e) => handleInputChange(field.name, e.target.value)}
-                                className={field.isCurrency ? "pl-7" : "pl-3"}
+                                onChange={(e) => handleInputChange(field.name, field.type === "number" ? parseFloat(e.target.value) : e.target.value)}
+                                className={field.isCurrency ? "" : "pl-3"}
+                                style={field.isCurrency ? { paddingLeft: `${1.75 + (forCountry.currencySymbol.length - 1) * 0.5}rem` } : undefined}
                             />
                         )}
                     </div>

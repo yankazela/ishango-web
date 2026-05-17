@@ -10,32 +10,27 @@ export function Footer() {
 
   const footerLinks = {
     [t("PRODUCT")]: [
-      { name: t("LOAN_CALCULATOR"), href: "#" },
-      { name: t("MORTGAGE_CALCULATOR"), href: "#" },
-      { name: t("INCOME_TAX_CALCULATOR"), href: "#" },
-      { name: t("CORPORATE_TAX_CALCULATOR"), href: "#" },
-      { name: t("API_DOCUMENTATION"), href: "#" },
+      { name: t("INHERITANCE_TAX_CALCULATOR"), href: `/${locale}/calculators/inheritance-tax` },
+      { name: t("MORTGAGE_CALCULATOR"), href: `/${locale}/calculators/mortgage` },
+      { name: t("INCOME_TAX_CALCULATOR"), href: `/${locale}/calculators/income-tax` },
+      { name: t("CORPORATE_TAX_CALCULATOR"), href: `/${locale}/calculators/corporate-tax` },
+      { name: t("CAPITAL_GAINS_TAX_CALCULATOR"), href: `/${locale}/calculators/capital-gain-tax` },
     ],
     [t("COMPANY")]: [
-      { name: t("ABOUT"), href: "#" },
+      { name: t("ABOUT"), href: `/${locale}/about` },
+      { name: t("OUR_EXPERTS"), href: `/${locale}/our-experts` },
       { name: t("BLOG"), href: `/${locale}/resources` },
-      { name: t("CAREERS"), href: "#" },
-      { name: t("PRESS"), href: "#" },
-      { name: t("CONTACT"), href: "#" },
-      { name: "Investors", href: `/${locale}/investors` },
+      { name: t("CONTACT"), href: `/${locale}/contact` },
+      { name: t("INVESTORS"), href: `/${locale}/investors` },
     ],
     [t("RESOURCES")]: [
-      { name: t("DOCUMENTATION"), href: "#" },
-      { name: t("API_REFERENCE"), href: "#" },
-      { name: t("STATUS"), href: "#" },
-      { name: t("CHANGELOG"), href: "#" },
-      { name: t("SUPPORT"), href: "#" },
+      { name: t("DOCUMENTATION"), href: `/${locale}/documentation` },
+      { name: t("API_REFERENCE"), href: `/${locale}/api-reference` },
     ],
     [t("LEGAL")]: [
-      { name: t("PRIVACY_POLICY"), href: "#" },
-      { name: t("TERMS_OF_SERVICE"), href: "#" },
-      { name: t("COOKIE_POLICY"), href: "#" },
-      { name: t("GDPR"), href: "#" },
+      { name: t("PRIVACY_POLICY"), href: `/${locale}/privacy-policy` },
+      { name: t("TERMS_OF_SERVICE"), href: `/${locale}/terms-of-service` },
+      { name: t("COOKIE_POLICY"), href: `/${locale}/cookie-policy` },
     ],
   };
 
@@ -46,12 +41,11 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-2 lg:col-span-1">
             <Link href="/" className="flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-                <Calculator className="h-5 w-5 text-primary-foreground" />
-              </div>
-              <span className="text-xl font-semibold text-foreground">
-                Ishango Engine
-              </span>
+              <h3>
+                <span className="bg-gradient-to-r from-teal-600 via-emerald-500 to-teal-600 bg-clip-text text-transparent">
+                  IShango
+                </span>
+              </h3>
             </Link>
             <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
               {t("BRAND_DESCRIPTION")}

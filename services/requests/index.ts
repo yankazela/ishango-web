@@ -115,3 +115,36 @@ export const putRequest = async <T>(
         throw new Error(getErrorMessage(error));
     });
 };
+
+export const patchRequest = async <T>(
+    params: RequestParams,
+    baseUrl: EbaseUrls | string
+): Promise<AxiosResponse<T>> => {
+    const BASE_URL = baseUrl;
+
+    if (params.auth) {
+        const tokens = getTokens();
+        if (tokens.id && tokens.refresh) {
+            params.headers = {
+                ...params.headers,
+                Authorization: `Bearer ${tokens.id}`
+            };
+        } else {
+            throw new Error("Unauthorized");
+        }
+    }
+
+    return axios({
+        method: "patch",
+        url: BASE_URL + params.path,
+        headers: params.headers || {},
+        data: params.data,
+        timeout: params.timeout || 30000,
+    }).then((response) => {
+        return response;
+    }).catch((error) => {
+        console.log("error", params.path, error);
+
+        throw new Error(getErrorMessage(error));
+    });
+};

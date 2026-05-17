@@ -52,10 +52,10 @@ export default function ResourcesArticlePageClient() {
 
   // Ensure article cards are loaded (for frontmatter)
   useEffect(() => {
-    if (!articleCards.data) {
+    if (!articleCards.data && !articleCards.loading && !articleCards.error) {
       dispatch(fetchArticleCardsStart(locale));
     }
-  }, [articleCards.data, locale, dispatch]);
+  }, [articleCards.data, articleCards.loading, articleCards.error, locale, dispatch]);
 
   // Find matching frontmatter from the article cards index
   const frontmatter = useMemo(() => {
@@ -96,7 +96,7 @@ export default function ResourcesArticlePageClient() {
   };
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-white dark:bg-background">
       <Header />
 
       <div className="pt-24 pb-16">
@@ -252,7 +252,7 @@ function ArticleSidebar({
     <>
       {/* Table of contents */}
       {headings.length > 0 && (
-        <div className="rounded-xl border border-border bg-card p-5">
+        <div className="rounded-xl border border-border bg-gray-50 dark:bg-muted p-5">
           <h3 className="text-sm font-semibold text-foreground mb-3">
             {t("TABLE_OF_CONTENTS")}
           </h3>
@@ -261,7 +261,7 @@ function ArticleSidebar({
               <a
                 key={i}
                 href={`#${h.id}`}
-                className={`block text-sm text-muted-foreground hover:text-foreground transition-colors ${
+                className={`block text-sm text-gray-600 dark:text-muted-foreground hover:text-foreground transition-colors ${
                   h.level === 3 ? "pl-4" : ""
                 }`}
               >
