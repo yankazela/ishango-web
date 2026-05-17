@@ -45,6 +45,7 @@ export default function LoginPage() {
         e.preventDefault()
         if (!signIn) return
 
+        setIsLoading(true);
         try {
             await signIn.create({
                 identifier: email,
@@ -55,6 +56,7 @@ export default function LoginPage() {
             })
             
             console.log("Attempting sign-in for:", result);
+            setIsLoading(false);
             if (!result.error) {
                 sessionStorage.setItem("userEmail", email);
                 router.push(`/${locale}/dashboard`)
@@ -185,7 +187,9 @@ export default function LoginPage() {
 
                         <form onSubmit={handleSubmit} className="space-y-5">
                             {loginError && (
-                                <div className="text-sm text-red-500">{loginError}</div>
+								<div className="mb-4 mt-2 rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+                                    {loginError}
+                                </div>
                             )}
                             <div className="space-y-2">
                                 <Label htmlFor="email">{t('EMAIL_ADDRESS')}</Label>
