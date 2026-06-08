@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslations, useLocale } from "next-intl";
-import { useSession } from "@clerk/react";
-import { User, Building2, CreditCard, Bell, Shield } from "lucide-react";
+import { useSession, useUser } from "@clerk/react";
+import { User, Building2, CreditCard, Bell, Shield, Eye, EyeOff, CheckCircle2 } from "lucide-react";
 
 import { RootState } from "@/store/rootStore";
 import { fetchUserDetails } from "../store/slice";
@@ -39,7 +39,43 @@ export default function SettingsPage() {
     const locale = useLocale();
     const dispatch = useDispatch();
     const { session } = useSession();
+    const { user, isLoaded, isSignedIn } = useUser();
     const { userDetails } = useSelector((state: RootState) => state.dashboard);
+
+    const [currentPassword, setCurrentPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [showCurrent, setShowCurrent] = useState(false);
+    const [showNew, setShowNew] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [passwordError, setPasswordError] = useState<string | null>(null);
+    const [passwordSuccess, setPasswordSuccess] = useState(false);
+    const [passwordLoading, setPasswordLoading] = useState(false);
+
+    const handleChangePassword = async (e: React.FormEvent) => {
+        e.preventDefault();
+        // const userEmail = sessionStorage.getItem("userEmail") || null;
+        console.log("Attempting password change for user:", isLoaded, isSignedIn, user);
+        if (!user) return;
+        setPasswordError(null);
+        setPasswordSuccess(false);
+        if (newPassword !== confirmPassword) {
+            setPasswordError(t("ERROR_PASSWORDS_MISMATCH"));
+            return;
+        }
+        setPasswordLoading(true);
+        try {
+            await user.updatePassword({ currentPassword, newPassword, signOutOfOtherSessions: false });
+            setPasswordSuccess(true);
+            setCurrentPassword("");
+            setNewPassword("");
+            setConfirmPassword("");
+        } catch (err: any) {
+            setPasswordError(err.errors?.[0]?.message || t("ERROR_PASSWORD_UPDATE_FAILED"));
+        } finally {
+            setPasswordLoading(false);
+        }
+    };
 
     useEffect(() => {
         const email = session?.user?.primaryEmailAddress?.emailAddress;
@@ -218,6 +254,95 @@ export default function SettingsPage() {
                             )}
                         </div>
                     </div>
+
+                    {/* Change password — password users only */}
+                    {client && !client.isSso && (
+                        <div className="py-4">
+                            <span className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
+                                {t("CHANGE_PASSWORD")}
+                            </span>
+                            <form onSubmit={handleChangePassword} className="mt-3 space-y-3 max-w-sm">
+                                {passwordSuccess && (
+                                    <div className="flex items-center gap-2 rounded-lg border border-teal-500/30 bg-teal-500/10 px-3 py-2 text-sm text-teal-600 dark:text-teal-400">
+                                        <CheckCircle2 className="h-4 w-4 shrink-0" />
+                                        {t("PASSWORD_UPDATED")}
+                                    </div>
+                                )}
+                                {passwordError && (
+                                    <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                                        {passwordError}
+                                    </div>
+                                )}
+                                <div className="space-y-1">
+                                    <label htmlFor="current-password" className="text-xs font-medium text-foreground">
+                                        {t("CURRENT_PASSWORD")}
+                                    </label>
+                                    <div className="relative">
+                                        <input
+                                            id="current-password"
+                                            type={showCurrent ? "text" : "password"}
+                                            value={currentPassword}
+                                            onChange={(e) => { setCurrentPassword(e.target.value); setPasswordSuccess(false); }}
+                                            required
+                                            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 pr-9 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                                            placeholder={t("ENTER_CURRENT_PASSWORD")}
+                                        />
+                                        <button type="button" onClick={() => setShowCurrent(!showCurrent)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                                            {showCurrent ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="space-y-1">
+                                    <label htmlFor="new-password" className="text-xs font-medium text-foreground">
+                                        {t("NEW_PASSWORD")}
+                                    </label>
+                                    <div className="relative">
+                                        <input
+                                            id="new-password"
+                                            type={showNew ? "text" : "password"}
+                                            value={newPassword}
+                                            onChange={(e) => { setNewPassword(e.target.value); setPasswordSuccess(false); }}
+                                            required
+                                            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 pr-9 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                                            placeholder={t("ENTER_NEW_PASSWORD")}
+                                        />
+                                        <button type="button" onClick={() => setShowNew(!showNew)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                                            {showNew ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="space-y-1">
+                                    <label htmlFor="confirm-password" className="text-xs font-medium text-foreground">
+                                        {t("CONFIRM_PASSWORD")}
+                                    </label>
+                                    <div className="relative">
+                                        <input
+                                            id="confirm-password"
+                                            type={showConfirm ? "text" : "password"}
+                                            value={confirmPassword}
+                                            onChange={(e) => { setConfirmPassword(e.target.value); setPasswordSuccess(false); }}
+                                            required
+                                            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 pr-9 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                                            placeholder={t("CONFIRM_NEW_PASSWORD")}
+                                        />
+                                        <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                                            {showConfirm ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                                        </button>
+                                    </div>
+                                </div>
+                                <button
+                                    type="submit"
+                                    disabled={passwordLoading}
+                                    className="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-xs transition-colors hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {passwordLoading ? (
+                                        <div className="h-3.5 w-3.5 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
+                                    ) : null}
+                                    {t("UPDATE_PASSWORD")}
+                                </button>
+                            </form>
+                        </div>
+                    )}
                 </CardContent>
             </Card>
         </div>

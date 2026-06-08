@@ -20,6 +20,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Landmark, ArrowRight, Calendar, TrendingDown, Check, RotateCcw, Link, Users, BookOpen, Star } from "lucide-react";
+import { getCountryFlagIconCode } from "@/lib/countries";
 import { RootState } from "@/store/rootStore";
 import { calculateIncomeTax, fetchCalculatorsStart, resetResult } from "@/app/[locale]/calculators/income-tax/store/slice";
 
@@ -123,14 +124,22 @@ export function IncomeTaxCalculator() {
 
 
     return (
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid lg:grid-cols-2 gap-8 items-start">
             {/* Calculator Form */}
             <Card className="border-border bg-card">
                 <CardHeader>
+                <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2">
                     <Landmark className="h-5 w-5 text-accent" />
                     {t("CALCULATOR_TITLE")}
                 </CardTitle>
+                {selectedCountry && (
+                    <span
+                        className={`fi fi-${getCountryFlagIconCode(selectedCountry)} rounded-sm text-3xl leading-none shadow-sm`}
+                        title={selectedCountry}
+                    />
+                )}
+                </div>
                 </CardHeader>
                 <CardContent className="space-y-6">
                 <div className="grid grid-cols-2 gap-4">
@@ -223,7 +232,7 @@ export function IncomeTaxCalculator() {
                                                 <Check className="h-3 w-3 text-accent-foreground" />
                                             )}
                                         </div>
-                                        <span className="text-sm font-medium text-foreground">Yes</span>
+                                        <span className="text-sm font-medium text-foreground">{t("YES")}</span>
                                     </button>
                                     <button
                                         type="button"
@@ -241,7 +250,7 @@ export function IncomeTaxCalculator() {
                                                 <Check className="h-3 w-3 text-accent-foreground" />
                                             )}
                                         </div>
-                                        <span className="text-sm font-medium text-foreground">No</span>
+                                        <span className="text-sm font-medium text-foreground">{t("NO")}</span>
                                     </button>
                                 </div>
                             )}

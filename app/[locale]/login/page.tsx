@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 
-import { useSession, useSignIn } from '@clerk/react';
+import { useSession, useSignIn, useClerk } from '@clerk/react';
 import { useRouter } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import Link from "next/link";
@@ -32,6 +32,7 @@ export default function LoginPage() {
     const locale = useLocale();
 
     const router = useRouter();
+    const { setActive } = useClerk();
     const { signIn } = useSignIn();
     const { session } = useSession();
 
@@ -58,6 +59,7 @@ export default function LoginPage() {
             console.log("Attempting sign-in for:", result);
             setIsLoading(false);
             if (!result.error) {
+                await signIn.finalize();
                 sessionStorage.setItem("userEmail", email);
                 router.push(`/${locale}/dashboard`)
             } else {
@@ -208,7 +210,7 @@ export default function LoginPage() {
                                 <div className="flex items-center justify-between">
                                 <Label htmlFor="password">{t('PASSWORD')}</Label>
                                 <Link
-                                    href="/forgot-password"
+                                    href={`/${locale}/forgot-password`}
                                     className="text-sm text-accent hover:underline"
                                 >
                                     {t('FORGOT_PASSWORD')}

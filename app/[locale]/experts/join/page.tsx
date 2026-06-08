@@ -36,29 +36,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootStore";
 import { createExpertStart, fetchCountriesStart } from "../store/slice";
 import { CountryWithCalculatorsItem } from "../store/state";
-
-const dialCodes = [
-  { code: "+1", country: "US/CA" },
-  { code: "+44", country: "UK" },
-  { code: "+49", country: "DE" },
-  { code: "+33", country: "FR" },
-  { code: "+61", country: "AU" },
-  { code: "+81", country: "JP" },
-  { code: "+65", country: "SG" },
-  { code: "+86", country: "CN" },
-  { code: "+91", country: "IN" },
-  { code: "+55", country: "BR" },
-  { code: "+52", country: "MX" },
-  { code: "+34", country: "ES" },
-  { code: "+39", country: "IT" },
-  { code: "+31", country: "NL" },
-  { code: "+46", country: "SE" },
-  { code: "+41", country: "CH" },
-  { code: "+82", country: "KR" },
-  { code: "+971", country: "UAE" },
-  { code: "+966", country: "SA" },
-  { code: "+27", country: "ZA" },
-];
+import { DIAL_CODES, formatPhoneNumber, extractDigits } from "@/lib/dial-codes";
+import { Textarea } from "@/components/ui/textarea";
 
 const icons: { [key: string]: React.ComponentType } = {
     'INHERITANCE_TAX': Calculator,
@@ -94,10 +73,15 @@ export default function JoinAsExpertPage() {
         fullName: "",
         email: "",
         phone: "",
+        phoneDigits: "",
         dialCode: "+1",
+        dialIso: "US",
+        bio: "",
         expertType: "" as "individual" | "company" | "",
         role: "",
     });
+    const [phoneError, setPhoneError] = useState<string | null>(null);
+    const [showErrors, setShowErrors] = useState(false);
 
     const [countryExpertise, setCountryExpertise] = useState<CountryWithCalculatorsItem[]>(
         []
@@ -171,8 +155,10 @@ export default function JoinAsExpertPage() {
         return (
             formData.fullName &&
             formData.email &&
+            formData.phoneDigits &&
             formData.expertType &&
             formData.role &&
+            formData.bio &&
             profilePictureFile
         );
         }
@@ -187,14 +173,19 @@ export default function JoinAsExpertPage() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        if (step === 1 && !canProceed()) {
+            setShowErrors(true);
+            return;
+        }
+        setShowErrors(false);
         if (step === 2) {
             const calculators = countryExpertise.map((ce) => ce).map((c) => c.calculators);
             const calcIds = calculators.reduce((acc, curr) => [...acc, ...curr.map((c) => c.id)], [] as string[]);
             const payload = {
                 name: formData.fullName,
                 email: formData.email,
-                phone: formData.dialCode + formData.phone,
-                bio: "",
+                phone: formData.dialCode + formData.phoneDigits,
+                bio: formData.bio,
                 profilePicture: profilePictureFile!,
                 role: formData.role,
                 rating: 0,
@@ -431,7 +422,7 @@ export default function JoinAsExpertPage() {
                                     <p className="text-xs text-muted-foreground mt-1">
                                     JPG, PNG. Max 5MB.
                                     </p>
-                                    {!profilePictureFile && (
+                                    {showErrors && !profilePictureFile && (
                                         <p className="text-xs text-destructive mt-1">
                                         {t('PROFILE_PICTURE_REQUIRED')}
                                         </p>
@@ -450,7 +441,7 @@ export default function JoinAsExpertPage() {
                             {/* Full Name */}
                             <div className="space-y-2">
                                 <Label htmlFor="fullName">
-                                {t('FULL_NAME_COMPANY_NAME')}
+                                {t('FULL_NAME_COMPANY_NAME')} <span className="text-destructive">*</span>
                                 </Label>
                                 <Input
                                 id="fullName"
@@ -462,12 +453,16 @@ export default function JoinAsExpertPage() {
                                         fullName: e.target.value,
                                     })
                                 }
+                                className={showErrors && !formData.fullName ? "border-destructive" : ""}
                                 />
+                                {showErrors && !formData.fullName && (
+                                    <p className="text-xs text-destructive">{t('FIELD_REQUIRED')}</p>
+                                )}
                             </div>
 
                             {/* Email */}
                             <div className="space-y-2">
-                                <Label htmlFor="email">{t('EMAIL_ADDRESS')}</Label>
+                                <Label htmlFor="email">{t('EMAIL_ADDRESS')} <span className="text-destructive">*</span></Label>
                                 <Input
                                 id="email"
                                 type="email"
@@ -476,26 +471,37 @@ export default function JoinAsExpertPage() {
                                 onChange={(e) =>
                                     setFormData({ ...formData, email: e.target.value })
                                 }
+                                className={showErrors && !formData.email ? "border-destructive" : ""}
                                 />
+                                {showErrors && !formData.email && (
+                                    <p className="text-xs text-destructive">{t('FIELD_REQUIRED')}</p>
+                                )}
                             </div>
 
                             {/* Phone */}
                             <div className="space-y-2">
-                                <Label htmlFor="phone">{t('PHONE_NUMBER')}</Label>
+                                <Label htmlFor="phone">{t('PHONE_NUMBER')} <span className="text-destructive">*</span></Label>
                                 <div className="flex gap-2">
                                 <Select
-                                    value={formData.dialCode}
-                                    onValueChange={(value) =>
-                                    setFormData({ ...formData, dialCode: value })
-                                    }
+                                    value={formData.dialIso}
+                                    onValueChange={(iso) => {
+                                        const dial = DIAL_CODES.find((d) => d.iso === iso);
+                                        if (!dial) return;
+                                        setFormData({
+                                            ...formData,
+                                            dialCode: dial.code,
+                                            dialIso: iso,
+                                            phone: formatPhoneNumber(formData.phoneDigits, dial.code),
+                                        });
+                                    }}
                                 >
-                                    <SelectTrigger className="w-28 shrink-0">
+                                    <SelectTrigger className="w-32 shrink-0">
                                     <SelectValue placeholder="+1" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                    {dialCodes.map((dial) => (
-                                        <SelectItem key={dial.code} value={dial.code}>
-                                        {dial.code} {dial.country}
+                                    {DIAL_CODES.map((dial) => (
+                                        <SelectItem key={dial.iso} value={dial.iso}>
+                                        {dial.code} {dial.name}
                                         </SelectItem>
                                     ))}
                                     </SelectContent>
@@ -505,20 +511,26 @@ export default function JoinAsExpertPage() {
                                     type="tel"
                                     placeholder="(555) 123-4567"
                                     value={formData.phone}
-                                    onChange={(e) =>
-                                    setFormData({
-                                        ...formData,
-                                        phone: e.target.value,
-                                    })
-                                    }
-                                    className="flex-1"
+                                    onChange={(e) => {
+                                        const digits = extractDigits(e.target.value);
+                                        const masked = formatPhoneNumber(digits, formData.dialCode);
+                                        setPhoneError(null);
+                                        setFormData({ ...formData, phoneDigits: digits, phone: masked });
+                                    }}
+                                    onBlur={() => {
+                                        if (!formData.phoneDigits) setPhoneError(t('PHONE_REQUIRED'));
+                                    }}
+                                    className={`flex-1 ${phoneError ? "border-destructive" : ""}`}
                                 />
                                 </div>
+                                {(phoneError || (showErrors && !formData.phoneDigits)) && (
+                                    <p className="text-xs text-destructive">{phoneError ?? t('PHONE_REQUIRED')}</p>
+                                )}
                             </div>
 
                             {/* Expert Type */}
                             <div className="space-y-2">
-                                <Label>{t('EXPERT_TYPE')}</Label>
+                                <Label>{t('EXPERT_TYPE')} <span className="text-destructive">*</span></Label>
                                 <div className="grid grid-cols-2 gap-3">
                                 {[
                                     {
@@ -567,11 +579,14 @@ export default function JoinAsExpertPage() {
                                     </button>
                                 ))}
                                 </div>
+                                {showErrors && !formData.expertType && (
+                                    <p className="text-xs text-destructive">{t('FIELD_REQUIRED')}</p>
+                                )}
                             </div>
 
                             {/* Role */}
                             <div className="space-y-2">
-                                <Label htmlFor="role">{t('ROLE')}</Label>
+                                <Label htmlFor="role">{t('ROLE')} <span className="text-destructive">*</span></Label>
                                 <Input
                                 id="role"
                                 placeholder={t('ROLE_PLACEHOLDER')}
@@ -579,7 +594,29 @@ export default function JoinAsExpertPage() {
                                 onChange={(e) =>
                                     setFormData({ ...formData, role: e.target.value })
                                 }
+                                className={showErrors && !formData.role ? "border-destructive" : ""}
                                 />
+                                {showErrors && !formData.role && (
+                                    <p className="text-xs text-destructive">{t('FIELD_REQUIRED')}</p>
+                                )}
+                            </div>
+
+                            {/* Bio */}
+                            <div className="space-y-2">
+                                <Label htmlFor="bio">{t('BIO')} <span className="text-destructive">*</span></Label>
+                                <Textarea
+                                id="bio"
+                                placeholder={t('BIO_PLACEHOLDER')}
+                                value={formData.bio}
+                                onChange={(e) =>
+                                    setFormData({ ...formData, bio: e.target.value })
+                                }
+                                rows={4}
+                                className={`resize-none ${showErrors && !formData.bio ? "border-destructive" : ""}`}
+                                />
+                                {showErrors && !formData.bio && (
+                                    <p className="text-xs text-destructive">{t('FIELD_REQUIRED')}</p>
+                                )}
                             </div>
                             </div>
                         )}
@@ -717,7 +754,7 @@ export default function JoinAsExpertPage() {
                             )}
                             <Button
                                 type="submit"
-                                disabled={!canProceed()}
+                                disabled={step !== 1 && !canProceed()}
                                 className="gap-2"
                             >
                                 {step === 2 ? t('SUBMIT_APPLICATION') : t('CONTINUE')}

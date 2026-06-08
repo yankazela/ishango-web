@@ -22,6 +22,7 @@ import { TrendingUp, Info, Calendar, DollarSign, ArrowRight, RotateCcw, Users, B
 import { RootState } from "@/store/rootStore";
 import { calculateCapitalGainsTax, fetchCalculatorsStart, resetResult } from "../app/[locale]/calculators/capital-gains-tax/store/slice";
 import { formatCurrency } from "@/lib/utils";
+import { getCountryFlagIconCode } from "@/lib/countries";
 
 
 export function CapitalGainsCalculator() {
@@ -137,14 +138,22 @@ export function CapitalGainsCalculator() {
     ];
 
   return (
-    <div className="grid lg:grid-cols-2 gap-8">
+    <div className="grid lg:grid-cols-2 gap-8 items-start">
       {/* Calculator Form */}
       <Card className="border-border bg-card">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-xl">
-            <TrendingUp className="h-5 w-5 text-accent" />
-            {t('CALCULATE_CAPITAL_GAINS_TAX')}
-          </CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="flex items-center gap-2 text-xl">
+              <TrendingUp className="h-5 w-5 text-accent" />
+              {t('CALCULATE_CAPITAL_GAINS_TAX')}
+            </CardTitle>
+            {selectedCountry && (
+              <span
+                className={`fi fi-${getCountryFlagIconCode(selectedCountry)} rounded-sm text-3xl leading-none shadow-sm`}
+                title={selectedCountry}
+              />
+            )}
+          </div>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Country and Tax Year Selection */}

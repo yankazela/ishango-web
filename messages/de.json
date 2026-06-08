@@ -260,6 +260,36 @@
         "BROWSE": "Durchsuchen",
         "EXPERTS": "Experten"
     },
+    "ForgotPasswordPage": {
+        "LEFT_HEADING": "Setzen Sie Ihr",
+        "LEFT_HEADING_ACCENT": "Passwort zurück",
+        "LEFT_SUBHEADING": "Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Code zum Zurücksetzen Ihres Passworts.",
+        "PRIVACY": "Datenschutz",
+        "TERMS": "Bedingungen",
+        "CONTACT": "Kontakt",
+        "HEADING_EMAIL": "Passwort vergessen?",
+        "SUBHEADING_EMAIL": "Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Reset-Code.",
+        "EMAIL_ADDRESS": "E-Mail-Adresse",
+        "SEND_CODE": "Reset-Code senden",
+        "BACK_TO_LOGIN": "Zurück zur Anmeldung",
+        "HEADING_RESET": "Neues Passwort festlegen",
+        "SUBHEADING_RESET_PREFIX": "Wir haben einen 6-stelligen Code gesendet an",
+        "VERIFICATION_CODE": "Verifizierungscode",
+        "NEW_PASSWORD": "Neues Passwort",
+        "ENTER_NEW_PASSWORD": "Neues Passwort eingeben",
+        "CONFIRM_PASSWORD": "Passwort bestätigen",
+        "CONFIRM_NEW_PASSWORD": "Neues Passwort bestätigen",
+        "RESET_PASSWORD": "Passwort zurücksetzen",
+        "DIDNT_RECEIVE_CODE": "Keinen Code erhalten?",
+        "RESEND": "Erneut senden",
+        "HEADING_SUCCESS": "Passwort zurückgesetzt!",
+        "SUBHEADING_SUCCESS": "Ihr Passwort wurde aktualisiert. Sie sind jetzt angemeldet.",
+        "GO_TO_DASHBOARD": "Zum Dashboard",
+        "ERROR_SEND_FAILED": "Reset-Code konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+        "ERROR_INVALID_CODE": "Ungültiger oder abgelaufener Code. Bitte versuchen Sie es erneut.",
+        "ERROR_RESET_FAILED": "Passwort konnte nicht zurückgesetzt werden. Bitte versuchen Sie es erneut.",
+        "ERROR_PASSWORDS_MISMATCH": "Passwörter stimmen nicht überein."
+    },
     "LoginPage": {
         "FINANCIAL_CALCULATIONS": "Finanzberechnungen",
         "WELCOME_BACK": "Willkommen zurück",
@@ -286,6 +316,8 @@
         "FEATURE3_DESC": "Integrieren Sie unsere API mühelos in Ihre Anwendungen"
     },
     "IncomeTaxCalculator": {
+        "YES": "Ja",
+        "NO": "Nein",
         "AUSTRALIA": "Australien",
         "CANADA": "Kanada",
         "SOUTH-AFRICA": "Südafrika",
@@ -345,6 +377,8 @@
         "EFFECTIVE_VS_MARGINAL_RATE_DESC": "Ihr effektiver Steuersatz ist der tatsächliche Prozentsatz des Einkommens, den Sie an Steuern zahlen, der in der Regel niedriger ist als Ihr Grenzsteuersatz (höchste Stufe)."
     },
     "MortgageCalculator": {
+        "YES": "Ja",
+        "NO": "Nein",
         "AUSTRALIA": "Australien",
         "CANADA": "Kanada",
         "SOUTH-AFRICA": "Südafrika",
@@ -488,6 +522,8 @@
         "TRY_MORTGAGE_CALCULATOR": "Hypothekenrechner testen"
     },
     "CorporateTaxCalculator": {
+        "YES": "Ja",
+        "NO": "Nein",
         "AUSTRALIA": "Australien",
         "SOUTH-AFRICA": "Südafrika",
         "FRANCE": "Frankreich",
@@ -638,6 +674,10 @@
         "COMPANY": "Firma oder Unternehmen",
         "ROLE": "Rolle / Titel",
         "ROLE_PLACEHOLDER": "z.B. Senior Tax Advisor",
+        "BIO": "Biografie",
+        "BIO_PLACEHOLDER": "Erzählen Sie Kunden von Ihrem Hintergrund, Ihren Spezialisierungen und Ihrer Erfahrung...",
+        "PHONE_REQUIRED": "Telefonnummer ist erforderlich",
+        "FIELD_REQUIRED": "Dieses Feld ist erforderlich",
         "YOUR_EXPERTISE": "Ihre Expertise",
         "SELECT_YOUR_EXPERTISE": "Wählen Sie die Länder aus, in denen Sie tätig sind, und die Rechner, auf die Sie sich in jedem Land spezialisieren.",
         "ADD_COUNTRY": "Land hinzufügen",
@@ -665,6 +705,8 @@
         "INHERITANCE_TAX": "Erbschaftssteuer"
     },
     "CapitalGainsTaxCalculator": {
+        "YES": "Ja",
+        "NO": "Nein",
         "AUSTRALIA": "Australien",
         "CANADA": "Kanada",
         "SOUTH-AFRICA": "Südafrika",
@@ -743,6 +785,8 @@
         "COLLECTIBLES_AND_ART": "Sammlerstücke und Kunst"
     },
     "InheritanceTaxCalculator": {
+        "YES": "Ja",
+        "NO": "Nein",
         "AUSTRALIA": "Australien",
         "CANADA": "Kanada",
         "SOUTH-AFRICA": "Südafrika",

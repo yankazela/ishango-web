@@ -18,6 +18,8 @@ import {
     ChevronRight,
     Globe2,
     KeyRound,
+    Menu,
+    X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -39,11 +41,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store/rootStore';
 
 const calculators = (local: string, t: any) => [
-    { name: t("CAPITAL_GAINS_TAX"), href: `/${local}/calculators/capital-gains-tax`, icon: CreditCard },
-    { name: t("INCOME_TAX"), href: `/${local}/calculators/income-tax`, icon: Landmark },
-    { name: t("CORPORATE_TAX"), href: `/${local}/calculators/corporate-tax`, icon: Building2 },
-    { name: t("MORTGAGE"), href: `/${local}/calculators/mortgage`, icon: Home },
-    { name: t("INHERITANCE_TAX"), href: `/${local}/calculators/inheritance-tax`, icon: PackageSearch },
+    { code: "CAPITAL_GAINS_TAX", name: t("CAPITAL_GAINS_TAX"), href: `/${local}/calculators/capital-gains-tax`, icon: CreditCard },
+    { code: "INCOME_TAX", name: t("INCOME_TAX"), href: `/${local}/calculators/income-tax`, icon: Landmark },
+    { code: "CORPORATE_TAX", name: t("CORPORATE_TAX"), href: `/${local}/calculators/corporate-tax`, icon: Building2 },
+    { code: "MORTGAGE", name: t("MORTGAGE"), href: `/${local}/calculators/mortgage`, icon: Home },
+    { code: "INHERITANCE_TAX", name: t("INHERITANCE_TAX"), href: `/${local}/calculators/inheritance-tax`, icon: PackageSearch },
 ];
 
 const secondaryNav = (local: string, t: any) => [
@@ -57,18 +59,52 @@ export function DashboardSidebar() {
     const { signOut } = useClerk()
     const pathname = usePathname();
     const [calculatorsOpen, setCalculatorsOpen] = useState(true);
-    const { userDetails } = useSelector((state: RootState) => state.dashboard);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const { userDetails, calculators: apiCalculators } = useSelector((state: RootState) => state.dashboard);
     const client = userDetails?.data?.client;
+    const subscription = userDetails?.data?.subscription;
     
     const handleSignOut = () => {
         const storedLocale = sessionStorage.getItem('locale');
+        sessionStorage.clear();
         signOut({
             redirectUrl: `/${storedLocale || locale}`
         });
     }
 
     return (
-        <aside className="flex flex-col w-64 border-r border-border bg-card h-screen sticky top-0">
+        <>
+        {/* Mobile top bar */}
+        <div className="md:hidden fixed top-0 left-0 right-0 h-14 z-40 flex items-center justify-between px-4 bg-card border-b border-border">
+            <Link href="/" className="flex items-center gap-2">
+                <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-accent to-teal-600 flex items-center justify-center">
+                    <Globe2 className="h-4 w-4 text-accent-foreground" />
+                </div>
+                <span className="font-semibold text-base text-foreground">Ishango Engine</span>
+            </Link>
+            <button
+                type="button"
+                className="p-2 rounded-md text-muted-foreground hover:text-foreground"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label="Toggle sidebar"
+            >
+                {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+        </div>
+
+        {/* Mobile overlay */}
+        {mobileMenuOpen && (
+            <div
+                className="md:hidden fixed inset-0 z-30 bg-black/50"
+                onClick={() => setMobileMenuOpen(false)}
+            />
+        )}
+
+        <aside className={cn(
+            "flex flex-col w-64 border-r border-border bg-card h-screen",
+            "fixed md:sticky top-0 z-40 transition-transform duration-300",
+            mobileMenuOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+        )}>
         {/* Logo */}
             <div className="p-6 border-b border-border">
                 <Link href="/" className="flex items-center gap-2">
@@ -90,6 +126,7 @@ export function DashboardSidebar() {
                         <Link
                         key={item.name}
                         href={item.href}
+                        onClick={() => setMobileMenuOpen(false)}
                         className={cn(
                             "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                             isActive
@@ -120,23 +157,28 @@ export function DashboardSidebar() {
                         </button>
                     </CollapsibleTrigger>
                     <CollapsibleContent className="pl-4 space-y-1 mt-1">
-                        {calculators(locale, t).map((item) => {
-                            const isActive = pathname === item.href;
-                            return (
-                                <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    className={cn(
-                                        "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
-                                        isActive
-                                        ? "bg-accent/10 text-accent font-medium"
-                                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                                    )}
-                                >
-                                <item.icon className="h-4 w-4" />
-                                    {item.name}
-                                </Link>
-                            );
+                        {apiCalculators.data?.map((calc) => {
+                            if (subscription?.selectedCalculators && subscription.selectedCalculators.includes(calc.id)) {
+                                const item = calculators(locale, t).find(c => c.code === calc.code);
+                                if (!item) return null;
+                                const isActive = pathname === item.href;
+                                return (
+                                    <Link
+                                        key={item.name}
+                                        href={item.href}
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className={cn(
+                                            "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
+                                            isActive
+                                            ? "bg-accent/10 text-accent font-medium"
+                                            : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                                        )}
+                                    >
+                                    <item.icon className="h-4 w-4" />
+                                        {item.name}
+                                    </Link>
+                                );
+                            }
                         })}
                     </CollapsibleContent>
                 </Collapsible>
@@ -151,8 +193,8 @@ export function DashboardSidebar() {
                         <Link
                             key={item.name}
                             href={item.href}
+                            onClick={() => setMobileMenuOpen(false)}
                             className={cn(
-                                "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                                 isActive
                                 ? "bg-accent text-accent-foreground"
                                 : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -195,5 +237,6 @@ export function DashboardSidebar() {
                 </Button>
             </div>
         </aside>
+        </>
     );
 }

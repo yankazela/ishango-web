@@ -260,6 +260,36 @@
         "BROWSE": "Parcourir",
         "EXPERTS": "Experts"
     },
+    "ForgotPasswordPage": {
+        "LEFT_HEADING": "Réinitialisez votre",
+        "LEFT_HEADING_ACCENT": "Mot de passe",
+        "LEFT_SUBHEADING": "Entrez votre adresse e-mail et nous vous enverrons un code pour réinitialiser votre mot de passe.",
+        "PRIVACY": "Confidentialité",
+        "TERMS": "Conditions",
+        "CONTACT": "Contact",
+        "HEADING_EMAIL": "Mot de passe oublié ?",
+        "SUBHEADING_EMAIL": "Entrez votre adresse e-mail et nous vous enverrons un code de réinitialisation.",
+        "EMAIL_ADDRESS": "Adresse e-mail",
+        "SEND_CODE": "Envoyer le code",
+        "BACK_TO_LOGIN": "Retour à la connexion",
+        "HEADING_RESET": "Définir un nouveau mot de passe",
+        "SUBHEADING_RESET_PREFIX": "Nous avons envoyé un code à 6 chiffres à",
+        "VERIFICATION_CODE": "Code de vérification",
+        "NEW_PASSWORD": "Nouveau mot de passe",
+        "ENTER_NEW_PASSWORD": "Entrez le nouveau mot de passe",
+        "CONFIRM_PASSWORD": "Confirmer le mot de passe",
+        "CONFIRM_NEW_PASSWORD": "Confirmer le nouveau mot de passe",
+        "RESET_PASSWORD": "Réinitialiser le mot de passe",
+        "DIDNT_RECEIVE_CODE": "Vous n'avez pas reçu de code ?",
+        "RESEND": "Renvoyer",
+        "HEADING_SUCCESS": "Mot de passe réinitialisé !",
+        "SUBHEADING_SUCCESS": "Votre mot de passe a été mis à jour. Vous êtes maintenant connecté.",
+        "GO_TO_DASHBOARD": "Aller au tableau de bord",
+        "ERROR_SEND_FAILED": "Échec de l'envoi du code. Veuillez réessayer.",
+        "ERROR_INVALID_CODE": "Code invalide ou expiré. Veuillez réessayer.",
+        "ERROR_RESET_FAILED": "Échec de la réinitialisation. Veuillez réessayer.",
+        "ERROR_PASSWORDS_MISMATCH": "Les mots de passe ne correspondent pas."
+    },
     "LoginPage": {
         "FINANCIAL_CALCULATIONS": "Calculs financiers",
         "WELCOME_BACK": "Bienvenue",
@@ -286,6 +316,8 @@
         "FEATURE3_DESC": "Intégrez notre API dans vos applications en toute simplicité"
     },
     "IncomeTaxCalculator": {
+        "YES": "Oui",
+        "NO": "Non",
         "AUSTRALIA": "Australie",
         "CANADA": "Canada",
         "SOUTH-AFRICA": "Afrique du Sud",
@@ -347,6 +379,8 @@
         "EFFECTIVE_VS_MARGINAL_RATE_DESC": "Votre taux d'imposition effectif est le pourcentage réel de revenu que vous payez en impôts, qui est généralement inférieur à votre taux marginal (tranche la plus élevée)."
     },
     "MortgageCalculator": {
+        "YES": "Oui",
+        "NO": "Non",
         "AUSTRALIA": "Australie",
         "CANADA": "Canada",
         "SOUTH-AFRICA": "Afrique du Sud",
@@ -490,6 +524,8 @@
         "TRY_MORTGAGE_CALCULATOR": "Essayer le calculateur d'hypothèque"
     },
     "CorporateTaxCalculator": {
+        "YES": "Oui",
+        "NO": "Non",
         "AUSTRALIA": "Australie",
         "SOUTH-AFRICA": "Afrique du Sud",
         "FRANCE": "France",
@@ -642,6 +678,10 @@
         "COMPANY": "Entreprise",
         "ROLE": "Rôle / Titre",
         "ROLE_PLACEHOLDER": "ex. Conseiller fiscal senior",
+        "BIO": "Biographie",
+        "BIO_PLACEHOLDER": "Parlez aux clients de votre parcours, de vos spécialisations et de votre expérience...",
+        "PHONE_REQUIRED": "Le numéro de téléphone est obligatoire",
+        "FIELD_REQUIRED": "Ce champ est obligatoire",
         "YOUR_EXPERTISE": "Votre expertise",
         "SELECT_YOUR_EXPERTISE": "Sélectionnez les pays dans lesquels vous opérez et les calculateurs dans lesquels vous êtes spécialisé pour chaque pays.",
         "ADD_COUNTRY": "Ajouter un pays",
@@ -669,6 +709,8 @@
         "INHERITANCE_TAX": "Impôt sur les successions"
     },
     "CapitalGainsTaxCalculator": {
+        "YES": "Oui",
+        "NO": "Non",
         "AUSTRALIA": "Australie",
         "CANADA": "Canada",
         "SOUTH-AFRICA": "Afrique du Sud",
@@ -749,6 +791,8 @@
         "COLLECTIBLES_AND_ART": "Objets de collection et art"
     },
     "InheritanceTaxCalculator": {
+        "YES": "Oui",
+        "NO": "Non",
         "AUSTRALIA": "Australie",
         "CANADA": "Canada",
         "SOUTH-AFRICA": "Afrique du Sud",

@@ -6,12 +6,14 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { InheritanceTaxCalculator } from "@/components/inheritance-tax-calculator";
 import { Card, CardContent } from "@/components/ui/card";
-import { Scale, ArrowLeft, Users, Home, FileText, Shield } from "lucide-react";
+import { Scale, ArrowLeft, Users, Home, FileText, Shield, Globe2, RefreshCw } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 
 export default function InheritanceTaxPage() {
   const t = useTranslations("InheritanceTaxCalculator");
+  const t2 = useTranslations("IncomeTaxCalculator");
   
   return (
     <div className="min-h-screen bg-background">
@@ -25,31 +27,37 @@ export default function InheritanceTaxPage() {
             <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-accent/20 via-accent/10 to-transparent blur-3xl" />
             <div className="absolute -top-20 right-0 w-[500px] h-[500px] rounded-full bg-gradient-to-bl from-teal-400/15 via-emerald-300/10 to-transparent blur-3xl" />
           </div>
-
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            {/* Back Link */}
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              {t("BACK_HOME")}
-            </Link>
-
-            <div className="flex items-center gap-4 mb-6">
-              <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center">
-                <Scale className="h-7 w-7 text-accent" />
-              </div>
-              <div>
-                <h1 className="text-3xl sm:text-4xl font-semibold text-foreground">
-                  {t("INHERITANCE_TAX_CALCULATOR")}
-                </h1>
-                <p className="text-muted-foreground mt-1">
-                  {t("DESCRIPTION_TITLE")}
-                </p>
-              </div>
+            <div className="text-center max-w-3xl mx-auto mb-12">
+              <Badge variant="secondary" className="mb-4">
+                <Globe2 className="h-3 w-3 mr-1" />
+                {t('COUNTRIES_SUPPORTED')}
+              </Badge>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-4 text-balance">
+                {t("INHERITANCE_TAX_CALCULATOR")}
+              </h1>
+              <p className="text-lg text-muted-foreground text-balance">
+                {t("DESCRIPTION_TITLE")}
+              </p>
             </div>
-          </div>
+
+            {/* Features */}
+            <div className="flex flex-wrap justify-center gap-6 mb-12">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Shield className="h-4 w-4 text-accent" />
+              <span>{t2('EXACT_TAX_RATES')}</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <RefreshCw className="h-4 w-4 text-accent" />
+              <span>{t2('REAL_TIME_CALCULATIONS')}</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Globe2 className="h-4 w-4 text-accent" />
+              <span>{t2('COUNTRY_SPECIFIC_RULES')}</span>
+            </div>
+            </div>
+
+            {/* Calculator */}
+            
         </section>
 
         {/* Calculator Section */}

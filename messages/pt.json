@@ -260,6 +260,36 @@
         "BROWSE": "Navegar",
         "EXPERTS": "Especialistas"
     },
+    "ForgotPasswordPage": {
+        "LEFT_HEADING": "Redefina sua",
+        "LEFT_HEADING_ACCENT": "Senha",
+        "LEFT_SUBHEADING": "Digite seu e-mail e enviaremos um código para redefinir sua senha.",
+        "PRIVACY": "Privacidade",
+        "TERMS": "Termos",
+        "CONTACT": "Contato",
+        "HEADING_EMAIL": "Esqueceu sua senha?",
+        "SUBHEADING_EMAIL": "Digite seu endereço de e-mail e enviaremos um código de redefinição.",
+        "EMAIL_ADDRESS": "Endereço de e-mail",
+        "SEND_CODE": "Enviar código de redefinição",
+        "BACK_TO_LOGIN": "Voltar ao login",
+        "HEADING_RESET": "Definir nova senha",
+        "SUBHEADING_RESET_PREFIX": "Enviamos um código de 6 dígitos para",
+        "VERIFICATION_CODE": "Código de verificação",
+        "NEW_PASSWORD": "Nova senha",
+        "ENTER_NEW_PASSWORD": "Digite a nova senha",
+        "CONFIRM_PASSWORD": "Confirmar senha",
+        "CONFIRM_NEW_PASSWORD": "Confirmar nova senha",
+        "RESET_PASSWORD": "Redefinir senha",
+        "DIDNT_RECEIVE_CODE": "Não recebeu o código?",
+        "RESEND": "Reenviar",
+        "HEADING_SUCCESS": "Senha redefinida!",
+        "SUBHEADING_SUCCESS": "Sua senha foi atualizada. Você está conectado agora.",
+        "GO_TO_DASHBOARD": "Ir para o painel",
+        "ERROR_SEND_FAILED": "Falha ao enviar o código. Por favor, tente novamente.",
+        "ERROR_INVALID_CODE": "Código inválido ou expirado. Por favor, tente novamente.",
+        "ERROR_RESET_FAILED": "Falha ao redefinir a senha. Por favor, tente novamente.",
+        "ERROR_PASSWORDS_MISMATCH": "As senhas não coincidem."
+    },
     "LoginPage": {
         "FINANCIAL_CALCULATIONS": "Cálculos financeiros",
         "WELCOME_BACK": "Bem-vindo de volta",
@@ -286,6 +316,8 @@
         "FEATURE3_DESC": "Integre nossa API em seus aplicativos com facilidade"
     },
     "IncomeTaxCalculator": {
+        "YES": "Sim",
+        "NO": "Não",
         "AUSTRALIA": "Austrália",
         "CANADA": "Canadá",
         "SOUTH-AFRICA": "África do Sul",
@@ -347,6 +379,8 @@
         "EFFECTIVE_VS_MARGINAL_RATE_DESC": "Sua alíquota efetiva é a porcentagem real da renda que você paga em impostos, que geralmente é menor que sua alíquota marginal (faixa mais alta)."
     },
     "MortgageCalculator": {
+        "YES": "Sim",
+        "NO": "Não",
         "AUSTRALIA": "Austrália",
         "CANADA": "Canadá",
         "SOUTH-AFRICA": "África do Sul",
@@ -490,6 +524,8 @@
         "TRY_MORTGAGE_CALCULATOR": "Experimentar calculadora de hipoteca"
     },
     "CorporateTaxCalculator": {
+        "YES": "Sim",
+        "NO": "Não",
         "AUSTRALIA": "Austrália",
         "SOUTH-AFRICA": "África do Sul",
         "FRANCE": "França",
@@ -642,6 +678,10 @@
         "COMPANY": "Empresa",
         "ROLE": "Função / Título",
         "ROLE_PLACEHOLDER": "ex. Consultor Fiscal Sênior",
+        "BIO": "Biografia",
+        "BIO_PLACEHOLDER": "Conte aos clientes sobre sua formação, especializações e experiência...",
+        "PHONE_REQUIRED": "O número de telefone é obrigatório",
+        "FIELD_REQUIRED": "Este campo é obrigatório",
         "YOUR_EXPERTISE": "Sua especialidade",
         "SELECT_YOUR_EXPERTISE": "Selecione os países em que você atua e as calculadoras em que você se especializa para cada país.",
         "ADD_COUNTRY": "Adicionar país",
@@ -669,6 +709,8 @@
         "INHERITANCE_TAX": "Imposto sobre Herança"
     },
     "CapitalGainsTaxCalculator": {
+        "YES": "Sim",
+        "NO": "Não",
         "AUSTRALIA": "Austrália",
         "CANADA": "Canadá",
         "SOUTH-AFRICA": "África do Sul",
@@ -747,6 +789,8 @@
         "COLLECTIBLES_AND_ART": "Colecionáveis e Arte"
     },
     "InheritanceTaxCalculator": {
+        "YES": "Sim",
+        "NO": "Não",
         "AUSTRALIA": "Austrália",
         "CANADA": "Canadá",
         "SOUTH-AFRICA": "África do Sul",

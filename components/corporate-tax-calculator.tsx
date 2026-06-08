@@ -21,6 +21,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getCountryFlagIconCode } from "@/lib/countries";
 import { RootState } from "@/store/rootStore";
 import { calculateCorporateTax, fetchCalculatorsStart, resetResult } from "../app/[locale]/calculators/corporate-tax/store/slice";
 
@@ -146,7 +147,7 @@ export function CorporateTaxCalculator() {
     ];
 
     return (
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid lg:grid-cols-2 gap-8 items-start">
             {/* Form */}
             {/* Toggle for Provincial/Federal */}
             {forCountry?.withProvincial && (
@@ -166,10 +167,18 @@ export function CorporateTaxCalculator() {
             <div className="space-y-4">
             <Card className="border-border bg-card">
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <Building2 className="h-5 w-5 text-accent" />
-                        {t("CALCULATOR_TITLE")}
-                    </CardTitle>
+                    <div className="flex items-center justify-between">
+                        <CardTitle className="flex items-center gap-2">
+                            <Building2 className="h-5 w-5 text-accent" />
+                            {t("CALCULATOR_TITLE")}
+                        </CardTitle>
+                        {selectedCountry && (
+                            <span
+                                className={`fi fi-${getCountryFlagIconCode(selectedCountry)} rounded-sm text-3xl leading-none shadow-sm`}
+                                title={selectedCountry}
+                            />
+                        )}
+                    </div>
                 </CardHeader>
 
                 <CardContent className="space-y-6">
@@ -263,7 +272,7 @@ export function CorporateTaxCalculator() {
                                                     <Check className="h-3 w-3 text-accent-foreground" />
                                                 )}
                                             </div>
-                                            <span className="text-sm font-medium text-foreground">Yes</span>
+                                            <span className="text-sm font-medium text-foreground">{t("YES")}</span>
                                         </button>
                                         <button
                                             type="button"
@@ -281,7 +290,7 @@ export function CorporateTaxCalculator() {
                                                     <Check className="h-3 w-3 text-accent-foreground" />
                                                 )}
                                             </div>
-                                            <span className="text-sm font-medium text-foreground">No</span>
+                                            <span className="text-sm font-medium text-foreground">{t("NO")}</span>
                                         </button>
                                     </div>
                                 )}

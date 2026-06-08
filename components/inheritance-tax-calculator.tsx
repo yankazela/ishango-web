@@ -23,6 +23,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { RootState } from "@/store/rootStore";
 import { fetchCalculatorsStart, resetResult, calculateInheritanceTax } from "@/app/[locale]/calculators/inheritance-tax/store/slice";
 import { formatCurrency } from "@/lib/utils";
+import { getCountryFlagIconCode } from "@/lib/countries";
 
 const taxYears = ["2026", "2025", "2024", "2023", "2022"];
 
@@ -159,14 +160,22 @@ export function InheritanceTaxCalculator() {
 	];
 
 	return (
-		<div className="grid lg:grid-cols-2 gap-8">
+		<div className="grid lg:grid-cols-2 gap-8 items-start">
 			{/* Calculator Form */}
 			<Card className="border-border bg-card">
 				<CardHeader>
-					<CardTitle className="flex items-center gap-2 text-xl">
-						<Scale className="h-5 w-5 text-accent" />
-						{t('CALCULATOR_TITLE')}
-					</CardTitle>
+					<div className="flex items-center justify-between">
+						<CardTitle className="flex items-center gap-2 text-xl">
+							<Scale className="h-5 w-5 text-accent" />
+							{t('CALCULATOR_TITLE')}
+						</CardTitle>
+						{selectedCountry && (
+							<span
+								className={`fi fi-${getCountryFlagIconCode(selectedCountry)} rounded-sm text-3xl leading-none shadow-sm`}
+								title={selectedCountry}
+							/>
+						)}
+					</div>
 				</CardHeader>
 				<CardContent className="space-y-6">
 					{/* Country and Tax Year Selection */}

@@ -17,35 +17,35 @@ export const endpoints = {
     }),
     calculateIncomeTax: (): EndpointProps => ({
         endpoint: `/calculators/process-income-tax/private`,
-        auth: false,
+        auth: true,
         headers: {
             'Content-Type': 'application/json'
         }
     }),
     calculateMortgage: (): EndpointProps => ({
         endpoint: `/calculators/process-mortgage`,
-        auth: false,
+        auth: true,
         headers: {
             'Content-Type': 'application/json'
         }
     }),
     calculateCorporateTax: (): EndpointProps => ({
         endpoint: `/calculators/process-corporate-tax`,
-        auth: false,
+        auth: true,
         headers: {
             'Content-Type': 'application/json'
         }
     }),
     calculateCapitalGainsTax: (): EndpointProps => ({
         endpoint: `/calculators/process-capital-gains-tax`,
-        auth: false,
+        auth: true,
         headers: {
             'Content-Type': 'application/json'
         }
     }),
     calculateInheritanceTax: (): EndpointProps => ({
         endpoint: `/calculators/process-inheritance-tax`,
-        auth: false,
+        auth: true,
         headers: {
             'Content-Type': 'application/json'
         }
@@ -57,7 +57,7 @@ export const endpoints = {
     }),
     listCalculatorTypes: (): EndpointProps => ({
         endpoint: `/calculators`,
-        auth: false,
+        auth: true,
         headers: {}
     }),
     createSubscription: (): EndpointProps => ({
@@ -123,7 +123,7 @@ export const endpoints = {
     }),
     getCalculators: (): EndpointProps => ({
         endpoint: `/calculators`,
-        auth: false,
+        auth: true,
         headers: {}
     }),
 };

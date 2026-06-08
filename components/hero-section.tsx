@@ -53,7 +53,7 @@ export function HeroSection() {
             </Button>
             <Button variant="outline" size="lg" className="gap-2 px-8 bg-transparent">
               <Globe className="h-4 w-4" />
-              {t('EXPLORE_COUNTRIES')}
+              <Link href={`/${locale}/countries`}>{t('EXPLORE_COUNTRIES')}</Link>
             </Button>
           </div>
         </div>

@@ -352,13 +352,14 @@ export const endpointGroups: EndpointGroup[] = [
         headers: [{ key: "Content-Type", value: "application/json" }],
         body: JSON.stringify(
           {
-            "countryCode": "au",
-            "year": "2025",
-            "details": {
-                "taxableIncome": 4000000,
-                "annualTurnover": 10000000,
-                "isSmallBusiness": false
-            }
+              "countryCode": "ca",
+              "provinceCode": "ON",
+              "year": "2025",
+              "details": {
+                  "isSmallBusiness": true,
+                  "provinceCode": "ON",
+                  "taxableIncome": 45000000
+              }
           },
           null,
           2
@@ -366,14 +367,32 @@ export const endpointGroups: EndpointGroup[] = [
         responseExample: JSON.stringify(
           {
               "federalTax": {
-                  "corporateTax": 1200000,
-                  "effectiveTaxRate": 30,
+                  "corporateTax": 6720000,
+                  "effectiveTaxRate": 14.933333333333335,
+                  "breakdowns": [
+                      {
+                          "from": "0",
+                          "to": "500000",
+                          "rate": 0.09,
+                          "amount": 45000
+                      },
+                      {
+                          "from": "500000",
+                          "to": "Above",
+                          "rate": 0.15,
+                          "amount": 6675000
+                      }
+                  ]
+              },
+              "provincialTax": {
+                  "corporateTax": 1440000,
+                  "effectiveTaxRate": 3.2,
                   "breakdowns": [
                       {
                           "from": "0",
                           "to": "Above",
-                          "rate": 0.3,
-                          "amount": 1200000
+                          "rate": 0.032,
+                          "amount": 1440000
                       }
                   ]
               }
@@ -506,100 +525,5 @@ export const endpointGroups: EndpointGroup[] = [
         ),
       },
     ],
-  },
-  {
-    name: "Plans",
-    description:
-      "Retrieve available subscription plans and pricing by currency region.",
-    endpoints: [
-      {
-        name: "List plans",
-        method: "GET",
-        path: "/api/v1/plans/:currencyRegionCode",
-        auth: true,
-        description:
-          "Returns available subscription plans with pricing localized to the specified currency region. Includes feature lists and rate limits.",
-        pathParams: [
-          {
-            key: "currencyRegionCode",
-            example: "CA",
-            description:
-              "Region code for currency localization (e.g., US, CA, UK, EU)",
-          },
-        ],
-        responseExample: JSON.stringify(
-          {
-            region: "CA",
-            currency: "CAD",
-            plans: [
-              {
-                id: "starter",
-                name: "Starter",
-                price: 65,
-                interval: "month",
-                calculationsPerMonth: 500,
-                features: [
-                  "3 calculator types",
-                  "5 countries",
-                  "Email support",
-                ],
-              },
-              {
-                id: "professional",
-                name: "Professional",
-                price: 265,
-                interval: "month",
-                calculationsPerMonth: 5000,
-                features: [
-                  "All calculators",
-                  "All countries",
-                  "Priority support",
-                  "API access",
-                ],
-              },
-            ],
-          },
-          null,
-          2
-        ),
-      },
-    ],
-  },
-  {
-    name: "Subscriptions",
-    description:
-      "Manage user subscriptions including creation and plan management.",
-    endpoints: [
-      {
-        name: "Create subscription",
-        method: "POST",
-        path: "/api/v1/subscriptions/",
-        description:
-          "Creates a new subscription for the authenticated user. Requires a valid plan ID and payment method.",
-        auth: true,
-        headers: [{ key: "Content-Type", value: "application/json" }],
-        body: JSON.stringify(
-          {
-            planId: "professional",
-            paymentMethodId: "pm_1234567890",
-            billingInterval: "month",
-          },
-          null,
-          2
-        ),
-        responseExample: JSON.stringify(
-          {
-            id: "sub_abc123",
-            planId: "professional",
-            status: "active",
-            currentPeriodStart: "2026-02-21T00:00:00.000Z",
-            currentPeriodEnd: "2026-03-21T00:00:00.000Z",
-            cancelAtPeriodEnd: false,
-          },
-          null,
-          2
-        ),
-      },
-    ],
-  },
+  }
 ];

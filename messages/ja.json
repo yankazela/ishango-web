@@ -260,6 +260,36 @@
         "BROWSE": "閲覧",
         "EXPERTS": "専門家"
     },
+    "ForgotPasswordPage": {
+        "LEFT_HEADING": "パスワードを",
+        "LEFT_HEADING_ACCENT": "リセット",
+        "LEFT_SUBHEADING": "メールアドレスを入力するとリセットコードをお送りします。",
+        "PRIVACY": "プライバシー",
+        "TERMS": "利用規約",
+        "CONTACT": "お問い合わせ",
+        "HEADING_EMAIL": "パスワードをお忘れですか？",
+        "SUBHEADING_EMAIL": "メールアドレスを入力してください。リセットコードをお送りします。",
+        "EMAIL_ADDRESS": "メールアドレス",
+        "SEND_CODE": "リセットコードを送信",
+        "BACK_TO_LOGIN": "ログインに戻る",
+        "HEADING_RESET": "新しいパスワードを設定",
+        "SUBHEADING_RESET_PREFIX": "6桁のコードを送信しました：",
+        "VERIFICATION_CODE": "確認コード",
+        "NEW_PASSWORD": "新しいパスワード",
+        "ENTER_NEW_PASSWORD": "新しいパスワードを入力",
+        "CONFIRM_PASSWORD": "パスワードを確認",
+        "CONFIRM_NEW_PASSWORD": "新しいパスワードを確認",
+        "RESET_PASSWORD": "パスワードをリセット",
+        "DIDNT_RECEIVE_CODE": "コードが届いていませんか？",
+        "RESEND": "再送信",
+        "HEADING_SUCCESS": "パスワードをリセットしました！",
+        "SUBHEADING_SUCCESS": "パスワードが更新されました。ログインしています。",
+        "GO_TO_DASHBOARD": "ダッシュボードへ",
+        "ERROR_SEND_FAILED": "リセットコードの送信に失敗しました。もう一度お試しください。",
+        "ERROR_INVALID_CODE": "無効または期限切れのコードです。もう一度お試しください。",
+        "ERROR_RESET_FAILED": "パスワードのリセットに失敗しました。もう一度お試しください。",
+        "ERROR_PASSWORDS_MISMATCH": "パスワードが一致しません。"
+    },
     "LoginPage": {
         "FINANCIAL_CALCULATIONS": "金融計算",
         "WELCOME_BACK": "おかえりなさい",
@@ -286,6 +316,8 @@
         "FEATURE3_DESC": "APIを簡単にアプリケーションに統合"
     },
     "IncomeTaxCalculator": {
+        "YES": "はい",
+        "NO": "いいえ",
         "AUSTRALIA": "オーストラリア",
         "CANADA": "カナダ",
         "SOUTH-AFRICA": "南アフリカ",
@@ -347,6 +379,8 @@
         "EFFECTIVE_VS_MARGINAL_RATE_DESC": "実効税率は実際に支払う所得に対する税金の割合で、通常は限界税率（最高税率区分）よりも低くなります。"
     },
     "MortgageCalculator": {
+        "YES": "はい",
+        "NO": "いいえ",
         "AUSTRALIA": "オーストラリア",
         "CANADA": "カナダ",
         "SOUTH-AFRICA": "南アフリカ",
@@ -490,6 +524,8 @@
         "TRY_MORTGAGE_CALCULATOR": "住宅ローン計算機を試す"
     },
     "CorporateTaxCalculator": {
+        "YES": "はい",
+        "NO": "いいえ",
         "AUSTRALIA": "オーストラリア",
         "SOUTH-AFRICA": "南アフリカ",
         "FRANCE": "フランス",
@@ -642,6 +678,10 @@
         "COMPANY": "会社",
         "ROLE": "役職 / タイトル",
         "ROLE_PLACEHOLDER": "例: シニア税務アドバイザー",
+        "BIO": "自己紹介",
+        "BIO_PLACEHOLDER": "経歴、専門分野、経験についてクライアントに伝えてください...",
+        "PHONE_REQUIRED": "電話番号は必須です",
+        "FIELD_REQUIRED": "この項目は必須です",
         "YOUR_EXPERTISE": "専門分野",
         "SELECT_YOUR_EXPERTISE": "活動している国と各国で専門とする計算機を選択してください。",
         "ADD_COUNTRY": "国を追加",
@@ -669,6 +709,8 @@
         "INHERITANCE_TAX": "相続税"
     },
     "CapitalGainsTaxCalculator": {
+        "YES": "はい",
+        "NO": "いいえ",
         "AUSTRALIA": "オーストラリア",
         "CANADA": "カナダ",
         "SOUTH-AFRICA": "南アフリカ",
@@ -749,6 +791,8 @@
         "COLLECTIBLES_AND_ART": "コレクティブル・美術品"
     },
     "InheritanceTaxCalculator": {
+        "YES": "はい",
+        "NO": "いいえ",
         "AUSTRALIA": "オーストラリア",
         "CANADA": "カナダ",
         "SOUTH-AFRICA": "南アフリカ",

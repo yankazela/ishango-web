@@ -150,36 +150,64 @@ export function Header() {
         {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-border">
-            <nav className="flex flex-col gap-4">
-              <Link
-                href="#calculators"
-                className="text-sm font-medium text-foreground"
-              >
+            <nav className="flex flex-col gap-1">
+              <p className="px-1 pb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {t("CALCULATORS")}
-              </Link>
-              <Link
-                href="#features"
-                className="text-sm font-medium text-foreground"
-              >
-                {t("FEATURES")}
-              </Link>
-              <Link
-                href="#pricing"
-                className="text-sm font-medium text-foreground"
-              >
-                {t("PRICING")}
-              </Link>
-              <Link
-                href={`/${locale}/countries`}
-                className="text-sm font-medium text-foreground"
-              >
+              </p>
+              {[
+                { href: `/${locale}/calculators/income-tax`, label: t("INCOME_TAX_CALCULATOR") },
+                { href: `/${locale}/calculators/corporate-tax`, label: t("CORPORATE_TAX_CALCULATOR") },
+                { href: `/${locale}/calculators/capital-gains-tax`, label: t("CAPITAL_GAINS_TAX_CALCULATOR") },
+                { href: `/${locale}/calculators/inheritance-tax`, label: t("INHERITANCE_CALCULATOR") },
+                { href: `/${locale}/calculators/mortgage`, label: t("MORTGAGE_CALCULATOR") },
+              ].map(({ href, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="pl-3 py-2 text-sm font-medium text-foreground hover:text-accent transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {label}
+                </Link>
+              ))}
+
+              <div className="my-2 border-t border-border" />
+
+              <Link href={`/${locale}/countries`} className="py-2 text-sm font-medium text-foreground hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>
                 {t("COUNTRIES")}
               </Link>
+              <Link href={`/${locale}/resources`} className="py-2 text-sm font-medium text-foreground hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                {t("BLOG")}
+              </Link>
+              <Link href={`/${locale}/docs`} className="py-2 text-sm font-medium text-foreground hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                {t("API_DOCS")}
+              </Link>
+              {expertsEnabled && (
+                <Link href={`/${locale}/experts`} className="py-2 text-sm font-medium text-foreground hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                  {t("EXPERTS")}
+                </Link>
+              )}
+              {pricingEnabled && (
+                <Link href="#pricing" className="py-2 text-sm font-medium text-foreground hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                  {t("PRICING")}
+                </Link>
+              )}
+
               <div className="flex flex-col gap-2 pt-4 border-t border-border">
-                <Button variant="ghost" size="sm" className="justify-start">
-                  {t("LOGIN")}
-                </Button>
-                <Button size="sm">{t("GET_STARTED")}</Button>
+                {(!session || session.status !== 'active') ? (
+                  <>
+                    <Button variant="ghost" size="sm" className="justify-start" asChild>
+                      <Link href={`/${locale}/login`} onClick={() => setMobileMenuOpen(false)}>{t("LOGIN")}</Link>
+                    </Button>
+                    <Button size="sm" asChild>
+                      <Link href={`/${locale}/get-started`} onClick={() => setMobileMenuOpen(false)}>{t("GET_STARTED")}</Link>
+                    </Button>
+                  </>
+                ) : (
+                  <Button size="sm" asChild>
+                    <Link href={`/${locale}/dashboard`} onClick={() => setMobileMenuOpen(false)}>{t("DASHBOARD")}</Link>
+                  </Button>
+                )}
               </div>
             </nav>
           </div>

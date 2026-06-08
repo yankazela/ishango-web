@@ -260,6 +260,36 @@
         "BROWSE": "Explorar",
         "EXPERTS": "Expertos"
     },
+    "ForgotPasswordPage": {
+        "LEFT_HEADING": "Restablece tu",
+        "LEFT_HEADING_ACCENT": "Contraseña",
+        "LEFT_SUBHEADING": "Introduce tu correo electrónico y te enviaremos un código para restablecer tu contraseña.",
+        "PRIVACY": "Privacidad",
+        "TERMS": "Términos",
+        "CONTACT": "Contacto",
+        "HEADING_EMAIL": "¿Olvidaste tu contraseña?",
+        "SUBHEADING_EMAIL": "Introduce tu correo electrónico y te enviaremos un código de restablecimiento.",
+        "EMAIL_ADDRESS": "Correo electrónico",
+        "SEND_CODE": "Enviar código de restablecimiento",
+        "BACK_TO_LOGIN": "Volver a iniciar sesión",
+        "HEADING_RESET": "Establece una nueva contraseña",
+        "SUBHEADING_RESET_PREFIX": "Enviamos un código de 6 dígitos a",
+        "VERIFICATION_CODE": "Código de verificación",
+        "NEW_PASSWORD": "Nueva contraseña",
+        "ENTER_NEW_PASSWORD": "Introduce la nueva contraseña",
+        "CONFIRM_PASSWORD": "Confirmar contraseña",
+        "CONFIRM_NEW_PASSWORD": "Confirmar nueva contraseña",
+        "RESET_PASSWORD": "Restablecer contraseña",
+        "DIDNT_RECEIVE_CODE": "¿No recibiste el código?",
+        "RESEND": "Reenviar",
+        "HEADING_SUCCESS": "¡Contraseña restablecida!",
+        "SUBHEADING_SUCCESS": "Tu contraseña ha sido actualizada. Ahora has iniciado sesión.",
+        "GO_TO_DASHBOARD": "Ir al panel",
+        "ERROR_SEND_FAILED": "Error al enviar el código. Por favor, inténtelo de nuevo.",
+        "ERROR_INVALID_CODE": "Código inválido o caducado. Por favor, inténtelo de nuevo.",
+        "ERROR_RESET_FAILED": "Error al restablecer la contraseña. Por favor, inténtelo de nuevo.",
+        "ERROR_PASSWORDS_MISMATCH": "Las contraseñas no coinciden."
+    },
     "LoginPage": {
         "FINANCIAL_CALCULATIONS": "Cálculos financieros",
         "WELCOME_BACK": "Bienvenido de nuevo",
@@ -286,6 +316,8 @@
         "FEATURE3_DESC": "Integre nuestra API en sus aplicaciones con facilidad"
     },
     "IncomeTaxCalculator": {
+        "YES": "Sí",
+        "NO": "No",
         "AUSTRALIA": "Australia",
         "CANADA": "Canadá",
         "SOUTH-AFRICA": "Sudáfrica",
@@ -347,6 +379,8 @@
         "EFFECTIVE_VS_MARGINAL_RATE_DESC": "Su tasa impositiva efectiva es el porcentaje real de ingresos que paga en impuestos, que generalmente es más bajo que su tasa marginal (tramo más alto)."
     },
     "MortgageCalculator": {
+        "YES": "Sí",
+        "NO": "No",
         "AUSTRALIA": "Australia",
         "CANADA": "Canadá",
         "SOUTH-AFRICA": "Sudáfrica",
@@ -490,6 +524,8 @@
         "TRY_MORTGAGE_CALCULATOR": "Probar calculadora de hipoteca"
     },
     "CorporateTaxCalculator": {
+        "YES": "Sí",
+        "NO": "No",
         "AUSTRALIA": "Australia",
         "SOUTH-AFRICA": "Sudáfrica",
         "FRANCE": "Francia",
@@ -642,6 +678,10 @@
         "COMPANY": "Firma o empresa",
         "ROLE": "Rol / Título",
         "ROLE_PLACEHOLDER": "p.ej. Asesor Fiscal Senior",
+        "BIO": "Biografía",
+        "BIO_PLACEHOLDER": "Cuénteles a los clientes sobre su trayectoria, especializaciones y experiencia...",
+        "PHONE_REQUIRED": "El número de teléfono es obligatorio",
+        "FIELD_REQUIRED": "Este campo es obligatorio",
         "YOUR_EXPERTISE": "Su experiencia",
         "SELECT_YOUR_EXPERTISE": "Seleccione los países en los que opera y las calculadoras en las que se especializa para cada país.",
         "ADD_COUNTRY": "Agregar país",
@@ -669,6 +709,8 @@
         "INHERITANCE_TAX": "Impuesto sobre Herencias"
     },
     "CapitalGainsTaxCalculator": {
+        "YES": "Sí",
+        "NO": "No",
         "AUSTRALIA": "Australia",
         "CANADA": "Canadá",
         "SOUTH-AFRICA": "Sudáfrica",
@@ -745,6 +787,8 @@
         "COLLECTIBLES_AND_ART": "Coleccionables y Arte"
     },
     "InheritanceTaxCalculator": {
+        "YES": "Sí",
+        "NO": "No",
         "AUSTRALIA": "Australia",
         "CANADA": "Canadá",
         "SOUTH-AFRICA": "Sudáfrica",

@@ -13,8 +13,10 @@ const getErrorMessage = (error: any): string => {
 const getTokens = () => {
     return {
         access: sessionStorage.getItem('access_token') || null,
-        refresh: sessionStorage.getItem('refresh_token') || null,
-        id: sessionStorage.getItem("id_token") || null
+        refresh: "hello", //sessionStorage.getItem('refresh_token') || null,
+        // id: sessionStorage.getItem("id_token") || null,
+        id: 'isha_d8b06997734befbb262af2703e0a665acd1fb148e0fbfda8'
+        
     }
 }
 
