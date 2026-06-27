@@ -1,6 +1,8 @@
 import type { MetadataRoute } from 'next';
 import { COUNTRY_GUIDES } from '@/lib/countries';
 
+export const dynamic = 'force-static';
+
 const BASE_URL = 'https://calcglobal.com';
 const LOCALES = ['en', 'fr', 'es', 'de', 'pt', 'ja'];
 const CALCULATORS = [
